@@ -1,0 +1,12 @@
+{
+  "appid": "wx1234567890abcdef",
+  "projectname": "wechat-arcade-battle",
+  "setting": {
+    "urlCheck": true,
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "minified": true,
+    "newFeature": true
+  }
+}

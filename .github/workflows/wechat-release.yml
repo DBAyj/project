@@ -1,0 +1,64 @@
+name: WeChat Mini Program Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Release version, for example 1.0.0
+        required: true
+        default: 1.0.0
+      desc:
+        description: Upload description
+        required: true
+        default: CI upload
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate release config
+        env:
+          WECHAT_APPID: ${{ secrets.WECHAT_APPID }}
+          WECHAT_SOCKET_SERVER_URL: ${{ secrets.WECHAT_SOCKET_SERVER_URL }}
+          WECHAT_UPLOAD_PRIVATE_KEY: ${{ secrets.WECHAT_UPLOAD_PRIVATE_KEY }}
+          WECHAT_VERSION: ${{ inputs.version }}
+          WECHAT_RELEASE_DESC: ${{ inputs.desc }}
+          WECHAT_UPLOAD_ROBOT: ${{ vars.WECHAT_UPLOAD_ROBOT || '1' }}
+          WECHAT_ROOM_ID: ${{ vars.WECHAT_ROOM_ID || 'arena-1' }}
+          WECHAT_REVIEW_ROOM_ID: ${{ vars.WECHAT_REVIEW_ROOM_ID || 'review-room' }}
+          WECHAT_HEALTH_CHECK_URL: ${{ vars.WECHAT_HEALTH_CHECK_URL || '' }}
+          WECHAT_COMPILE_OUTPUT_PATH: dist/compiled-result.zip
+          WECHAT_PREVIEW_QRCODE_PATH: dist/preview.jpg
+          WECHAT_PREVIEW_PAGE_PATH: pages/index/index
+          WECHAT_PREVIEW_SEARCH_QUERY: ${{ vars.WECHAT_PREVIEW_SEARCH_QUERY || '' }}
+        run: node scripts/write-release-from-env.js
+
+      - name: Prepare release
+        run: npm run release:prepare
+
+      - name: Preflight
+        run: npm run release:preflight
+
+      - name: Preview
+        run: npm run release:preview:ci
+
+      - name: Upload preview QR code artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: wechat-preview-qrcode
+          path: dist/preview.jpg
+
+      - name: Upload
+        run: npm run release:upload:ci

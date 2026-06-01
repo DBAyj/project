@@ -1,0 +1,12 @@
+[
+  {
+    "event": "uploaded",
+    "at": "2026-06-01T00:00:00.000Z",
+    "version": "1.0.0",
+    "appid": "wx1234567890abcdef",
+    "desc": "霓虹街区首个多人对战版本",
+    "actor": "publisher",
+    "evidence": "miniprogram-ci upload success",
+    "note": "开发版本已上传，等待提交审核"
+  }
+]

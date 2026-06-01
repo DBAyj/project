@@ -1,0 +1,12 @@
+*.DS_Store
+.DS_Store
+node_modules/
+dist/*
+!dist/
+!dist/release-log.example.json
+project.private.config.json
+release.local.json
+private.*.key
+*.private.key
+*.qrcode.jpg
+*.qrcode.png

@@ -1,0 +1,52 @@
+<view class="page">
+  <view class="topbar">
+    <view class="title-block">
+      <text class="eyebrow">多人街机对战</text>
+      <text class="title">霓虹街区</text>
+    </view>
+    <view class="status {{connected ? 'status-online' : ''}}">
+      <text class="status-dot"></text>
+      <text>{{statusLabel}}</text>
+    </view>
+  </view>
+
+  <view class="arena-shell">
+    <canvas
+      id="arenaCanvas"
+      type="2d"
+      class="arena-canvas"
+      bindtouchstart="onCanvasTouchStart"
+      bindtouchmove="onCanvasTouchMove"
+      bindtouchend="onCanvasTouchEnd"
+      bindtouchcancel="onCanvasTouchEnd"
+    ></canvas>
+  </view>
+
+  <view class="score-strip">
+    <view class="score-item" wx:for="{{scoreboard}}" wx:key="id">
+      <text class="score-color" style="background: {{item.color}};"></text>
+      <text class="score-name">{{item.name}}</text>
+      <text class="score-hp">{{item.hp}}</text>
+      <text class="score-num">{{item.score}}</text>
+    </view>
+  </view>
+
+  <view class="panel">
+    <view class="mode-row">
+      <button class="primary" bindtap="startPractice">▶ 单人练习</button>
+      <button bindtap="startLocalDuel">◐ 本机双人</button>
+      <button class="accent" bindtap="joinRoom">↔ 在线对战</button>
+    </view>
+
+    <view class="online-row">
+      <input value="{{playerName}}" maxlength="12" placeholder="昵称" bindinput="onNameInput" />
+      <input value="{{roomId}}" maxlength="20" placeholder="房间号" bindinput="onRoomInput" />
+    </view>
+    <view class="online-row">
+      <input class="server-input" value="{{serverUrl}}" placeholder="wss://对战服务地址/ws" bindinput="onServerUrlInput" />
+      <button class="ghost" bindtap="leaveOnline">断开</button>
+    </view>
+  </view>
+
+  <view class="hint">{{hint}}</view>
+</view>

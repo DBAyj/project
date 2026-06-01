@@ -1,0 +1,13 @@
+{
+  "pages": [
+    "pages/index/index"
+  ],
+  "window": {
+    "navigationBarTitleText": "霓虹街区",
+    "navigationBarBackgroundColor": "#111318",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#111318"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

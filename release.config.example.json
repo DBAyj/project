@@ -1,0 +1,15 @@
+{
+  "appid": "wx1234567890abcdef",
+  "version": "1.0.0",
+  "desc": "霓虹街区首个多人对战版本",
+  "socketServerUrl": "wss://your-domain.example.com/ws",
+  "healthCheckUrl": "https://your-domain.example.com/health",
+  "roomId": "arena-1",
+  "reviewRoomId": "review-room",
+  "robot": 1,
+  "privateKeyPath": "private.wx.key",
+  "compileOutputPath": "dist/compiled-result.zip",
+  "previewQrcodePath": "dist/preview.jpg",
+  "previewPagePath": "",
+  "previewSearchQuery": ""
+}

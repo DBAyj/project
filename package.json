@@ -1,0 +1,30 @@
+{
+  "name": "wechat-arcade-battle",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "server": "node server/ws-server.js",
+    "server:public": "HOST=0.0.0.0 node server/ws-server.js",
+    "release:audit": "node scripts/audit-publish.js",
+    "release:status": "node scripts/report-release-status.js",
+    "release:review": "node scripts/generate-review-materials.js",
+    "release:record": "node scripts/record-release-event.js",
+    "release:key:install": "node scripts/install-upload-key.js",
+    "release:key:check": "node scripts/install-upload-key.js --check",
+    "release:init": "node scripts/init-release-local.js",
+    "release:from-env": "node scripts/write-release-from-env.js",
+    "release:prepare": "node scripts/prepare-release.js",
+    "release:check": "node scripts/check-release.js",
+    "release:scan": "node scripts/scan-package.js",
+    "release:export": "node scripts/export-release-package.js",
+    "release:compile": "node scripts/compile-ci.js",
+    "release:verify-service": "node scripts/verify-socket-service.js",
+    "release:preflight": "node scripts/preflight-release.js",
+    "release:preview:ci": "node scripts/preview-ci.js",
+    "release:upload": "node scripts/upload-devtools.js",
+    "release:upload:ci": "node scripts/upload-ci.js"
+  },
+  "devDependencies": {
+    "miniprogram-ci": "^2.1.31"
+  }
+}

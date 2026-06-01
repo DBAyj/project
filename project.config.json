@@ -1,0 +1,131 @@
+{
+  "description": "Neon Arcade Battle - 微信小程序多人街机对战游戏",
+  "packOptions": {
+    "ignore": [
+      {
+        "value": "server",
+        "type": "folder"
+      },
+      {
+        "value": "docs",
+        "type": "folder"
+      },
+      {
+        "value": "scripts",
+        "type": "folder"
+      },
+      {
+        "value": "node_modules",
+        "type": "folder"
+      },
+      {
+        "value": ".github",
+        "type": "folder"
+      },
+      {
+        "value": "dist",
+        "type": "folder"
+      },
+      {
+        "value": "pages",
+        "type": "folder"
+      },
+      {
+        "value": "app.js",
+        "type": "file"
+      },
+      {
+        "value": "app.json",
+        "type": "file"
+      },
+      {
+        "value": "app.wxss",
+        "type": "file"
+      },
+      {
+        "value": "sitemap.json",
+        "type": "file"
+      },
+      {
+        "value": ".DS_Store",
+        "type": "file"
+      },
+      {
+        "value": ".gitignore",
+        "type": "file"
+      },
+      {
+        "value": "README.md",
+        "type": "file"
+      },
+      {
+        "value": "PUBLISH.md",
+        "type": "file"
+      },
+      {
+        "value": "package.json",
+        "type": "file"
+      },
+      {
+        "value": "package-lock.json",
+        "type": "file"
+      },
+      {
+        "value": "release.config.example.json",
+        "type": "file"
+      },
+      {
+        "value": "release.local.json",
+        "type": "file"
+      },
+      {
+        "value": "project.private.config.example.json",
+        "type": "file"
+      },
+      {
+        "value": "project.private.config.json",
+        "type": "file"
+      },
+      {
+        "value": ".key",
+        "type": "suffix"
+      }
+    ],
+    "include": []
+  },
+  "setting": {
+    "urlCheck": true,
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "minified": true,
+    "newFeature": true,
+    "compileWorklet": false,
+    "uglifyFileName": false,
+    "uploadWithSourceMap": true,
+    "packNpmManually": false,
+    "packNpmRelationList": [],
+    "minifyWXSS": true,
+    "minifyWXML": true,
+    "localPlugins": false,
+    "disableUseStrict": false,
+    "useCompilerPlugins": false,
+    "condition": false,
+    "swc": false,
+    "disableSWC": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    }
+  },
+  "compileType": "game",
+  "libVersion": "3.4.10",
+  "appid": "wx87945a727686c405",
+  "projectname": "wechat-arcade-battle",
+  "condition": {},
+  "miniprogramRoot": "./",
+  "simulatorPluginLibVersion": {},
+  "isGameTourist": false,
+  "editorSetting": {}
+}

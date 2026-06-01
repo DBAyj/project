@@ -1,0 +1,18 @@
+[Unit]
+Description=Wechat Arcade Battle WebSocket Server
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/wechat-arcade-battle/server
+Environment=NODE_ENV=production
+Environment=HOST=127.0.0.1
+Environment=PORT=8787
+ExecStart=/usr/bin/node ws-server.js
+Restart=always
+RestartSec=3
+User=www-data
+Group=www-data
+
+[Install]
+WantedBy=multi-user.target
