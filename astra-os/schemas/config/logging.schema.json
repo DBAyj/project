@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","additionalProperties":false,"required":["minimum_level","structured_json"],"properties":{"minimum_level":{"enum":["TRACE","DEBUG","INFO","WARN","ERROR","FATAL"]},"structured_json":{"const":true}}}

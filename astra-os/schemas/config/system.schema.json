@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","additionalProperties":false,"required":["device_id","health_check_interval_seconds"],"properties":{"device_id":{"type":"string","minLength":1},"health_check_interval_seconds":{"type":"integer","minimum":1}}}

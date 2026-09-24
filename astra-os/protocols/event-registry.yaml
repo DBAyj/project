@@ -1,0 +1,23 @@
+version: 1
+events:
+  - event: projection.session_changed
+    payload_schema: schemas/protocols/events/projection-session-changed.payload.schema.json
+    subscription_capability: projection.start
+  - event: task.state_changed
+    payload_schema: schemas/protocols/events/task-state-changed.payload.schema.json
+    subscription_capability: task.read
+  - event: system.health_changed
+    payload_schema: schemas/protocols/events/system-health-changed.payload.schema.json
+    subscription_capability: system.health.read
+  - event: projection.render_state_changed
+    payload_schema: schemas/protocols/events/projection-render-state-changed.payload.schema.json
+    subscription_capability: projection.render
+  - event: projection.safe_cleared
+    payload_schema: schemas/protocols/events/projection-safe-cleared.payload.schema.json
+    subscription_capability: projection.control
+  - event: spatial_ui.event
+    payload_schema: protocols/spatial-ui/spatial-ui-event-v1.schema.json
+    subscription_capability: spatial_ui.read
+  - event: spatial.state_changed
+    payload_schema: schemas/protocols/events/spatial-state-changed.payload.schema.json
+    subscription_capability: spatial.read

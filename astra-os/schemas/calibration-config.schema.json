@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://astraos.dev/schemas/calibration-config.schema.json",
+  "type": "object", "additionalProperties": false, "required": ["calibration"],
+  "properties": {"calibration": {"type": "object", "additionalProperties": false, "required": ["minimum_quadrilateral_area", "maximum_reprojection_error_pixels", "save_profiles", "profile_version"], "properties": {"minimum_quadrilateral_area": {"type": "number", "exclusiveMinimum": 0}, "maximum_reprojection_error_pixels": {"type": "number", "exclusiveMinimum": 0, "maximum": 100}, "save_profiles": {"type": "boolean"}, "profile_version": {"const": "1.0"}}}}
+}

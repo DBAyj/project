@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://astraos.dev/protocols/projection/projection-runtime-session-v1.schema.json",
+  "title": "AstraOS P4 projection runtime session",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "session_id", "state", "output_id", "privacy_level", "p3_integration_status", "updated_at"],
+  "properties": {
+    "version": {"const": "1.0"},
+    "session_id": {"type": "string", "format": "uuid"},
+    "state": {"enum": ["IDLE", "INITIALIZING", "READY", "RENDERING", "PAUSED", "CLEARING", "STOPPING", "STOPPED", "ERROR"]},
+    "output_id": {"type": "string", "minLength": 1, "maxLength": 128},
+    "privacy_level": {"enum": ["PUBLIC", "ROOM_ONLY", "AUTHORIZED_PERSON", "PRIVATE_SCREEN_ONLY", "NO_PROJECTION"]},
+    "p3_integration_status": {"const": "P3_REAL_SPATIAL_INTEGRATION_NOT_VERIFIED"},
+    "updated_at": {"type": "string", "format": "date-time"}
+  }
+}

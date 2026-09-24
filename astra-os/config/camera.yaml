@@ -1,0 +1,6 @@
+camera:
+  preferred_device_id: ""
+  preferred_width: 1280
+  preferred_height: 720
+  preferred_fps: 30
+  permission_fallback_to_simulation: true

@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "p4_release_status": "P4_RELEASE_BASELINE_FINAL",
+  "layout_mode": "STACK",
+  "components": [
+    {
+      "component_id": "c38c0e21-96f1-4975-8cf3-fbfaa58c7cda",
+      "component_type": "TASK_CARD",
+      "bounds": {
+        "x": 220,
+        "y": 120,
+        "width": 320,
+        "height": 180
+      },
+      "privacy_level": "PUBLIC",
+      "visible": true,
+      "interactive": true,
+      "accessibility_label": "Fixture component 2"
+    },
+    {
+      "component_id": "6f24950b-299d-4c80-9f82-08e0eb8e3327",
+      "component_type": "TASK_CARD",
+      "bounds": {
+        "x": 400,
+        "y": 160,
+        "width": 320,
+        "height": 180
+      },
+      "privacy_level": "PUBLIC",
+      "visible": true,
+      "interactive": true,
+      "accessibility_label": "Fixture component 3"
+    }
+  ]
+}

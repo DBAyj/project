@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://astraos.dev/schemas/calibration-profile.schema.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "profile_id", "profile_version", "source_resolution", "corners", "coordinate_system", "target_coordinate_system", "homography", "inverse_homography", "reprojection_error_pixels", "created_at"],
+  "properties": {
+    "schema_version": {"const": "1.0"}, "profile_id": {"type": "string", "format": "uuid"}, "profile_version": {"const": "1.0"},
+    "source_resolution": {"$ref": "#/$defs/resolution"}, "corners": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"$ref": "#/$defs/point"}},
+    "coordinate_system": {"const": "IMAGE_PIXEL"}, "target_coordinate_system": {"const": "SURFACE_LOCAL"},
+    "homography": {"$ref": "#/$defs/matrix3"}, "inverse_homography": {"$ref": "#/$defs/matrix3"},
+    "reprojection_error_pixels": {"type": "number", "minimum": 0}, "created_at": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {"resolution": {"type": "object", "additionalProperties": false, "required": ["width", "height"], "properties": {"width": {"type": "integer", "minimum": 1}, "height": {"type": "integer", "minimum": 1}}}, "point": {"type": "object", "additionalProperties": false, "required": ["x", "y", "coordinate_system"], "properties": {"x": {"type": "number"}, "y": {"type": "number"}, "coordinate_system": {"const": "IMAGE_PIXEL"}}}, "matrix3": {"type": "array", "minItems": 9, "maxItems": 9, "items": {"type": "number"}}}
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://astraos.dev/protocols/spatial-ui/spatial-ui-rpc-result-v1.schema.json",
+  "title": "AstraOS P5 Spatial UI JSON-RPC result",
+  "oneOf": [
+    {"type": "object", "additionalProperties": false, "required": ["status", "component_count", "window_count", "focus_component_id", "projection_safe", "p4_release_status"], "properties": {"status": {"enum": ["READY", "SAFE", "ERROR"]}, "component_count": {"type": "integer", "minimum": 0}, "window_count": {"type": "integer", "minimum": 0}, "focus_component_id": {"anyOf": [{"const": ""}, {"type": "string", "format": "uuid"}]}, "projection_safe": {"type": "boolean"}, "p4_release_status": {"const": "P4_RELEASE_BASELINE_FINAL"}}},
+    {"type": "object", "additionalProperties": false, "required": ["component_id", "projection_layer_generated"], "properties": {"component_id": {"type": "string", "format": "uuid"}, "projection_layer_generated": {"type": "boolean"}}},
+    {"type": "object", "additionalProperties": false, "required": ["component_id"], "properties": {"component_id": {"type": "string", "format": "uuid"}}},
+    {"type": "object", "additionalProperties": false, "required": ["window_id"], "properties": {"window_id": {"type": "string", "format": "uuid"}}},
+    {"type": "object", "additionalProperties": false, "required": ["focus_component_id"], "properties": {"focus_component_id": {"anyOf": [{"const": ""}, {"type": "string", "format": "uuid"}]}}},
+    {"type": "object", "additionalProperties": false, "required": ["state_path"], "properties": {"state_path": {"type": "string", "minLength": 1}}},
+    {"type": "object", "additionalProperties": false, "required": ["selected_tab"], "properties": {"selected_tab": {"type": "string"}}},
+    {"type": "object", "additionalProperties": false, "required": ["projection_safe"], "properties": {"projection_safe": {"const": true}}}
+  ]
+}

@@ -1,0 +1,11 @@
+flowchart TB
+    Check[Check Update] --> Verify[Verify Signature and Integrity]
+    Verify --> Compatible[Check Compatibility]
+    Compatible --> Backup[Back Up Configuration]
+    Backup --> Install[Install Inactive Partition]
+    Install --> Reboot[Reboot and Health Check]
+    Reboot --> Promote{Healthy}
+    Promote -->|yes| Active[Promote Version]
+    Promote -->|no| Rollback[Restore Previous Partition]
+    Rollback --> Audit[Audit Recovery]
+    Active --> Audit

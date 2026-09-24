@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://astraos.dev/schemas/intent-config.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["service", "confidence", "pipeline", "limits", "cache", "confirmation", "candidate_merger", "transport", "audit"],
+  "properties": {
+    "service": {"type": "object", "additionalProperties": false, "required": ["name", "version", "default_locale", "request_timeout_ms"], "properties": {"name": {"const": "astra-intent-service"}, "version": {"type": "string", "pattern": "^0\\.2\\.0-alpha\\.1$"}, "default_locale": {"enum": ["zh-CN", "en-US"]}, "request_timeout_ms": {"type": "integer", "minimum": 1, "maximum": 10000}}},
+    "confidence": {"type": "object", "additionalProperties": false, "required": ["auto_execute_threshold", "confirmation_threshold", "reject_threshold", "ambiguity_delta"], "properties": {"auto_execute_threshold": {"type": "number", "minimum": 0, "maximum": 1}, "confirmation_threshold": {"type": "number", "minimum": 0, "maximum": 1}, "reject_threshold": {"type": "number", "minimum": 0, "maximum": 1}, "ambiguity_delta": {"type": "number", "minimum": 0, "maximum": 1}}},
+    "pipeline": {"type": "object", "additionalProperties": false, "required": ["enable_rule_engine", "enable_local_model", "enable_cache", "enable_security_preprocessing"], "properties": {"enable_rule_engine": {"type": "boolean"}, "enable_local_model": {"type": "boolean"}, "enable_cache": {"type": "boolean"}, "enable_security_preprocessing": {"type": "boolean"}}},
+    "limits": {"type": "object", "additionalProperties": false, "required": ["max_input_characters", "max_batch_size", "max_repeated_characters"], "properties": {"max_input_characters": {"type": "integer", "minimum": 1, "maximum": 2000}, "max_batch_size": {"const": 1}, "max_repeated_characters": {"type": "integer", "minimum": 1, "maximum": 100}}},
+    "cache": {"type": "object", "additionalProperties": false, "required": ["enabled", "max_entries", "ttl_seconds"], "properties": {"enabled": {"type": "boolean"}, "max_entries": {"type": "integer", "minimum": 1, "maximum": 10000}, "ttl_seconds": {"type": "integer", "minimum": 1, "maximum": 3600}}},
+    "confirmation": {"type": "object", "additionalProperties": false, "required": ["ttl_seconds"], "properties": {"ttl_seconds": {"type": "integer", "minimum": 1, "maximum": 300}}},
+    "candidate_merger": {"type": "object", "additionalProperties": false, "required": ["rule_engine_weight", "local_model_weight", "agreement_bonus", "context_bonus", "conflict_penalty", "missing_slot_penalty"], "properties": {"rule_engine_weight": {"type": "number", "minimum": 0, "maximum": 1}, "local_model_weight": {"type": "number", "minimum": 0, "maximum": 1}, "agreement_bonus": {"type": "number", "minimum": 0, "maximum": 1}, "context_bonus": {"type": "number", "minimum": 0, "maximum": 1}, "conflict_penalty": {"type": "number", "minimum": 0, "maximum": 1}, "missing_slot_penalty": {"type": "number", "minimum": 0, "maximum": 1}}},
+    "transport": {"type": "object", "additionalProperties": false, "required": ["socket_path", "http_enabled", "http_host", "http_port"], "properties": {"socket_path": {"type": "string", "pattern": "^runtime/"}, "http_enabled": {"type": "boolean"}, "http_host": {"type": "string"}, "http_port": {"type": "integer", "minimum": 1024, "maximum": 65535}}},
+    "audit": {"type": "object", "additionalProperties": false, "required": ["path"], "properties": {"path": {"type": "string", "pattern": "^runtime/audit/"}}}
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0",
+  "p4_release_status": "P4_RELEASE_BASELINE_FINAL",
+  "events": [
+    {
+      "type": "GESTURE_SELECT",
+      "component_id": "7abf7b1e-dc4f-4b7c-96cc-c3dd628e1ca9"
+    },
+    {
+      "type": "GESTURE_SCALE",
+      "scale": 1.2
+    },
+    {
+      "type": "GESTURE_RELEASE"
+    }
+  ]
+}

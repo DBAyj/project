@@ -1,0 +1,766 @@
+version: 1
+codes:
+  - code: 1001
+    name: SYSTEM_INITIALIZATION_FAILED
+    module: astra-common
+    message: System initialization failed
+  - code: 1002
+    name: CONFIGURATION_INVALID
+    module: astra-settings
+    message: Configuration file is invalid
+  - code: 1003
+    name: APPLICATION_INITIALIZATION_FAILED
+    module: astra-shell
+    message: Application initialization failed
+  - code: 2001
+    name: INTENT_UNRECOGNIZED
+    module: astra-intent
+    message: Intent cannot be recognized
+  - code: 2002
+    name: LOCAL_INTENT_MODEL_UNAVAILABLE
+    module: astra-intent
+    message: Local intent model is unavailable
+    message_zh: 本地意图模型不可用
+    severity: ERROR
+    retryable: true
+    audit_required: true
+  - code: 2003
+    name: INTENT_SERVICE_TIMEOUT
+    module: astra-intent
+    message: Intent service timed out
+    message_zh: 意图服务超时
+    severity: ERROR
+    retryable: true
+    audit_required: true
+  - code: 2004
+    name: INTENT_SERVICE_INTERNAL_ERROR
+    module: astra-intent
+    message: Intent service internal error
+    message_zh: 意图服务内部错误
+    severity: CRITICAL
+    retryable: true
+    audit_required: true
+  - code: 2005
+    name: REQUIRED_INTENT_PARAMETER_MISSING
+    module: astra-intent
+    message: Required intent parameter is missing
+    message_zh: 缺少必要参数
+    severity: WARNING
+    retryable: true
+    audit_required: true
+  - code: 2006
+    name: CONFLICTING_INTENT_CANDIDATES
+    module: astra-intent
+    message: Multiple intent candidates conflict
+    message_zh: 存在多个冲突意图
+    severity: WARNING
+    retryable: true
+    audit_required: true
+  - code: 2007
+    name: INTENT_CONFIDENCE_INSUFFICIENT
+    module: astra-intent
+    message: Intent confidence is insufficient
+    message_zh: 意图置信度不足
+    severity: WARNING
+    retryable: true
+    audit_required: true
+  - code: 2008
+    name: INTENT_LOCALE_UNSUPPORTED
+    module: astra-intent
+    message: Intent locale is unsupported
+    message_zh: 不支持的语言
+    severity: WARNING
+    retryable: false
+    audit_required: true
+  - code: 2009
+    name: INTENT_REQUEST_INVALID
+    module: astra-intent
+    message: Intent request is invalid
+    message_zh: 无效意图请求
+    severity: WARNING
+    retryable: false
+    audit_required: true
+  - code: 2010
+    name: INTENT_CONFIGURATION_INVALID
+    module: astra-intent
+    message: Intent configuration is invalid
+    message_zh: 意图配置无效
+    severity: ERROR
+    retryable: false
+    audit_required: true
+  - code: 2101
+    name: USER_CONFIRMATION_REQUIRED
+    module: astra-intent
+    message: User confirmation is required
+    message_zh: 需要用户确认
+    severity: WARNING
+    retryable: true
+    audit_required: true
+  - code: 2102
+    name: CONFIRMATION_EXPIRED
+    module: astra-intent
+    message: Confirmation has expired
+    message_zh: 确认已过期
+    severity: WARNING
+    retryable: true
+    audit_required: true
+  - code: 2103
+    name: CONFIRMATION_REJECTED
+    module: astra-intent
+    message: Confirmation was rejected
+    message_zh: 确认被拒绝
+    severity: WARNING
+    retryable: false
+    audit_required: true
+  - code: 2104
+    name: CLARIFICATION_REQUIRED
+    module: astra-intent
+    message: Additional information is required
+    message_zh: 需要补充信息
+    severity: WARNING
+    retryable: true
+    audit_required: true
+  - code: 2201
+    name: PROMPT_INJECTION_RISK_DETECTED
+    module: astra-security
+    message: Prompt injection risk was detected
+    message_zh: 检测到提示词注入风险
+    severity: ERROR
+    retryable: false
+    audit_required: true
+  - code: 2202
+    name: RESTRICTED_INPUT_CONTENT
+    module: astra-security
+    message: Input contains restricted content
+    message_zh: 输入包含受限制内容
+    severity: ERROR
+    retryable: false
+    audit_required: true
+  - code: 2203
+    name: INPUT_LENGTH_EXCEEDED
+    module: astra-security
+    message: Input length exceeds the configured limit
+    message_zh: 输入长度超限
+    severity: WARNING
+    retryable: true
+    audit_required: true
+  - code: 2204
+    name: SENSITIVE_DATA_PROCESSING_FAILED
+    module: astra-security
+    message: Sensitive data processing failed
+    message_zh: 敏感数据处理失败
+    severity: ERROR
+    retryable: true
+    audit_required: true
+  - code: 2301
+    name: RULE_ENGINE_UNAVAILABLE
+    module: astra-intent
+    message: Rule engine is unavailable
+    message_zh: 规则引擎不可用
+    severity: ERROR
+    retryable: true
+    audit_required: true
+  - code: 2302
+    name: LOCAL_MODEL_ADAPTER_UNAVAILABLE
+    module: astra-intent
+    message: Local model adapter is unavailable
+    message_zh: 本地模型适配器不可用
+    severity: ERROR
+    retryable: true
+    audit_required: true
+  - code: 2303
+    name: CANDIDATE_MERGE_FAILED
+    module: astra-intent
+    message: Intent candidate merge failed
+    message_zh: 候选意图融合失败
+    severity: ERROR
+    retryable: true
+    audit_required: true
+  - code: 2304
+    name: SLOT_EXTRACTION_FAILED
+    module: astra-intent
+    message: Intent slot extraction failed
+    message_zh: 槽位提取失败
+    severity: ERROR
+    retryable: true
+    audit_required: true
+  - code: 3001
+    name: SPATIAL_SERVICE_NOT_STARTED
+    module: astra-spatial
+    message: Spatial service is not started
+    message_zh: 空间服务未启动
+    severity: WARNING
+    retryable: true
+    audit_required: true
+  - code: 3002
+    name: SPATIAL_SERVICE_START_FAILED
+    module: astra-spatial
+    message: Spatial service failed to start
+    message_zh: 空间服务启动失败
+    severity: CRITICAL
+    retryable: true
+    audit_required: true
+  - code: 3003
+    name: INVALID_SPATIAL_TRANSITION
+    module: astra-spatial
+    message: Spatial service state transition is invalid
+    message_zh: 空间服务状态转换非法
+    severity: ERROR
+    retryable: false
+    audit_required: true
+  - code: 3004
+    name: SPATIAL_INPUT_UNAVAILABLE
+    module: astra-spatial
+    message: Spatial input source is unavailable
+    message_zh: 输入源不可用
+    severity: ERROR
+    retryable: true
+    audit_required: true
+  - code: 3005
+    name: CAMERA_UNAVAILABLE
+    module: astra-spatial
+    message: Camera is unavailable
+    message_zh: 摄像头不可用
+    severity: ERROR
+    retryable: true
+    audit_required: true
+  - code: 3006
+    name: CAMERA_PERMISSION_DENIED
+    module: astra-spatial
+    message: Camera permission was denied
+    message_zh: 摄像头权限被拒绝
+    severity: WARNING
+    retryable: true
+    audit_required: true
+  - code: 3007
+    name: CAMERA_DISCONNECTED
+    module: astra-spatial
+    message: Camera device disconnected
+    message_zh: 摄像头设备断开
+    severity: ERROR
+    retryable: true
+    audit_required: true
+  - code: 3008
+    name: SPATIAL_FRAME_INVALID
+    module: astra-spatial
+    message: Spatial image frame is invalid
+    message_zh: 图像帧无效
+    severity: ERROR
+    retryable: true
+    audit_required: true
+  - code: 3009
+    name: VIDEO_INPUT_UNAVAILABLE
+    module: astra-spatial
+    message: Video input is unavailable
+    message_zh: 视频输入不可用
+    severity: ERROR
+    retryable: true
+    audit_required: true
+  - code: 3101
+    name: SURFACE_NOT_DETECTED
+    module: astra-spatial
+    message: No valid surface was detected
+    message_zh: 未检测到有效表面
+    severity: WARNING
+    retryable: true
+    audit_required: true
+  - code: 3102
+    name: SURFACE_QUALITY_INSUFFICIENT
+    module: astra-spatial
+    message: Surface candidate quality is insufficient
+    message_zh: 表面候选质量不足
+    severity: WARNING
+    retryable: true
+    audit_required: true
+  - code: 3103
+    name: SURFACE_CANDIDATE_MISSING
+    module: astra-spatial
+    message: Surface candidate does not exist
+    message_zh: 表面候选不存在
+    severity: WARNING
+    retryable: true
+    audit_required: true
+  - code: 3104
+    name: SURFACE_CANDIDATE_INVALIDATED
+    module: astra-spatial
+    message: Surface candidate is no longer valid
+    message_zh: 表面候选已失效
+    severity: ERROR
+    retryable: true
+    audit_required: true
+  - code: 3105
+    name: SURFACE_CLASSIFICATION_FAILED
+    module: astra-spatial
+    message: Surface classification failed
+    message_zh: 表面分类失败
+    severity: ERROR
+    retryable: true
+    audit_required: true
+  - code: 3201
+    name: CALIBRATION_NOT_STARTED
+    module: astra-spatial
+    message: Calibration has not started
+    message_zh: 标定未开始
+    severity: WARNING
+    retryable: true
+    audit_required: true
+  - code: 3202
+    name: CALIBRATION_POINT_INVALID
+    module: astra-spatial
+    message: Calibration point is invalid
+    message_zh: 标定点无效
+    severity: WARNING
+    retryable: true
+    audit_required: true
+  - code: 3203
+    name: CALIBRATION_QUADRILATERAL_SELF_INTERSECTING
+    module: astra-spatial
+    message: Calibration quadrilateral self-intersects
+    message_zh: 标定四边形自相交
+    severity: WARNING
+    retryable: true
+    audit_required: true
+  - code: 3204
+    name: CALIBRATION_AREA_TOO_SMALL
+    module: astra-spatial
+    message: Calibration area is too small
+    message_zh: 标定区域过小
+    severity: WARNING
+    retryable: true
+    audit_required: true
+  - code: 3205
+    name: HOMOGRAPHY_CALCULATION_FAILED
+    module: astra-spatial
+    message: Homography calculation failed
+    message_zh: 单应性矩阵计算失败
+    severity: ERROR
+    retryable: true
+    audit_required: true
+  - code: 3206
+    name: HOMOGRAPHY_NOT_INVERTIBLE
+    module: astra-spatial
+    message: Homography matrix is not invertible
+    message_zh: 单应性矩阵不可逆
+    severity: ERROR
+    retryable: true
+    audit_required: true
+  - code: 3207
+    name: REPROJECTION_ERROR_EXCEEDED
+    module: astra-spatial
+    message: Reprojection error exceeds the configured limit
+    message_zh: 重投影误差超限
+    severity: WARNING
+    retryable: true
+    audit_required: true
+  - code: 3208
+    name: CALIBRATION_CONFIGURATION_INVALID
+    module: astra-spatial
+    message: Calibration configuration is invalid
+    message_zh: 标定配置无效
+    severity: ERROR
+    retryable: false
+    audit_required: true
+  - code: 3301
+    name: SPATIAL_SCENE_MISSING
+    module: astra-spatial
+    message: Spatial scene does not exist
+    message_zh: 空间场景不存在
+    severity: WARNING
+    retryable: true
+    audit_required: true
+  - code: 3302
+    name: SCENE_OBJECT_MISSING
+    module: astra-spatial
+    message: Scene object does not exist
+    message_zh: 空间对象不存在
+    severity: WARNING
+    retryable: true
+    audit_required: true
+  - code: 3303
+    name: SPATIAL_ANCHOR_NOT_FOUND
+    module: astra-spatial
+    message: Spatial anchor does not exist
+    message_zh: 空间锚点不存在
+    severity: WARNING
+    retryable: true
+    audit_required: true
+  - code: 3304
+    name: PROJECTION_TARGET_MISSING
+    module: astra-spatial
+    message: Projection target does not exist
+    message_zh: 投影目标不存在
+    severity: WARNING
+    retryable: true
+    audit_required: true
+  - code: 3305
+    name: PROJECTION_TARGET_LOST
+    module: astra-spatial
+    message: Projection target was lost
+    message_zh: 投影目标已丢失
+    severity: ERROR
+    retryable: true
+    audit_required: true
+  - code: 3306
+    name: SCENE_STATE_INVALID
+    module: astra-spatial
+    message: Scene state is invalid
+    message_zh: 场景状态无效
+    severity: ERROR
+    retryable: false
+    audit_required: true
+  - code: 3401
+    name: OBSERVER_TRACKING_UNAVAILABLE
+    module: astra-spatial
+    message: Observer tracking is unavailable
+    message_zh: 观察者追踪不可用
+    severity: WARNING
+    retryable: true
+    audit_required: true
+  - code: 3402
+    name: OBSERVER_DATA_INVALID
+    module: astra-spatial
+    message: Observer data is invalid
+    message_zh: 观察者数据无效
+    severity: WARNING
+    retryable: true
+    audit_required: true
+  - code: 3403
+    name: COORDINATE_SYSTEM_UNSUPPORTED
+    module: astra-spatial
+    message: Coordinate system is unsupported
+    message_zh: 坐标系不支持
+    severity: ERROR
+    retryable: false
+    audit_required: true
+  - code: 3404
+    name: COORDINATE_CONVERSION_FAILED
+    module: astra-spatial
+    message: Coordinate conversion failed
+    message_zh: 坐标转换失败
+    severity: ERROR
+    retryable: true
+    audit_required: true
+  - code: 3501
+    name: SPATIAL_PROCESSING_TIMEOUT
+    module: astra-spatial
+    message: Spatial processing timed out
+    message_zh: 空间处理超时
+    severity: ERROR
+    retryable: true
+    audit_required: true
+  - code: 3502
+    name: OPENCV_PROCESSING_FAILED
+    module: astra-spatial
+    message: OpenCV processing failed
+    message_zh: OpenCV处理失败
+    severity: ERROR
+    retryable: true
+    audit_required: true
+  - code: 3503
+    name: SPATIAL_CONFIGURATION_INVALID
+    module: astra-spatial
+    message: Spatial configuration is invalid
+    message_zh: 空间配置无效
+    severity: ERROR
+    retryable: false
+    audit_required: true
+  - code: 3504
+    name: SPATIAL_SERVICE_INTERNAL_ERROR
+    module: astra-spatial
+    message: Spatial service internal error
+    message_zh: 空间服务内部错误
+    severity: CRITICAL
+    retryable: true
+    audit_required: true
+  - code: 4001
+    name: PROJECTION_DEVICE_UNAVAILABLE
+    module: astra-projection
+    message: Projection device is unavailable
+  - code: 4002
+    name: PROJECTION_SESSION_EXISTS
+    module: astra-projection
+    message: Projection session already exists
+  - code: 4003
+    name: PROJECTION_SESSION_MISSING
+    module: astra-projection
+    message: Projection session does not exist
+  - code: 4004
+    name: INVALID_PROJECTION_TRANSITION
+    module: astra-projection
+    message: Invalid projection state transition
+  - code: 4005
+    name: SCENE_INITIALIZATION_FAILED
+    module: astra-display
+    message: 3D scene initialization failed
+  - code: 4006
+    name: PROJECTION_OUTPUT_INITIALIZATION_FAILED
+    module: astra-projection
+    message: Projection output initialization failed
+  - code: 4007
+    name: PROJECTION_OUTPUT_DISCONNECTED
+    module: astra-projection
+    message: Projection output disconnected
+  - code: 4008
+    name: RENDER_GRAPH_DEPENDENCY_MISSING
+    module: astra-projection
+    message: Render graph dependency is missing
+  - code: 4009
+    name: RENDER_GRAPH_CYCLE_DETECTED
+    module: astra-projection
+    message: Render graph cycle detected
+  - code: 4010
+    name: PROJECTION_RENDER_PASS_FAILED
+    module: astra-projection
+    message: Projection render pass failed
+  - code: 4011
+    name: PROJECTION_HOMOGRAPHY_INVALID
+    module: astra-projection
+    message: Projection homography is invalid
+  - code: 4012
+    name: PROJECTION_HOMOGRAPHY_NON_INVERTIBLE
+    module: astra-projection
+    message: Projection homography is non-invertible
+  - code: 4013
+    name: PROJECTION_HOMOGRAPHY_OUT_OF_BOUNDS
+    module: astra-projection
+    message: Projection homography maps outside safe bounds
+  - code: 4014
+    name: PROJECTION_MESH_WARP_INVALID
+    module: astra-projection
+    message: Projection mesh warp is invalid
+  - code: 4015
+    name: PROJECTION_PRIVACY_MASK_INVALID
+    module: astra-projection
+    message: Projection privacy mask is invalid
+  - code: 4016
+    name: PROJECTION_SAFE_CLEAR_FAILED
+    module: astra-projection
+    message: Projection safe clear failed
+  - code: 4017
+    name: PROJECTION_RENDER_TARGET_LOST
+    module: astra-projection
+    message: Projection target lost
+  - code: 4018
+    name: PROJECTION_OUTPUT_PRESENT_FAILED
+    module: astra-projection
+    message: Projection output present failed
+  - code: 4301
+    name: PROJECTION_DENIED_BY_PRIVACY_POLICY
+    module: astra-policy
+    message: Projection denied by privacy policy
+  - code: 4302
+    name: AUTHORIZED_PERSON_VERIFICATION_FAILED
+    module: astra-policy
+    message: Authorized person verification failed
+  - code: 5001
+    name: PERMISSION_DENIED
+    module: astra-security
+    message: Permission is insufficient
+  - code: 5002
+    name: CAPABILITY_TOKEN_INVALID
+    module: astra-security
+    message: Capability token is invalid
+  - code: 5101
+    name: SPATIAL_UI_SERVICE_NOT_STARTED
+    module: astra-spatial-ui
+    message: Spatial UI service is not started
+  - code: 5102
+    name: SPATIAL_UI_INITIALIZATION_FAILED
+    module: astra-spatial-ui
+    message: Spatial UI initialization failed
+  - code: 5103
+    name: SPATIAL_UI_CONFIGURATION_INVALID
+    module: astra-spatial-ui
+    message: Spatial UI configuration is invalid
+  - code: 5104
+    name: SPATIAL_UI_COMPONENT_TYPE_UNSUPPORTED
+    module: astra-spatial-ui
+    message: Spatial UI component type is unsupported
+  - code: 5105
+    name: SPATIAL_UI_COMPONENT_NOT_FOUND
+    module: astra-spatial-ui
+    message: Spatial UI component does not exist
+  - code: 5106
+    name: SPATIAL_UI_COMPONENT_LIMIT_EXCEEDED
+    module: astra-spatial-ui
+    message: Spatial UI component limit exceeded
+  - code: 5107
+    name: SPATIAL_UI_COMPONENT_TRANSITION_INVALID
+    module: astra-spatial-ui
+    message: Spatial UI component lifecycle transition is invalid
+  - code: 5201
+    name: SPATIAL_WINDOW_NOT_FOUND
+    module: astra-spatial-ui
+    message: Spatial window does not exist
+  - code: 5202
+    name: SPATIAL_WINDOW_LIMIT_EXCEEDED
+    module: astra-spatial-ui
+    message: Spatial window limit exceeded
+  - code: 5203
+    name: SPATIAL_WINDOW_TRANSITION_INVALID
+    module: astra-spatial-ui
+    message: Spatial window state transition is invalid
+  - code: 5204
+    name: SPATIAL_WINDOW_OUT_OF_BOUNDS
+    module: astra-spatial-ui
+    message: Spatial window is outside safe bounds
+  - code: 5205
+    name: SPATIAL_WINDOW_SIZE_INVALID
+    module: astra-spatial-ui
+    message: Spatial window size is invalid
+  - code: 5206
+    name: SPATIAL_WINDOW_TARGET_UNAVAILABLE
+    module: astra-spatial-ui
+    message: Spatial window display target is unavailable
+  - code: 5301
+    name: SPATIAL_LAYOUT_TYPE_UNSUPPORTED
+    module: astra-spatial-ui
+    message: Spatial layout type is unsupported
+  - code: 5302
+    name: SPATIAL_LAYOUT_CONSTRAINT_CONFLICT
+    module: astra-spatial-ui
+    message: Spatial layout constraints conflict
+  - code: 5303
+    name: SPATIAL_LAYOUT_CALCULATION_FAILED
+    module: astra-spatial-ui
+    message: Spatial layout calculation failed
+  - code: 5304
+    name: SPATIAL_LAYOUT_AREA_INSUFFICIENT
+    module: astra-spatial-ui
+    message: Spatial layout area is insufficient
+  - code: 5305
+    name: SPATIAL_LAYOUT_RESTORE_FAILED
+    module: astra-spatial-ui
+    message: Spatial layout state restore failed
+  - code: 5401
+    name: SPATIAL_INPUT_SOURCE_UNSUPPORTED
+    module: astra-spatial-ui
+    message: Spatial input source is unsupported
+  - code: 5402
+    name: SPATIAL_INPUT_EVENT_INVALID
+    module: astra-spatial-ui
+    message: Spatial input event is invalid
+  - code: 5403
+    name: SPATIAL_INPUT_TARGET_NOT_FOUND
+    module: astra-spatial-ui
+    message: Spatial input target does not exist
+  - code: 5404
+    name: SPATIAL_INPUT_HIT_TEST_FAILED
+    module: astra-spatial-ui
+    message: Spatial input hit test failed
+  - code: 5405
+    name: SPATIAL_INPUT_ROUTING_FAILED
+    module: astra-spatial-ui
+    message: Spatial input routing failed
+  - code: 5406
+    name: SPATIAL_INPUT_BLOCKED_BY_SAFETY_LAYER
+    module: astra-spatial-ui
+    message: Spatial input was blocked by the safety layer
+  - code: 5501
+    name: SPATIAL_FOCUS_TARGET_NOT_FOUND
+    module: astra-spatial-ui
+    message: Spatial focus target does not exist
+  - code: 5502
+    name: SPATIAL_FOCUS_SCOPE_INVALID
+    module: astra-spatial-ui
+    message: Spatial focus scope is invalid
+  - code: 5503
+    name: SPATIAL_FOCUS_PREEMPTION_DENIED
+    module: astra-spatial-ui
+    message: Spatial focus preemption was denied
+  - code: 5504
+    name: SPATIAL_FOCUS_RESTORE_FAILED
+    module: astra-spatial-ui
+    message: Spatial focus restore failed
+  - code: 5601
+    name: SPATIAL_INTERACTION_TRANSITION_INVALID
+    module: astra-spatial-ui
+    message: Spatial interaction state transition is invalid
+  - code: 5602
+    name: SPATIAL_DRAG_INVALID
+    module: astra-spatial-ui
+    message: Spatial drag operation is invalid
+  - code: 5603
+    name: SPATIAL_RESIZE_INVALID
+    module: astra-spatial-ui
+    message: Spatial resize operation is invalid
+  - code: 5604
+    name: SPATIAL_ROTATION_INVALID
+    module: astra-spatial-ui
+    message: Spatial rotation operation is invalid
+  - code: 5605
+    name: SPATIAL_INTERACTION_CANCELLED
+    module: astra-spatial-ui
+    message: Spatial interaction operation was cancelled
+  - code: 5701
+    name: SPATIAL_UI_PRIVACY_DISPLAY_DENIED
+    module: astra-policy
+    message: Privacy policy denied spatial component display
+  - code: 5702
+    name: SPATIAL_UI_PRIVACY_LEVEL_INVALID
+    module: astra-policy
+    message: Spatial component privacy level is invalid
+  - code: 5703
+    name: SPATIAL_UI_DISPLAY_TARGET_DENIED
+    module: astra-policy
+    message: Spatial component display target is not allowed
+  - code: 5704
+    name: SPATIAL_UI_PRIVACY_UPDATE_FAILED
+    module: astra-policy
+    message: Spatial UI privacy state update failed
+  - code: 5801
+    name: SPATIAL_UI_STATE_SAVE_FAILED
+    module: astra-spatial-ui
+    message: Spatial UI state save failed
+  - code: 5802
+    name: SPATIAL_UI_STATE_LOAD_FAILED
+    module: astra-spatial-ui
+    message: Spatial UI state load failed
+  - code: 5803
+    name: SPATIAL_UI_STATE_SCHEMA_INVALID
+    module: astra-spatial-ui
+    message: Spatial UI state schema is invalid
+  - code: 5804
+    name: SPATIAL_UI_STATE_VERSION_INCOMPATIBLE
+    module: astra-spatial-ui
+    message: Spatial UI state version is incompatible
+  - code: 5901
+    name: SPATIAL_UI_ACCESSIBILITY_SEMANTICS_MISSING
+    module: astra-spatial-ui
+    message: Spatial UI accessibility semantics are missing
+  - code: 5902
+    name: SPATIAL_UI_ACCESSIBILITY_ACTION_UNSUPPORTED
+    module: astra-spatial-ui
+    message: Spatial UI accessibility action is unsupported
+  - code: 5903
+    name: SPATIAL_UI_ANIMATION_FAILED
+    module: astra-spatial-ui
+    message: Spatial UI animation failed
+  - code: 5904
+    name: SPATIAL_UI_RENDER_SUBMISSION_FAILED
+    module: astra-spatial-ui
+    message: Spatial UI render submission failed
+  - code: 5905
+    name: SPATIAL_UI_INTERNAL_ERROR
+    module: astra-spatial-ui
+    message: Spatial UI internal error
+  - code: 6001
+    name: FILE_NOT_FOUND
+    module: astra-file
+    message: File does not exist
+  - code: 7001
+    name: NETWORK_UNAVAILABLE
+    module: astra-device
+    message: Network is unavailable
+  - code: 8001
+    name: UPDATE_PACKAGE_SIGNATURE_INVALID
+    module: astra-update
+    message: Update package signature is invalid
+  - code: 8002
+    name: UPDATE_FAILED_ROLLED_BACK
+    module: astra-update
+    message: Update failed and was rolled back
+  - code: 9001
+    name: INTERNAL_UNCLASSIFIED
+    module: astra-common
+    message: Unclassified internal error

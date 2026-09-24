@@ -1,0 +1,38 @@
+cmake_minimum_required(VERSION 3.22)
+project(AstraOS VERSION 0.5.0 LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+include(CTest)
+find_package(Qt6 6.8 REQUIRED COMPONENTS Core)
+add_subdirectory(libraries/astra-common)
+add_subdirectory(libraries/astra-policy)
+add_subdirectory(libraries/astra-render)
+add_subdirectory(libraries/astra-ui)
+add_subdirectory(runtime/projection)
+add_subdirectory(services/astra-projection-service)
+add_subdirectory(services/astra-spatial-ui-service)
+add_subdirectory(apps/astra-shell)
+add_subdirectory(services/astra-spatial-service)
+
+# Test executables verify behavior with assert(); keep them active in
+# RelWithDebInfo/Release builds, where CMake otherwise defines NDEBUG.
+function(astra_keep_test_assertions directory)
+    get_property(targets DIRECTORY "${directory}" PROPERTY BUILDSYSTEM_TARGETS)
+    foreach(target IN LISTS targets)
+        get_target_property(type ${target} TYPE)
+        if(type STREQUAL "EXECUTABLE" AND target MATCHES "(-tests|-test|-benchmark)$")
+            target_compile_options(${target} PRIVATE -UNDEBUG)
+        endif()
+    endforeach()
+    get_property(subdirectories DIRECTORY "${directory}" PROPERTY SUBDIRECTORIES)
+    foreach(subdirectory IN LISTS subdirectories)
+        astra_keep_test_assertions("${subdirectory}")
+    endforeach()
+endfunction()
+
+if(BUILD_TESTING)
+    astra_keep_test_assertions("${CMAKE_CURRENT_SOURCE_DIR}")
+endif()

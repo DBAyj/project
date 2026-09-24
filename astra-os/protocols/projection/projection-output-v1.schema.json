@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://astraos.dev/protocols/projection/projection-output-v1.schema.json",
+  "title": "AstraOS P4 projection output state",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "output_id", "output_type", "state", "resolution", "refresh_rate_hz", "updated_at"],
+  "properties": {
+    "version": {"const": "1.0"},
+    "output_id": {"type": "string", "minLength": 1, "maxLength": 128},
+    "output_type": {"enum": ["WINDOW"]},
+    "state": {"enum": ["UNINITIALIZED", "INITIALIZING", "READY", "PRESENTING", "CLEARED", "STOPPED", "ERROR"]},
+    "resolution": {"type": "object", "additionalProperties": false, "required": ["width", "height"], "properties": {"width": {"type": "integer", "minimum": 1, "maximum": 16384}, "height": {"type": "integer", "minimum": 1, "maximum": 16384}}},
+    "refresh_rate_hz": {"type": "number", "exclusiveMinimum": 0, "maximum": 480},
+    "updated_at": {"type": "string", "format": "date-time"}
+  }
+}

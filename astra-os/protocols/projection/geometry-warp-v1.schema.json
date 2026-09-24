@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://astraos.dev/protocols/projection/geometry-warp-v1.schema.json",
+  "title": "AstraOS P4 deterministic geometry warp",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "warp_id", "fixture_id", "source_resolution", "destination_resolution", "corners", "p3_integration_status"],
+  "properties": {
+    "version": {"const": "1.0"},
+    "warp_id": {"type": "string", "format": "uuid"},
+    "fixture_id": {"enum": ["front-rectangle", "left-keystone", "right-keystone", "top-keystone", "bottom-keystone", "invalid-self-intersection", "invalid-non-invertible"]},
+    "source_resolution": {"$ref": "#/$defs/resolution"},
+    "destination_resolution": {"$ref": "#/$defs/resolution"},
+    "corners": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"$ref": "#/$defs/point"}},
+    "p3_integration_status": {"const": "P3_REAL_SPATIAL_INTEGRATION_NOT_VERIFIED"}
+  },
+  "$defs": {
+    "resolution": {"type": "object", "additionalProperties": false, "required": ["width", "height"], "properties": {"width": {"type": "integer", "minimum": 1, "maximum": 16384}, "height": {"type": "integer", "minimum": 1, "maximum": 16384}}},
+    "point": {"type": "object", "additionalProperties": false, "required": ["x", "y"], "properties": {"x": {"type": "number"}, "y": {"type": "number"}}}
+  }
+}

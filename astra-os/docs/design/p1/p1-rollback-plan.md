@@ -1,0 +1,3 @@
+# P1 Rollback Plan
+
+All P1 commits remain on `feature/p1-dual-display-simulator` until the release gate is merged. Reverting a P1.1 evidence commit restores the previous P1 simulator behavior without changing P0/P0.5 documents. `clean_p1_build.sh` will delete only P1 build output, test temporary files, and regenerable cache. It never deletes source, configuration, audit logs, Git metadata, or another project. Example configuration remains versioned; runtime audit records are retained. The stop script targets only the PID written by the P1 startup script; it never terminates unrelated Qt processes.

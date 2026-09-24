@@ -1,0 +1,9 @@
+flowchart TB
+    Start[projection.start] --> Capability[Validate Capability]
+    Capability --> Privacy[Evaluate Privacy Policy]
+    Privacy --> Allowed{Allowed}
+    Allowed -->|yes| Device[Open Display Target]
+    Device --> Session[Activate Projection Session]
+    Session --> Audit[Write Audit Event]
+    Allowed -->|no| Denied[Return Error 4301]
+    Denied --> Audit

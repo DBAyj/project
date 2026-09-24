@@ -1,0 +1,7 @@
+flowchart LR
+    User[Local User] --> Device[AstraOS Device]
+    Device --> Projector[Projection Device]
+    Device --> Sensors[Camera and Sensors]
+    Device -. policy-approved classified request .-> Cloud[Cloud Model Provider]
+    Developers[Application and Skill Authors] --> SDK[Astra SDK]
+    SDK --> Device

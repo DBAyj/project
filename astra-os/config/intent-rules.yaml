@@ -1,0 +1,37 @@
+version: "1.0"
+example_generation:
+  positive_zh_templates: ["{phrase}", "请{phrase}", "帮我{phrase}", "现在{phrase}", "可以{phrase}吗", "我要{phrase}", "执行{phrase}", "马上{phrase}", "请帮忙{phrase}", "下一步{phrase}"]
+  positive_en_templates: ["{phrase}", "please {phrase}", "could you {phrase}"]
+  ambiguous_templates: ["也许{phrase}", "{phrase}或者取消", "不确定是否{phrase}"]
+  negative_templates: ["不要{phrase}", "别{phrase}", "不要执行{phrase}"]
+rules:
+  - {id: project-model, intent: project_3d_model, priority: 100, locales: [zh-CN, en-US], enabled: true, confidence: 0.98, exact_phrases: ["把设备模型投到桌面上", "显示设备模型", "帮我投影这个模型", "project the device model", "show the 3D device"], keywords: ["模型", "投影"], templates: ["把{model}投到{target}"], default_slots: {model_id: demo-device, target_space: desk}}
+  - {id: start-projection, intent: start_projection, priority: 90, locales: [zh-CN, en-US], enabled: true, confidence: 0.96, exact_phrases: ["开始投影", "打开投影", "start projection"]}
+  - {id: stop-projection, intent: stop_projection, priority: 110, locales: [zh-CN, en-US], enabled: true, confidence: 1.0, exact_phrases: ["停止投影", "关闭投影", "结束展示", "把外部画面关掉", "stop projection", "close the projection"], keywords: ["停止", "投影"]}
+  - {id: pause-projection, intent: pause_projection, priority: 100, locales: [zh-CN, en-US], enabled: true, confidence: 0.98, exact_phrases: ["暂停投影", "暂停旋转", "pause projection"]}
+  - {id: resume-projection, intent: resume_projection, priority: 100, locales: [zh-CN, en-US], enabled: true, confidence: 0.98, exact_phrases: ["继续投影", "继续旋转", "resume projection"]}
+  - {id: reset-projection, intent: reset_projection_view, priority: 90, locales: [zh-CN, en-US], enabled: true, confidence: 0.96, exact_phrases: ["重置投影视角", "重置视角", "reset projection view"]}
+  - {id: enter-fullscreen, intent: enter_projection_fullscreen, priority: 90, locales: [zh-CN, en-US], enabled: true, confidence: 0.97, exact_phrases: ["进入全屏", "投影全屏", "enter fullscreen"]}
+  - {id: exit-fullscreen, intent: exit_projection_fullscreen, priority: 90, locales: [zh-CN, en-US], enabled: true, confidence: 0.97, exact_phrases: ["退出全屏", "离开全屏", "exit fullscreen"]}
+  - {id: rotate-model, intent: rotate_model, priority: 80, locales: [zh-CN, en-US], enabled: true, confidence: 0.92, exact_phrases: ["旋转模型", "把模型向左转", "rotate model"], keywords: ["旋转", "模型"]}
+  - {id: zoom-in, intent: zoom_in_model, priority: 80, locales: [zh-CN, en-US], enabled: true, confidence: 0.92, exact_phrases: ["放大模型", "放大一点", "zoom in"]}
+  - {id: zoom-out, intent: zoom_out_model, priority: 80, locales: [zh-CN, en-US], enabled: true, confidence: 0.92, exact_phrases: ["缩小模型", "缩小一点", "zoom out"]}
+  - {id: reset-model, intent: reset_model, priority: 80, locales: [zh-CN, en-US], enabled: true, confidence: 0.94, exact_phrases: ["重置模型", "恢复模型", "reset model"]}
+  - {id: switch-model, intent: switch_model, priority: 70, locales: [zh-CN, en-US], enabled: true, confidence: 0.82, exact_phrases: ["切换模型", "换一个模型", "switch model"], required_slots: [model_id]}
+  - {id: model-details, intent: show_model_details, priority: 70, locales: [zh-CN, en-US], enabled: true, confidence: 0.90, exact_phrases: ["查看模型详情", "显示模型信息", "show model details"]}
+  - {id: phone-display, intent: show_phone_display, priority: 70, locales: [zh-CN, en-US], enabled: true, confidence: 0.94, exact_phrases: ["显示手机屏幕", "回到手机显示", "show phone display"]}
+  - {id: projection-display, intent: show_projection_display, priority: 70, locales: [zh-CN, en-US], enabled: true, confidence: 0.94, exact_phrases: ["显示投影屏", "查看投影画面", "show projection display"]}
+  - {id: hide-projection, intent: hide_projection_content, priority: 110, locales: [zh-CN, en-US], enabled: true, confidence: 1.0, exact_phrases: ["隐藏投影内容", "清空外部画面", "hide projection content"]}
+  - {id: system-status, intent: show_system_status, priority: 90, locales: [zh-CN, en-US], enabled: true, confidence: 0.98, exact_phrases: ["查看系统状态", "系统怎么样", "show system status"]}
+  - {id: projection-status, intent: show_projection_status, priority: 90, locales: [zh-CN, en-US], enabled: true, confidence: 0.98, exact_phrases: ["查看投影状态", "投影怎么样", "show projection status"]}
+  - {id: privacy-public, intent: set_privacy_public, priority: 90, locales: [zh-CN, en-US], enabled: true, confidence: 0.95, exact_phrases: ["公开展示", "所有人都可以看", "set privacy public"], default_slots: {privacy_level: PUBLIC}}
+  - {id: privacy-room, intent: set_privacy_room_only, priority: 90, locales: [zh-CN, en-US], enabled: true, confidence: 0.95, exact_phrases: ["仅当前房间可见", "只给房间里的人看", "set room only"], default_slots: {privacy_level: ROOM_ONLY}}
+  - {id: privacy-authorized, intent: set_privacy_authorized_person, priority: 90, locales: [zh-CN, en-US], enabled: true, confidence: 0.95, exact_phrases: ["只有授权人员能看", "设为授权人员", "set authorized persons"], default_slots: {privacy_level: AUTHORIZED_PERSON}}
+  - {id: privacy-phone, intent: set_privacy_private_screen_only, priority: 100, locales: [zh-CN, en-US], enabled: true, confidence: 0.98, exact_phrases: ["只在手机上显示", "不要投到外面", "phone screen only"], default_slots: {privacy_level: PRIVATE_SCREEN_ONLY}}
+  - {id: privacy-none, intent: set_privacy_no_projection, priority: 110, locales: [zh-CN, en-US], enabled: true, confidence: 1.0, exact_phrases: ["禁止投影", "不要显示到外面", "disable projection"], default_slots: {privacy_level: NO_PROJECTION}}
+  - {id: help, intent: help, priority: 60, locales: [zh-CN, en-US], enabled: true, confidence: 1.0, exact_phrases: ["帮助", "我能做什么", "help"]}
+  - {id: cancel, intent: cancel, priority: 100, locales: [zh-CN, en-US], enabled: true, confidence: 1.0, exact_phrases: ["取消", "算了", "cancel"]}
+  - {id: confirm, intent: confirm, priority: 100, locales: [zh-CN, en-US], enabled: true, confidence: 1.0, exact_phrases: ["确认", "继续执行", "confirm"]}
+  - {id: reject, intent: reject, priority: 100, locales: [zh-CN, en-US], enabled: true, confidence: 1.0, exact_phrases: ["拒绝", "不要执行", "reject"]}
+  - {id: repeat, intent: repeat_last_action, priority: 60, locales: [zh-CN, en-US], enabled: true, confidence: 0.88, exact_phrases: ["重复上一步", "再来一次", "repeat last action"]}
+  - {id: unknown, intent: unknown, priority: 0, locales: [zh-CN, en-US], enabled: true, confidence: 0.0, exact_phrases: []}

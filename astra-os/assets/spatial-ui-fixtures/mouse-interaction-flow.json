@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "p4_release_status": "P4_RELEASE_BASELINE_FINAL",
+  "events": [
+    {
+      "type": "POINTER_PRESS",
+      "x": 120,
+      "y": 140
+    },
+    {
+      "type": "POINTER_MOVE",
+      "x": 260,
+      "y": 200
+    },
+    {
+      "type": "POINTER_RELEASE",
+      "x": 260,
+      "y": 200
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+flowchart LR
+    App[App or AI Caller] --> Security[Security Service]
+    Security --> Policy[Policy Service]
+    Policy --> Decision[Signed Allow or Deny]
+    Decision --> Service[Privileged Service]
+    Service --> Audit[Audit Service]
+    External[Cloud or Projector]:::external
+    Service --> External
+    classDef external fill:#222,color:#fff,stroke:#aa7

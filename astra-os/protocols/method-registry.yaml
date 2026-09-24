@@ -1,0 +1,198 @@
+version: 1
+methods:
+  - method: projection.start
+    params_schema: schemas/protocols/methods/projection-start.params.schema.json
+    result_schema: schemas/protocols/methods/projection-start.result.schema.json
+    capability: projection.start
+  - method: system.health
+    params_schema: schemas/protocols/methods/system-health.params.schema.json
+    result_schema: schemas/protocols/methods/system-health.result.schema.json
+    capability: system.health.read
+  - method: system.shutdown
+    params_schema: schemas/protocols/methods/system-shutdown.params.schema.json
+    result_schema: schemas/protocols/methods/system-shutdown.result.schema.json
+    capability: system.shutdown
+  - method: event.subscribe
+    params_schema: schemas/protocols/methods/event-subscribe.params.schema.json
+    result_schema: schemas/protocols/methods/event-subscribe.result.schema.json
+    capability: event.subscribe
+  - method: projection.render
+    params_schema: schemas/protocols/methods/projection-render.params.schema.json
+    result_schema: schemas/protocols/methods/projection-render.result.schema.json
+    capability: projection.render
+  - method: projection.layers.submit
+    params_schema: schemas/protocols/methods/projection-layers-submit.params.schema.json
+    result_schema: schemas/protocols/methods/projection-layers-submit.result.schema.json
+    capability: projection.render
+  - method: projection.output.clear
+    params_schema: schemas/protocols/methods/projection-output-clear.params.schema.json
+    result_schema: schemas/protocols/methods/projection-output-clear.result.schema.json
+    capability: projection.control
+  - method: projection.output.frame
+    params_schema: schemas/protocols/methods/projection-output-frame.params.schema.json
+    result_schema: schemas/protocols/methods/projection-output-frame.result.schema.json
+    capability: projection.output.read
+  - method: projection.session.command
+    params_schema: schemas/protocols/methods/projection-session-command.params.schema.json
+    result_schema: schemas/protocols/methods/projection-session-command.result.schema.json
+    capability: projection.control
+  - method: spatial_ui.status
+    params_schema: schemas/protocols/methods/spatial-ui-status.params.schema.json
+    result_schema: schemas/protocols/methods/spatial-ui-status.result.schema.json
+    capability: spatial_ui.read
+  - method: spatial_ui.components
+    params_schema: schemas/protocols/methods/spatial-ui-components.params.schema.json
+    result_schema: schemas/protocols/methods/spatial-ui-components.result.schema.json
+    capability: spatial_ui.read
+  - method: spatial_ui.windows
+    params_schema: schemas/protocols/methods/spatial-ui-windows.params.schema.json
+    result_schema: schemas/protocols/methods/spatial-ui-windows.result.schema.json
+    capability: spatial_ui.read
+  - method: spatial_ui.focus.status
+    params_schema: schemas/protocols/methods/spatial-ui-focus-status.params.schema.json
+    result_schema: schemas/protocols/methods/spatial-ui-focus-status.result.schema.json
+    capability: spatial_ui.read
+  - method: spatial_ui.layout.status
+    params_schema: schemas/protocols/methods/spatial-ui-layout-status.params.schema.json
+    result_schema: schemas/protocols/methods/spatial-ui-layout-status.result.schema.json
+    capability: spatial_ui.read
+  - method: spatial_ui.metrics
+    params_schema: schemas/protocols/methods/spatial-ui-metrics.params.schema.json
+    result_schema: schemas/protocols/methods/spatial-ui-metrics.result.schema.json
+    capability: spatial_ui.read
+  - method: spatial_ui.component.create
+    params_schema: schemas/protocols/methods/spatial-ui-component-create.params.schema.json
+    result_schema: schemas/protocols/methods/spatial-ui-component-create.result.schema.json
+    capability: spatial_ui.write
+  - method: spatial_ui.task.create
+    params_schema: schemas/protocols/methods/spatial-ui-task-create.params.schema.json
+    result_schema: schemas/protocols/methods/spatial-ui-task-create.result.schema.json
+    capability: spatial_ui.write
+  - method: spatial_ui.task.update
+    params_schema: schemas/protocols/methods/spatial-ui-task-update.params.schema.json
+    result_schema: schemas/protocols/methods/spatial-ui-task-update.result.schema.json
+    capability: spatial_ui.write
+  - method: spatial_ui.component.update
+    params_schema: schemas/protocols/methods/spatial-ui-component-update.params.schema.json
+    result_schema: schemas/protocols/methods/spatial-ui-component-update.result.schema.json
+    capability: spatial_ui.write
+  - method: spatial_ui.component.remove
+    params_schema: schemas/protocols/methods/spatial-ui-component-remove.params.schema.json
+    result_schema: schemas/protocols/methods/spatial-ui-component-remove.result.schema.json
+    capability: spatial_ui.write
+  - method: spatial_ui.window.open
+    params_schema: schemas/protocols/methods/spatial-ui-window-open.params.schema.json
+    result_schema: schemas/protocols/methods/spatial-ui-window-open.result.schema.json
+    capability: spatial_ui.write
+  - method: spatial_ui.window.move
+    params_schema: schemas/protocols/methods/spatial-ui-window-move.params.schema.json
+    result_schema: schemas/protocols/methods/spatial-ui-window-move.result.schema.json
+    capability: spatial_ui.input
+  - method: spatial_ui.window.resize
+    params_schema: schemas/protocols/methods/spatial-ui-window-resize.params.schema.json
+    result_schema: schemas/protocols/methods/spatial-ui-window-resize.result.schema.json
+    capability: spatial_ui.input
+  - method: spatial_ui.window.hide
+    params_schema: schemas/protocols/methods/spatial-ui-window-hide.params.schema.json
+    result_schema: schemas/protocols/methods/spatial-ui-window-hide.result.schema.json
+    capability: spatial_ui.write
+  - method: spatial_ui.window.show
+    params_schema: schemas/protocols/methods/spatial-ui-window-show.params.schema.json
+    result_schema: schemas/protocols/methods/spatial-ui-window-show.result.schema.json
+    capability: spatial_ui.write
+  - method: spatial_ui.window.target
+    params_schema: schemas/protocols/methods/spatial-ui-window-target.params.schema.json
+    result_schema: schemas/protocols/methods/spatial-ui-window-target.result.schema.json
+    capability: spatial_ui.write
+  - method: spatial_ui.window.restore
+    params_schema: schemas/protocols/methods/spatial-ui-window-restore.params.schema.json
+    result_schema: schemas/protocols/methods/spatial-ui-window-restore.result.schema.json
+    capability: spatial_ui.write
+  - method: spatial_ui.window.close
+    params_schema: schemas/protocols/methods/spatial-ui-window-close.params.schema.json
+    result_schema: schemas/protocols/methods/spatial-ui-window-close.result.schema.json
+    capability: spatial_ui.write
+  - method: spatial_ui.layout.apply
+    params_schema: schemas/protocols/methods/spatial-ui-layout-apply.params.schema.json
+    result_schema: schemas/protocols/methods/spatial-ui-layout-apply.result.schema.json
+    capability: spatial_ui.write
+  - method: spatial_ui.layout.reset
+    params_schema: schemas/protocols/methods/spatial-ui-layout-reset.params.schema.json
+    result_schema: schemas/protocols/methods/spatial-ui-layout-reset.result.schema.json
+    capability: spatial_ui.write
+  - method: spatial_ui.input
+    params_schema: schemas/protocols/methods/spatial-ui-input.params.schema.json
+    result_schema: schemas/protocols/methods/spatial-ui-input.result.schema.json
+    capability: spatial_ui.input
+  - method: spatial_ui.interaction.cancel
+    params_schema: schemas/protocols/methods/spatial-ui-interaction-cancel.params.schema.json
+    result_schema: schemas/protocols/methods/spatial-ui-interaction-cancel.result.schema.json
+    capability: spatial_ui.input
+  - method: spatial_ui.focus
+    params_schema: schemas/protocols/methods/spatial-ui-focus.params.schema.json
+    result_schema: schemas/protocols/methods/spatial-ui-focus.result.schema.json
+    capability: spatial_ui.input
+  - method: spatial_ui.notification.create
+    params_schema: schemas/protocols/methods/spatial-ui-notification-create.params.schema.json
+    result_schema: schemas/protocols/methods/spatial-ui-notification-create.result.schema.json
+    capability: spatial_ui.write
+  - method: spatial_ui.notification.clear
+    params_schema: schemas/protocols/methods/spatial-ui-notification-clear.params.schema.json
+    result_schema: schemas/protocols/methods/spatial-ui-notification-clear.result.schema.json
+    capability: spatial_ui.write
+  - method: spatial_ui.state.save
+    params_schema: schemas/protocols/methods/spatial-ui-state-save.params.schema.json
+    result_schema: schemas/protocols/methods/spatial-ui-state-save.result.schema.json
+    capability: spatial_ui.write
+  - method: spatial_ui.state.load
+    params_schema: schemas/protocols/methods/spatial-ui-state-load.params.schema.json
+    result_schema: schemas/protocols/methods/spatial-ui-state-load.result.schema.json
+    capability: spatial_ui.read
+  - method: spatial_ui.target.lost
+    params_schema: schemas/protocols/methods/spatial-ui-target-lost.params.schema.json
+    result_schema: schemas/protocols/methods/spatial-ui-target-lost.result.schema.json
+    capability: spatial_ui.system
+  - method: spatial_ui.target.available
+    params_schema: schemas/protocols/methods/spatial-ui-target-available.params.schema.json
+    result_schema: schemas/protocols/methods/spatial-ui-target-available.result.schema.json
+    capability: spatial_ui.system
+  - method: spatial_ui.reset
+    params_schema: schemas/protocols/methods/spatial-ui-reset.params.schema.json
+    result_schema: schemas/protocols/methods/spatial-ui-reset.result.schema.json
+    capability: spatial_ui.write
+  - method: spatial.health
+    params_schema: schemas/protocols/methods/spatial-health.params.schema.json
+    result_schema: schemas/protocols/methods/spatial-health.result.schema.json
+    capability: spatial.read
+  - method: spatial.state
+    params_schema: schemas/protocols/methods/spatial-state.params.schema.json
+    result_schema: schemas/protocols/methods/spatial-state.result.schema.json
+    capability: spatial.read
+  - method: spatial.source.start
+    params_schema: schemas/protocols/methods/spatial-source-start.params.schema.json
+    result_schema: schemas/protocols/methods/spatial-source-start.result.schema.json
+    capability: spatial.control
+  - method: spatial.source.stop
+    params_schema: schemas/protocols/methods/spatial-source-stop.params.schema.json
+    result_schema: schemas/protocols/methods/spatial-source-stop.result.schema.json
+    capability: spatial.control
+  - method: spatial.detect
+    params_schema: schemas/protocols/methods/spatial-detect.params.schema.json
+    result_schema: schemas/protocols/methods/spatial-detect.result.schema.json
+    capability: spatial.control
+  - method: spatial.select
+    params_schema: schemas/protocols/methods/spatial-select.params.schema.json
+    result_schema: schemas/protocols/methods/spatial-select.result.schema.json
+    capability: spatial.control
+  - method: spatial.calibrate
+    params_schema: schemas/protocols/methods/spatial-calibrate.params.schema.json
+    result_schema: schemas/protocols/methods/spatial-calibrate.result.schema.json
+    capability: spatial.control
+  - method: spatial.observer.set
+    params_schema: schemas/protocols/methods/spatial-observer-set.params.schema.json
+    result_schema: schemas/protocols/methods/spatial-observer-set.result.schema.json
+    capability: spatial.observer.write
+  - method: spatial.reset
+    params_schema: schemas/protocols/methods/spatial-reset.params.schema.json
+    result_schema: schemas/protocols/methods/spatial-reset.result.schema.json
+    capability: spatial.control

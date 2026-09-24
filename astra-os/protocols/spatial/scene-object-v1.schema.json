@@ -1,0 +1,7 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://astraos.dev/protocols/spatial/scene-object-v1.schema.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "object_id", "scene_id", "object_type", "model_id", "anchor_id", "coordinate_system", "position", "rotation", "scale", "visibility", "privacy_level", "interaction_enabled", "lifecycle_state"],
+  "properties": {"schema_version": {"const": "1.0"}, "object_id": {"type": "string", "format": "uuid"}, "scene_id": {"type": "string", "format": "uuid"}, "object_type": {"enum": ["MODEL", "OVERLAY", "DEBUG"]}, "model_id": {"type": ["string", "null"], "maxLength": 128}, "anchor_id": {"type": ["string", "null"], "format": "uuid"}, "coordinate_system": {"enum": ["SURFACE_LOCAL", "WORLD_SIMULATED"]}, "position": {"$ref": "#/$defs/vector"}, "rotation": {"$ref": "#/$defs/vector"}, "scale": {"$ref": "#/$defs/vector"}, "visibility": {"type": "boolean"}, "privacy_level": {"enum": ["PUBLIC", "ROOM_ONLY", "AUTHORIZED_PERSON", "PRIVATE_SCREEN_ONLY", "NO_PROJECTION"]}, "interaction_enabled": {"type": "boolean"}, "lifecycle_state": {"enum": ["CREATED", "ACTIVE", "HIDDEN", "SUSPENDED", "REMOVED", "ERROR"]}},
+  "$defs": {"vector": {"type": "object", "additionalProperties": false, "required": ["x", "y", "z"], "properties": {"x": {"type": "number"}, "y": {"type": "number"}, "z": {"type": "number"}}}}
+}

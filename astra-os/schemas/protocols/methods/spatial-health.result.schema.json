@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","additionalProperties":false,"required":["status","state"],"properties":{"status":{"enum":["READY","NOT_READY"]},"state":{"enum":["STOPPED","STARTING","READY","CAPTURING","DETECTING","TRACKING","DEGRADED","LOST","STOPPING","ERROR"]}}}

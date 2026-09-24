@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://astraos.dev/schemas/model-routing.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["routing", "providers", "fallback"],
+  "properties": {
+    "routing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["default_provider", "allow_cloud"],
+      "properties": {
+        "default_provider": {"const": "deterministic-local"},
+        "allow_cloud": {"const": false}
+      }
+    },
+    "providers": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["deterministic-local"],
+      "properties": {
+        "deterministic-local": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["enabled", "adapter", "timeout_ms"],
+          "properties": {
+            "enabled": {"type": "boolean"},
+            "adapter": {"const": "DeterministicIntentModel"},
+            "timeout_ms": {"type": "integer", "minimum": 1, "maximum": 1000}
+          }
+        }
+      }
+    },
+    "fallback": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rule_engine_only"],
+      "properties": {
+        "rule_engine_only": {"type": "boolean"}
+      }
+    }
+  }
+}

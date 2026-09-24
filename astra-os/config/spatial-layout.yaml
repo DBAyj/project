@@ -1,0 +1,6 @@
+layout:
+  default_mode: STACK
+  spacing: 16
+  margin: 24
+  keep_inside_target: true
+  avoid_overlap: true

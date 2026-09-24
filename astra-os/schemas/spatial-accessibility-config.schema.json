@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["accessibility"],
+  "properties": {
+    "accessibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled", "keyboard_navigation", "visible_focus", "reduce_motion", "high_contrast"],
+      "properties": {
+        "enabled": {"type": "boolean"},
+        "keyboard_navigation": {"type": "boolean"},
+        "visible_focus": {"type": "boolean"},
+        "reduce_motion": {"type": "boolean"},
+        "high_contrast": {"type": "boolean"}
+      }
+    }
+  }
+}

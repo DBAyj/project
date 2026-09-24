@@ -1,0 +1,2 @@
+cloud_routing_enabled: false
+default_model_class: local

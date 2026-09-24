@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://astraos.dev/protocols/projection/projection-session-v1.schema.json",
+  "title": "AstraOS P1 projection session",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "session_id", "state", "target_space", "privacy_level", "model_id", "updated_at"],
+  "properties": {
+    "version": {"type": "string", "const": "1.0"},
+    "session_id": {"type": "string", "format": "uuid"},
+    "state": {"type": "string", "enum": ["IDLE", "STARTING", "ACTIVE", "PAUSED", "STOPPING", "DENIED", "ERROR"]},
+    "target_space": {"type": "string", "enum": ["desk", "wall"]},
+    "privacy_level": {"type": "string", "enum": ["PUBLIC", "ROOM_ONLY", "AUTHORIZED_PERSON", "PRIVATE_SCREEN_ONLY", "NO_PROJECTION"]},
+    "model_id": {"type": "string", "const": "demo-device"},
+    "updated_at": {"type": "string", "format": "date-time", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:\\.[0-9]+)?Z$"}
+  }
+}

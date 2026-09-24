@@ -1,0 +1,6 @@
+accessibility:
+  enabled: true
+  keyboard_navigation: true
+  visible_focus: true
+  reduce_motion: false
+  high_contrast: false

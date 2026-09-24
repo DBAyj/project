@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","additionalProperties":false,"required":["cloud_routing_enabled","default_model_class"],"properties":{"cloud_routing_enabled":{"type":"boolean"},"default_model_class":{"enum":["local","cloud"]}}}

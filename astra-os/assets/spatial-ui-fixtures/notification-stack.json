@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "p4_release_status": "P4_RELEASE_BASELINE_FINAL",
+  "layout_mode": "STACK",
+  "notifications": [
+    {
+      "severity": "WARNING",
+      "timeout_ms": 3000
+    },
+    {
+      "severity": "CRITICAL",
+      "timeout_ms": 0
+    }
+  ]
+}

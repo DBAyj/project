@@ -1,0 +1,4 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "type": "object", "additionalProperties": false, "required": ["layout"],
+  "properties": {"layout": {"type": "object", "additionalProperties": false, "required": ["default_mode", "spacing", "margin", "keep_inside_target", "avoid_overlap"], "properties": {"default_mode": {"enum": ["STACK", "GRID", "RADIAL", "FREEFORM", "ANCHOR_RELATIVE"]}, "spacing": {"type": "number", "minimum": 0, "maximum": 1000}, "margin": {"type": "number", "minimum": 0, "maximum": 1000}, "keep_inside_target": {"const": true}, "avoid_overlap": {"type": "boolean"}}}}
+}

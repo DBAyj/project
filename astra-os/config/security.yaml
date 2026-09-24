@@ -1,0 +1,2 @@
+capability_default: deny
+token_ttl_seconds: 300

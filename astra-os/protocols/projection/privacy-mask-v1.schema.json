@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://astraos.dev/protocols/projection/privacy-mask-v1.schema.json",
+  "title": "AstraOS P4 privacy mask",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "mask_id", "mode", "privacy_level", "color"],
+  "properties": {
+    "version": {"const": "1.0"},
+    "mask_id": {"type": "string", "format": "uuid"},
+    "mode": {"enum": ["FULL_CLEAR", "RECTANGLE_MASK", "POLYGON_MASK", "SOLID_MASK"]},
+    "privacy_level": {"enum": ["PUBLIC", "ROOM_ONLY", "AUTHORIZED_PERSON", "PRIVATE_SCREEN_ONLY", "NO_PROJECTION"]},
+    "color": {"type": "string", "pattern": "^#[0-9A-Fa-f]{6}$"},
+    "rectangle": {"type": "object", "additionalProperties": false, "required": ["x", "y", "width", "height"], "properties": {"x": {"type": "integer", "minimum": 0}, "y": {"type": "integer", "minimum": 0}, "width": {"type": "integer", "minimum": 1}, "height": {"type": "integer", "minimum": 1}}},
+    "polygon": {"type": "array", "minItems": 3, "items": {"type": "object", "additionalProperties": false, "required": ["x", "y"], "properties": {"x": {"type": "integer", "minimum": 0}, "y": {"type": "integer", "minimum": 0}}}}
+  },
+  "allOf": [
+    {"if": {"properties": {"mode": {"const": "RECTANGLE_MASK"}}}, "then": {"required": ["rectangle"]}},
+    {"if": {"properties": {"mode": {"const": "POLYGON_MASK"}}}, "then": {"required": ["polygon"]}}
+  ]
+}

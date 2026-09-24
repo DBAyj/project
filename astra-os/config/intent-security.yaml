@@ -1,0 +1,6 @@
+security:
+  detect_prompt_injection: true
+  detect_sensitive_data: true
+  redact_audit_logs: true
+  reject_control_characters: true
+  reject_excessive_repetition: true

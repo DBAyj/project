@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","additionalProperties":false,"required":["public_host","development_http_enabled"],"properties":{"public_host":{"type":"string","pattern":"^(|(?!(localhost|127\\.0\\.0\\.1)$).+)$"},"development_http_enabled":{"type":"boolean"}}}

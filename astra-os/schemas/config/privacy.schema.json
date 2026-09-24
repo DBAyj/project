@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","additionalProperties":false,"required":["room_indicator_required","default_data_classification"],"properties":{"room_indicator_required":{"type":"boolean"},"default_data_classification":{"enum":["public","private","restricted"]}}}

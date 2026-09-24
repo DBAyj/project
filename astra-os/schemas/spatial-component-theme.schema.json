@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "type": "object", "additionalProperties": false,
+  "required": ["background", "surface", "text", "accent", "ai_accent", "projection_accent", "privacy", "success", "warning", "error", "focus_outline", "radius", "shadow", "spacing", "animation_ms", "font_scale"],
+  "properties": {
+    "background": {"$ref": "#/$defs/color"}, "surface": {"$ref": "#/$defs/color"}, "text": {"$ref": "#/$defs/color"}, "accent": {"$ref": "#/$defs/color"}, "ai_accent": {"$ref": "#/$defs/color"}, "projection_accent": {"$ref": "#/$defs/color"}, "privacy": {"$ref": "#/$defs/color"}, "success": {"$ref": "#/$defs/color"}, "warning": {"$ref": "#/$defs/color"}, "error": {"$ref": "#/$defs/color"}, "focus_outline": {"$ref": "#/$defs/color"},
+    "radius": {"type": "number", "minimum": 0, "maximum": 32}, "shadow": {"type": "number", "minimum": 0, "maximum": 64}, "spacing": {"type": "number", "minimum": 1, "maximum": 64}, "animation_ms": {"type": "integer", "minimum": 0, "maximum": 5000}, "font_scale": {"type": "number", "minimum": 0.75, "maximum": 2}
+  },
+  "$defs": {"color": {"type": "string", "pattern": "^#[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})?$"}}
+}

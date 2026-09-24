@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://astraos.dev/protocols/audit/audit-event-v1.schema.json",
+  "title": "AstraOS P1 structured audit event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "timestamp", "level", "service", "module", "event", "trace_id", "request_id", "session_id", "actor", "intent", "privacy_level", "result", "error_code", "message", "details"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0"},
+    "timestamp": {"type": "string", "format": "date-time", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:\\.[0-9]+)?Z$"},
+    "level": {"type": "string", "enum": ["TRACE", "DEBUG", "INFO", "WARN", "ERROR", "FATAL"]},
+    "service": {"type": "string", "const": "astra-shell"},
+    "module": {"type": "string", "minLength": 1},
+    "event": {"type": "string", "minLength": 1},
+    "trace_id": {"type": "string", "format": "uuid"},
+    "request_id": {"type": "string", "format": "uuid"},
+    "session_id": {"type": ["string", "null"], "format": "uuid"},
+    "actor": {"type": "string", "minLength": 1},
+    "intent": {"type": "string", "minLength": 1},
+    "privacy_level": {"type": "string", "enum": ["PUBLIC", "ROOM_ONLY", "AUTHORIZED_PERSON", "PRIVATE_SCREEN_ONLY", "NO_PROJECTION"]},
+    "result": {"type": "string", "enum": ["received", "requested", "success", "failed", "denied", "rejected"]},
+    "error_code": {"type": ["integer", "null"], "minimum": 1000, "maximum": 9999},
+    "message": {"type": "string", "minLength": 1},
+    "details": {"type": "object"}
+  }
+}

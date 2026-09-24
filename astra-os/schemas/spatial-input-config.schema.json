@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["input"],
+  "properties": {
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mouse_enabled", "keyboard_enabled", "touch_enabled", "simulated_gesture_enabled", "double_click_interval_ms", "drag_threshold_pixels"],
+      "properties": {
+        "mouse_enabled": {"type": "boolean"},
+        "keyboard_enabled": {"type": "boolean"},
+        "touch_enabled": {"type": "boolean"},
+        "simulated_gesture_enabled": {"type": "boolean"},
+        "double_click_interval_ms": {"type": "integer", "minimum": 100, "maximum": 2000},
+        "drag_threshold_pixels": {"type": "integer", "minimum": 1, "maximum": 64}
+      }
+    }
+  }
+}

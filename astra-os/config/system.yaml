@@ -1,0 +1,2 @@
+device_id: development-device
+health_check_interval_seconds: 15

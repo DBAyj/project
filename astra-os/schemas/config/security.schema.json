@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","additionalProperties":false,"required":["capability_default","token_ttl_seconds"],"properties":{"capability_default":{"const":"deny"},"token_ttl_seconds":{"type":"integer","minimum":1}}}

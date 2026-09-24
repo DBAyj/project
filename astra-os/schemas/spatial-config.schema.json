@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://astraos.dev/schemas/spatial-config.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["service", "input", "tracking", "quality", "transport", "audit"],
+  "properties": {
+    "service": {"type": "object", "additionalProperties": false, "required": ["name", "version", "processing_fps", "request_timeout_ms"], "properties": {"name": {"const": "astra-spatial-service"}, "version": {"const": "0.3.0-alpha.1"}, "processing_fps": {"type": "integer", "minimum": 1, "maximum": 60}, "request_timeout_ms": {"type": "integer", "minimum": 100, "maximum": 10000}}},
+    "input": {"type": "object", "additionalProperties": false, "required": ["default_source", "fallback_source", "save_debug_frames"], "properties": {"default_source": {"enum": ["CAMERA", "IMAGE", "VIDEO", "SIMULATION"]}, "fallback_source": {"const": "SIMULATION"}, "save_debug_frames": {"type": "boolean"}}},
+    "tracking": {"type": "object", "additionalProperties": false, "required": ["lost_frame_threshold", "degraded_frame_threshold", "stability_window_frames"], "properties": {"lost_frame_threshold": {"type": "integer", "minimum": 1, "maximum": 300}, "degraded_frame_threshold": {"type": "integer", "minimum": 1, "maximum": 300}, "stability_window_frames": {"type": "integer", "minimum": 1, "maximum": 300}}},
+    "quality": {"type": "object", "additionalProperties": false, "required": ["auto_select_minimum", "manual_confirm_minimum"], "properties": {"auto_select_minimum": {"enum": ["EXCELLENT", "GOOD"]}, "manual_confirm_minimum": {"enum": ["EXCELLENT", "GOOD", "FAIR"]}}},
+    "transport": {"type": "object", "additionalProperties": false, "required": ["socket_path"], "properties": {"socket_path": {"type": "string", "pattern": "^runtime/spatial/sockets/[A-Za-z0-9._-]+$"}}},
+    "audit": {"type": "object", "additionalProperties": false, "required": ["path"], "properties": {"path": {"type": "string", "pattern": "^runtime/audit/[A-Za-z0-9._-]+\\.jsonl$"}}}
+  }
+}

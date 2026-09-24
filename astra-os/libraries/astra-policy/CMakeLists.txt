@@ -1,0 +1,11 @@
+add_library(astra-policy src/ProjectionPolicyService.cpp)
+target_include_directories(astra-policy PUBLIC include)
+target_link_libraries(astra-policy PUBLIC Qt6::Core astra-common)
+target_compile_features(astra-policy PUBLIC cxx_std_20)
+target_compile_options(astra-policy PRIVATE -Wall -Wextra -Wpedantic -Werror)
+
+if(BUILD_TESTING)
+    add_executable(astra-policy-tests tests/projection_policy_service_test.cpp)
+    target_link_libraries(astra-policy-tests PRIVATE astra-policy)
+    add_test(NAME astra-policy-tests COMMAND astra-policy-tests)
+endif()

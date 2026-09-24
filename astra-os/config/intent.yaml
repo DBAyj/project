@@ -1,0 +1,39 @@
+service:
+  name: astra-intent-service
+  version: 0.2.0-alpha.1
+  default_locale: zh-CN
+  request_timeout_ms: 1000
+confidence:
+  auto_execute_threshold: 0.85
+  confirmation_threshold: 0.65
+  reject_threshold: 0.45
+  ambiguity_delta: 0.10
+pipeline:
+  enable_rule_engine: true
+  enable_local_model: true
+  enable_cache: true
+  enable_security_preprocessing: true
+limits:
+  max_input_characters: 2000
+  max_batch_size: 1
+  max_repeated_characters: 100
+cache:
+  enabled: true
+  max_entries: 1000
+  ttl_seconds: 300
+confirmation:
+  ttl_seconds: 30
+candidate_merger:
+  rule_engine_weight: 0.60
+  local_model_weight: 0.40
+  agreement_bonus: 0.08
+  context_bonus: 0.05
+  conflict_penalty: 0.20
+  missing_slot_penalty: 0.25
+transport:
+  socket_path: runtime/intent/sockets/astra-intent.sock
+  http_enabled: true
+  http_host: ""
+  http_port: 8765
+audit:
+  path: runtime/audit/intent-audit.jsonl

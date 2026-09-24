@@ -1,0 +1,7 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://astraos.dev/protocols/spatial/surface-candidate-v1.schema.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "surface_id", "surface_type", "confidence", "corners", "area_ratio", "aspect_ratio", "stability_score", "score", "quality", "coordinate_system"],
+  "properties": {"schema_version": {"const": "1.0"}, "surface_id": {"type": "string", "format": "uuid"}, "surface_type": {"enum": ["DESK", "WALL", "SCREEN", "UNKNOWN"]}, "confidence": {"type": "number", "minimum": 0, "maximum": 1}, "corners": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"$ref": "#/$defs/point"}}, "area_ratio": {"type": "number", "minimum": 0, "maximum": 1}, "aspect_ratio": {"type": "number", "exclusiveMinimum": 0}, "stability_score": {"type": "number", "minimum": 0, "maximum": 1}, "score": {"type": "number", "minimum": 0, "maximum": 1}, "quality": {"$ref": "#/$defs/quality"}, "coordinate_system": {"const": "IMAGE_PIXEL"}},
+  "$defs": {"point": {"type": "object", "additionalProperties": false, "required": ["x", "y", "coordinate_system"], "properties": {"x": {"type": "number"}, "y": {"type": "number"}, "coordinate_system": {"const": "IMAGE_PIXEL"}}}, "quality": {"enum": ["EXCELLENT", "GOOD", "FAIR", "POOR", "UNUSABLE"]}}
+}

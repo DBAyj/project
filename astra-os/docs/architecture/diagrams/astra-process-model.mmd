@@ -1,0 +1,12 @@
+flowchart TB
+    Shell[astra-shell] --> Core[astra-core-service]
+    Shell --> AI[astra-ai-service]
+    Core --> Projection[astra-projection-service]
+    Core --> Security[astra-security-service]
+    AI --> Security
+    Projection --> Security
+    Core --> Audit[astra-audit-service]
+    AI --> Audit
+    Projection --> Audit
+    Update[astra-update-service] --> Security
+    Update --> Audit

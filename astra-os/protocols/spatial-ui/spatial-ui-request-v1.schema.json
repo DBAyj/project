@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://astraos.dev/protocols/spatial-ui/spatial-ui-request-v1.schema.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "request_id", "trace_id", "session_id", "action", "actor", "privacy_level", "payload", "submitted_at", "p4_release_status"],
+  "properties": {
+    "schema_version": {"const": "1.0"}, "request_id": {"type": "string", "format": "uuid"}, "trace_id": {"type": "string", "format": "uuid"}, "session_id": {"type": "string", "format": "uuid"},
+    "action": {"enum": ["COMPONENT_CREATE", "COMPONENT_REMOVE", "COMPONENT_TRANSITION", "WINDOW_CREATE", "WINDOW_MOVE", "WINDOW_RESIZE", "WINDOW_CLOSE", "LAYOUT_APPLY", "FOCUS_REQUEST", "INPUT_ROUTE", "NOTIFICATION_CREATE", "STATE_SAVE", "STATE_LOAD", "TARGET_LOST", "HEALTH"]},
+    "actor": {"type": "string", "minLength": 1, "maxLength": 128}, "privacy_level": {"enum": ["PUBLIC", "ROOM_ONLY", "AUTHORIZED_PERSON", "PRIVATE_SCREEN_ONLY", "NO_PROJECTION"]},
+    "payload": {"type": "object"}, "submitted_at": {"type": "string", "format": "date-time", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,6})?Z$"}, "p4_release_status": {"const": "P4_RELEASE_BASELINE_FINAL"}
+  }
+}

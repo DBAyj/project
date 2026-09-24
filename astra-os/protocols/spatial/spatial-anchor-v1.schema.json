@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://astraos.dev/protocols/spatial/spatial-anchor-v1.schema.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "anchor_id", "anchor_type", "coordinate_system", "transform", "quality", "persistent", "created_at", "last_updated_at"],
+  "properties": {"schema_version": {"const": "1.0"}, "anchor_id": {"type": "string", "format": "uuid"}, "anchor_type": {"enum": ["PROJECTION_SURFACE", "SCENE_ORIGIN", "OBJECT"]}, "coordinate_system": {"enum": ["SURFACE_LOCAL", "WORLD_SIMULATED"]}, "transform": {"type": "array", "minItems": 16, "maxItems": 16, "items": {"type": "number"}}, "quality": {"enum": ["EXCELLENT", "GOOD", "FAIR", "POOR", "UNUSABLE"]}, "persistent": {"const": false}, "created_at": {"type": "string", "format": "date-time"}, "last_updated_at": {"type": "string", "format": "date-time"}}
+}

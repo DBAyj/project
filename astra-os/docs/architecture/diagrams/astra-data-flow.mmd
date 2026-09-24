@@ -1,0 +1,10 @@
+flowchart LR
+    User[User Request] --> Intent[Intent]
+    Intent --> Task[Task Engine]
+    Task --> Policy[Policy Decision]
+    Policy --> Service[System Service]
+    Service --> Phone[Private Phone UI]
+    Policy --> Projection[Public Projection]
+    Task --> Audit[Audit Event]
+    Service --> Audit
+    Projection --> Audit

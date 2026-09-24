@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://astraos.dev/schemas/camera-config.schema.json",
+  "type": "object", "additionalProperties": false, "required": ["camera"],
+  "properties": {"camera": {"type": "object", "additionalProperties": false, "required": ["preferred_device_id", "preferred_width", "preferred_height", "preferred_fps", "permission_fallback_to_simulation"], "properties": {"preferred_device_id": {"type": "string", "maxLength": 256}, "preferred_width": {"type": "integer", "minimum": 160, "maximum": 7680}, "preferred_height": {"type": "integer", "minimum": 120, "maximum": 4320}, "preferred_fps": {"type": "integer", "minimum": 1, "maximum": 120}, "permission_fallback_to_simulation": {"type": "boolean"}}}}
+}

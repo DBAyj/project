@@ -1,0 +1,24 @@
+application:
+  name: "AstraOS Simulator"
+  version: "0.1.0-alpha.1"
+  locale: "zh-CN"
+display:
+  phone:
+    width: 430
+    height: 860
+  projection:
+    width: 1280
+    height: 720
+    start_fullscreen: false
+projection:
+  default_target: "desk"
+  auto_rotate: true
+  rotation_speed: 1.0
+  default_zoom: 1.0
+authorization:
+  simulated_authorized: false
+logging:
+  level: "INFO"
+  audit_path: "runtime/audit/audit.jsonl"
+runtime:
+  recent_task_limit: 10

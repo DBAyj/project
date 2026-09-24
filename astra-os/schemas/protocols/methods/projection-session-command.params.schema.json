@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","additionalProperties":false,"required":["session_id","command"],"properties":{"session_id":{"type":"string","format":"uuid"},"command":{"enum":["INITIALIZE","READY","RENDER","PAUSE","RESUME","CLEAR","STOP"]}}}

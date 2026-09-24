@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://astraos.dev/protocols/spatial-ui/spatial-component-v1.schema.json",
+  "title": "AstraOS P5 spatial component",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "component_id", "component_type", "parent_id", "children", "bounds", "transform", "z_order", "opacity", "visible", "enabled", "focusable", "interactive", "privacy_level", "accessibility_label", "lifecycle_state", "created_at", "updated_at"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "component_id": {"type": "string", "format": "uuid"},
+    "component_type": {"enum": ["SPATIAL_WINDOW", "TASK_CARD", "SYSTEM_PANEL", "NOTIFICATION", "BUTTON", "TOGGLE", "SLIDER", "LABEL", "IMAGE", "MODEL_VIEW", "PRIVACY_BADGE", "CONTEXT_MENU", "DEBUG_PANEL", "SYSTEM_SECURITY_OVERLAY", "PRIVACY_MASK", "SYSTEM_CRITICAL_ALERT"]},
+    "parent_id": {"type": ["string", "null"], "format": "uuid"},
+    "children": {"type": "array", "uniqueItems": true, "items": {"type": "string", "format": "uuid"}},
+    "bounds": {"$ref": "#/$defs/bounds"},
+    "transform": {"$ref": "#/$defs/transform"},
+    "z_order": {"type": "integer", "minimum": 0, "maximum": 100000},
+    "opacity": {"type": "number", "minimum": 0, "maximum": 1},
+    "visible": {"type": "boolean"},
+    "enabled": {"type": "boolean"},
+    "focusable": {"type": "boolean"},
+    "interactive": {"type": "boolean"},
+    "privacy_level": {"$ref": "#/$defs/privacy"},
+    "accessibility_label": {"type": "string", "minLength": 1, "maxLength": 256},
+    "lifecycle_state": {"enum": ["CREATED", "ATTACHED", "VISIBLE", "FOCUSED", "INTERACTING", "HIDDEN", "SUSPENDED", "DETACHED", "DESTROYED", "ERROR"]},
+    "created_at": {"type": "string", "format": "date-time", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,6})?Z$"},
+    "updated_at": {"type": "string", "format": "date-time", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,6})?Z$"}
+  },
+  "$defs": {
+    "privacy": {"enum": ["PUBLIC", "ROOM_ONLY", "AUTHORIZED_PERSON", "PRIVATE_SCREEN_ONLY", "NO_PROJECTION"]},
+    "bounds": {"type": "object", "additionalProperties": false, "required": ["x", "y", "width", "height"], "properties": {"x": {"type": "number"}, "y": {"type": "number"}, "width": {"type": "number", "exclusiveMinimum": 0}, "height": {"type": "number", "exclusiveMinimum": 0}}},
+    "transform": {"type": "object", "additionalProperties": false, "required": ["translation_x", "translation_y", "rotation_degrees", "scale"], "properties": {"translation_x": {"type": "number"}, "translation_y": {"type": "number"}, "rotation_degrees": {"type": "number", "minimum": -360, "maximum": 360}, "scale": {"type": "number", "exclusiveMinimum": 0, "maximum": 100}}}
+  }
+}

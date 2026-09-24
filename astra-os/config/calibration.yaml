@@ -1,0 +1,5 @@
+calibration:
+  minimum_quadrilateral_area: 10000
+  maximum_reprojection_error_pixels: 3.0
+  save_profiles: true
+  profile_version: "1.0"

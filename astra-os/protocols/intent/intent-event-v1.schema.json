@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://astraos.dev/protocols/intent/intent-event-v1.schema.json",
+  "title": "AstraOS Intent Event v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "event_id", "timestamp", "level", "service", "event", "trace_id", "request_id", "session_id", "intent", "confidence", "execution_policy", "duration_ms", "result", "error_code", "details"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "event_id": {"type": "string", "format": "uuid"},
+    "timestamp": {"type": "string", "format": "date-time", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:\\.[0-9]+)?Z$"},
+    "level": {"type": "string", "enum": ["INFO", "WARN", "ERROR"]},
+    "service": {"const": "astra-intent-service"},
+    "event": {"type": "string", "enum": ["intent_request_received", "input_normalized", "sensitive_data_detected", "prompt_injection_detected", "rule_engine_completed", "local_model_completed", "candidate_merge_completed", "slot_extraction_completed", "ambiguity_detected", "confirmation_required", "confirmation_accepted", "confirmation_rejected", "intent_auto_executed", "intent_rejected", "intent_fallback_used", "intent_cache_hit", "intent_request_completed", "intent_service_error"]},
+    "trace_id": {"type": "string", "format": "uuid"},
+    "request_id": {"type": "string", "format": "uuid"},
+    "session_id": {"type": ["string", "null"], "format": "uuid"},
+    "intent": {"type": ["string", "null"], "enum": ["project_3d_model", "start_projection", "stop_projection", "pause_projection", "resume_projection", "reset_projection_view", "enter_projection_fullscreen", "exit_projection_fullscreen", "rotate_model", "zoom_in_model", "zoom_out_model", "reset_model", "switch_model", "show_model_details", "show_phone_display", "show_projection_display", "hide_projection_content", "show_system_status", "show_projection_status", "set_privacy_public", "set_privacy_room_only", "set_privacy_authorized_person", "set_privacy_private_screen_only", "set_privacy_no_projection", "help", "cancel", "confirm", "reject", "repeat_last_action", "unknown", null]},
+    "confidence": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+    "execution_policy": {"type": ["string", "null"], "enum": ["AUTO_EXECUTE", "REQUIRE_CONFIRMATION", "ASK_CLARIFICATION", "REJECT", null]},
+    "duration_ms": {"type": "number", "minimum": 0},
+    "result": {"type": "string", "enum": ["success", "rejected", "error"]},
+    "error_code": {"type": ["integer", "null"], "minimum": 1000, "maximum": 9999},
+    "details": {"type": "object"}
+  }
+}

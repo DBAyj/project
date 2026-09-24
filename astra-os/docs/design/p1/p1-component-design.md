@@ -1,0 +1,7 @@
+# P1 Component Design
+
+`AstraApplication` creates one `ShellController` and one `QQmlApplicationEngine`. It loads `PhoneWindow` and `ProjectionWindow` as separate QML root windows from the same module and supplies the same controller as an initial property. This creates two independent native Qt windows in one application process without granting either QML window access to the other. `Main.qml` remains a module composition reference; runtime startup loads the two native-window roots directly so each becomes a visible top-level `QQuickWindow`.
+
+`ShellController` coordinates `IntentSimulator`, `ProjectionPolicyService`, `ProjectionSessionService`, `AuditLogService`, `ConfigurationService`, `SystemStateModel`, `TaskModel`, and `ProjectionStateModel`. It requests a policy decision before a projection start, invokes the session service only with an approved decision, updates state models, and emits audit events. `ProjectionPolicyService` is the only P1 component that evaluates privacy and simulated authorization. `ProjectionSessionService` owns session IDs and legal state transitions only.
+
+After the scene graph initializes, `AstraApplication` queries Qt's public renderer interface and writes the selected graphics API, RHI backend, and window title to the process log. The P1 startup script uses `nohup` so its project-scoped PID remains available for the corresponding stop script in non-interactive development sessions. P1 remains a one-process simulator while preserving the future service boundary.

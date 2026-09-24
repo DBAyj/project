@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","additionalProperties":false,"required":["task_id","state"],"properties":{"task_id":{"type":"string","minLength":1},"state":{"enum":["PENDING","RUNNING","PAUSED","CANCELLED","SUCCEEDED","FAILED","ROLLED_BACK"]}}}

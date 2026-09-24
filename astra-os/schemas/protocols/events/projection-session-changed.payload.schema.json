@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","additionalProperties":false,"required":["session_id","status","privacy_level"],"properties":{"session_id":{"type":"string","minLength":1},"status":{"enum":["REQUESTED","ACTIVE","CLOSED","DENIED"]},"privacy_level":{"enum":["PUBLIC","ROOM_ONLY","AUTHORIZED_PERSON","PRIVATE_SCREEN_ONLY","NO_PROJECTION"]}}}

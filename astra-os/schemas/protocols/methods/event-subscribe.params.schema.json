@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","additionalProperties":false,"required":["event"],"properties":{"event":{"enum":["projection.session_changed","task.state_changed","system.health_changed","projection.render_state_changed","projection.safe_cleared","spatial.state_changed","spatial_ui.event"]}}}

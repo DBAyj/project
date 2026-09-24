@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "type": "object", "additionalProperties": false, "required": ["service", "runtime", "display", "privacy"],
+  "properties": {
+    "service": {"type": "object", "additionalProperties": false, "required": ["name", "version"], "properties": {"name": {"const": "astra-spatial-ui-service"}, "version": {"const": "0.5.0-alpha.1"}}},
+    "runtime": {"type": "object", "additionalProperties": false, "required": ["maximum_components", "maximum_windows", "state_persistence", "autosave_interval_seconds"], "properties": {"maximum_components": {"type": "integer", "minimum": 1, "maximum": 5000}, "maximum_windows": {"type": "integer", "minimum": 1, "maximum": 100}, "state_persistence": {"type": "boolean"}, "autosave_interval_seconds": {"type": "integer", "minimum": 1, "maximum": 3600}}},
+    "display": {"type": "object", "additionalProperties": false, "required": ["default_target", "projection_target_enabled"], "properties": {"default_target": {"enum": ["PHONE", "PROJECTION", "BOTH"]}, "projection_target_enabled": {"type": "boolean"}}},
+    "privacy": {"type": "object", "additionalProperties": false, "required": ["default_level", "require_policy_check", "public_fixture_subject_id"], "properties": {"default_level": {"enum": ["PUBLIC", "ROOM_ONLY", "AUTHORIZED_PERSON", "PRIVATE_SCREEN_ONLY", "NO_PROJECTION"]}, "require_policy_check": {"const": true}, "public_fixture_subject_id": {"type": "string", "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"}}}
+  }
+}

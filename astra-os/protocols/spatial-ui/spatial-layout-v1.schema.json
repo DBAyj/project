@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://astraos.dev/protocols/spatial-ui/spatial-layout-v1.schema.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "layout_id", "mode", "direction", "component_ids", "spacing", "margin", "safe_area", "updated_at"],
+  "properties": {
+    "schema_version": {"const": "1.0"}, "layout_id": {"type": "string", "format": "uuid"}, "mode": {"enum": ["STACK", "GRID", "RADIAL", "FREEFORM", "ANCHOR_RELATIVE"]},
+    "direction": {"enum": ["VERTICAL", "HORIZONTAL"]}, "component_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "format": "uuid"}},
+    "spacing": {"type": "number", "minimum": 0, "maximum": 1000}, "margin": {"type": "number", "minimum": 0, "maximum": 1000},
+    "safe_area": {"type": "object", "additionalProperties": false, "required": ["x", "y", "width", "height"], "properties": {"x": {"type": "number"}, "y": {"type": "number"}, "width": {"type": "number", "exclusiveMinimum": 0}, "height": {"type": "number", "exclusiveMinimum": 0}}},
+    "updated_at": {"type": "string", "format": "date-time", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,6})?Z$"}
+  }
+}

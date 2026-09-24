@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://astraos.dev/protocols/projection/render-graph-v1.schema.json",
+  "title": "AstraOS P4 render graph",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "graph_id", "passes"],
+  "properties": {
+    "version": {"const": "1.0"},
+    "graph_id": {"type": "string", "format": "uuid"},
+    "passes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["pass_id", "depends_on"],
+        "properties": {
+          "pass_id": {"enum": ["InputPass", "ScenePass", "LayerCompositionPass", "CropAndOverscanPass", "GeometryWarpPass", "ColorCompensationPass", "PrivacyMaskPass", "OutputPass"]},
+          "depends_on": {"type": "array", "uniqueItems": true, "items": {"enum": ["InputPass", "ScenePass", "LayerCompositionPass", "CropAndOverscanPass", "GeometryWarpPass", "ColorCompensationPass", "PrivacyMaskPass", "OutputPass"]}}
+        }
+      }
+    }
+  }
+}

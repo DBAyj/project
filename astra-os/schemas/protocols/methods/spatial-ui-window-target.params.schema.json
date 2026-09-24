@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","additionalProperties":false,"required":["window_id","display_target","projection_target"],"properties":{"window_id":{"type":"string","format":"uuid"},"display_target":{"enum":["PHONE","PROJECTION","BOTH"]},"projection_target":{"type":["string","null"]}}}
