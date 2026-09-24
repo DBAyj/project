@@ -34,3 +34,21 @@
 | P5-SERVICE-001 | Independent capability-protected Spatial UI runtime | astra-spatial-ui-service | [P5 System Design](../design/p5/p5-system-design.md) | contract, integration | P5 |
 | P5-SHELL-001 | Shared Phone and Projection spatial workspace model | astra-shell | [P5 System Design](../design/p5/p5-system-design.md) | QML, graphics | P5 |
 | P5-TEST-001 | Measured P5 release gate with real Metal evidence | P5 verification | [P5 Test Design](../design/p5/p5-test-design.md) | release gate | P5 |
+
+## Implementation Status
+
+The implementation phases above are the frozen roadmap assignments. The
+requirements below were not delivered by their assigned phase and are deferred
+without a schedule; see
+[ADR-0027](../architecture/adr/ADR-0027-record-deferred-roadmap-modules.md).
+Requirements not listed here are delivered by their assigned phase.
+
+| Requirement ID | Status | Current coverage |
+| --- | --- | --- |
+| FR-TASK-001 | Deferred | None; P5 task surfaces are UI state without ordered steps |
+| FR-TASK-002 | Deferred | None; no retry, pause, resume, or compensation engine |
+| FR-AI-001 | Partial | Deterministic local model adapter in `astra-intent-service`; no router or cloud route |
+| FR-MEMORY-001 | Deferred | None |
+| FR-CONFIG-001 | Partial | Strict schema validation in the Shell and the Spatial UI service; no `astra-settings` service |
+| FR-UPDATE-001 | Deferred | Configuration and schema only (`config/update.yaml`) |
+| FR-UPDATE-002 | Deferred | None |
