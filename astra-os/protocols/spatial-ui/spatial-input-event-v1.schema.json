@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://astraos.dev/protocols/spatial-ui/spatial-input-event-v1.schema.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "event_id", "event_type", "source_type", "source_id", "target_component_id", "position", "modifiers", "timestamp"],
+  "allOf": [
+    {"if":{"properties":{"event_type":{"enum":["GESTURE_SCALE","GESTURE_ROTATE"]}}},"then":{"required":["interaction_value"]},"else":{"not":{"required":["interaction_value"]}}},
+    {"if":{"properties":{"event_type":{"const":"GESTURE_SCALE"}}},"then":{"properties":{"interaction_value":{"minimum":0.1,"maximum":10}}}},
+    {"if":{"properties":{"event_type":{"const":"GESTURE_ROTATE"}}},"then":{"properties":{"interaction_value":{"minimum":-360,"maximum":360}}}},
+    {"if":{"properties":{"event_type":{"const":"AI_ACTION"}}},"then":{"required":["action"],"properties":{"source_type":{"enum":["SYSTEM","AI_INTENT"]}}},"else":{"not":{"required":["action"]}}}
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"}, "event_id": {"type": "string", "format": "uuid"},
+    "event_type": {"enum": ["POINTER_MOVE", "POINTER_PRESS", "POINTER_RELEASE", "POINTER_SCROLL", "KEY_PRESS", "KEY_RELEASE", "TOUCH_BEGIN", "TOUCH_UPDATE", "TOUCH_END", "GESTURE_SELECT", "GESTURE_GRAB", "GESTURE_RELEASE", "GESTURE_SCALE", "GESTURE_ROTATE", "SYSTEM_FOCUS", "AI_ACTION"]},
+    "source_type": {"enum": ["MOUSE", "KEYBOARD", "TOUCH", "SIMULATED_GESTURE", "SYSTEM", "AI_INTENT"]}, "source_id": {"type": "string", "minLength": 1, "maxLength": 128},
+    "target_component_id": {"type": ["string", "null"], "format": "uuid"},
+    "position": {"type": ["object", "null"], "additionalProperties": false, "required": ["coordinate_system", "x", "y"], "properties": {"coordinate_system": {"enum": ["PHONE_VIEW", "PROJECTION_VIEW", "TARGET_LOCAL", "ANCHOR_LOCAL"]}, "x": {"type": "number"}, "y": {"type": "number"}}},
+    "interaction_value": {"type":"number"},
+    "action": {"type": "string", "minLength": 1, "maxLength": 128},
+    "modifiers": {"type": "array", "uniqueItems": true, "items": {"enum": ["SHIFT", "CONTROL", "ALT", "META"]}}, "timestamp": {"type": "string", "format": "date-time", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,6})?Z$"}
+  }
+}

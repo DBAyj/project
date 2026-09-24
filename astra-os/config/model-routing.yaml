@@ -1,0 +1,10 @@
+routing:
+  default_provider: deterministic-local
+  allow_cloud: false
+providers:
+  deterministic-local:
+    enabled: true
+    adapter: DeterministicIntentModel
+    timeout_ms: 200
+fallback:
+  rule_engine_only: true

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://astraos.dev/protocols/spatial-ui/spatial-notification-v1.schema.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "notification_id", "title", "message", "severity", "privacy_level", "display_target", "timeout_ms", "requires_action", "actions", "created_at", "expires_at"],
+  "properties": {
+    "schema_version": {"const": "1.0"}, "notification_id": {"type": "string", "format": "uuid"}, "title": {"type": "string", "minLength": 1, "maxLength": 160},
+    "message": {"type": "string", "minLength": 1, "maxLength": 2048}, "severity": {"enum": ["INFO", "SUCCESS", "WARNING", "ERROR", "CRITICAL"]},
+    "privacy_level": {"enum": ["PUBLIC", "ROOM_ONLY", "AUTHORIZED_PERSON", "PRIVATE_SCREEN_ONLY", "NO_PROJECTION"]}, "display_target": {"enum": ["PHONE", "PROJECTION", "BOTH"]},
+    "timeout_ms": {"type": "integer", "minimum": 0, "maximum": 86400000}, "requires_action": {"type": "boolean"},
+    "actions": {"type": "array", "maxItems": 8, "items": {"type": "string", "minLength": 1, "maxLength": 128}}, "created_at": {"type": "string", "format": "date-time", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,6})?Z$"}, "expires_at": {"type": ["string", "null"], "format": "date-time", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,6})?Z$"}
+  }
+}

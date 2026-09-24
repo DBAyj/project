@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","additionalProperties":false,"required":["window_id","x","y"],"properties":{"window_id":{"type":"string","format":"uuid"},"x":{"type":"number"},"y":{"type":"number"}}}

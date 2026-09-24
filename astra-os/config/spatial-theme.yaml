@@ -1,0 +1,16 @@
+background: "#0d1117"
+surface: "#1d2633"
+text: "#f2f5f8"
+accent: "#66a6ff"
+ai_accent: "#b696ff"
+projection_accent: "#4ed5b2"
+privacy: "#f06c85"
+success: "#52c78f"
+warning: "#f2bb5c"
+error: "#f06c85"
+focus_outline: "#ffffff"
+radius: 6
+shadow: 8
+spacing: 16
+animation_ms: 220
+font_scale: 1.0

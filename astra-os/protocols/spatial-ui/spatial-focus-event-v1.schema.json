@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://astraos.dev/protocols/spatial-ui/spatial-focus-event-v1.schema.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "event_id", "scope_id", "previous_component_id", "component_id", "focus_type", "priority", "reason", "timestamp"],
+  "properties": {
+    "schema_version": {"const": "1.0"}, "event_id": {"type": "string", "format": "uuid"}, "scope_id": {"type": "string", "minLength": 1, "maxLength": 128},
+    "previous_component_id": {"type": ["string", "null"], "format": "uuid"}, "component_id": {"type": ["string", "null"], "format": "uuid"},
+    "focus_type": {"enum": ["NONE", "KEYBOARD", "POINTER", "TOUCH", "GESTURE_SIMULATED", "SYSTEM"]},
+    "priority": {"enum": ["SYSTEM", "PRIVACY_CONFIRMATION", "MODAL", "ACTIVE_WINDOW", "NORMAL_COMPONENT", "BACKGROUND"]},
+    "reason": {"type": "string", "minLength": 1, "maxLength": 256}, "timestamp": {"type": "string", "format": "date-time", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,6})?Z$"}
+  }
+}

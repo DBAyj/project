@@ -1,0 +1,20 @@
+service:
+  name: astra-spatial-service
+  version: 0.3.0-alpha.1
+  processing_fps: 15
+  request_timeout_ms: 1000
+input:
+  default_source: SIMULATION
+  fallback_source: SIMULATION
+  save_debug_frames: false
+tracking:
+  lost_frame_threshold: 10
+  degraded_frame_threshold: 5
+  stability_window_frames: 15
+quality:
+  auto_select_minimum: GOOD
+  manual_confirm_minimum: FAIR
+transport:
+  socket_path: runtime/spatial/sockets/astra-spatial.sock
+audit:
+  path: runtime/audit/spatial-audit.jsonl

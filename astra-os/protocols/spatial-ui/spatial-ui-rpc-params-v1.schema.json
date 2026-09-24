@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://astraos.dev/protocols/spatial-ui/spatial-ui-rpc-params-v1.schema.json",
+  "title": "AstraOS P5 Spatial UI JSON-RPC parameters",
+  "oneOf": [
+    {"type": "object", "maxProperties": 0},
+    {"type": "object", "additionalProperties": false, "required": ["component_id", "component_type", "privacy_level", "accessibility_label", "bounds", "display_target"], "properties": {"component_id": {"type": "string", "format": "uuid"}, "component_type": {"enum": ["SPATIAL_WINDOW", "TASK_CARD", "SYSTEM_PANEL", "NOTIFICATION", "BUTTON", "TOGGLE", "SLIDER", "LABEL", "IMAGE", "MODEL_VIEW", "PRIVACY_BADGE", "CONTEXT_MENU", "DEBUG_PANEL"]}, "privacy_level": {"enum": ["PUBLIC", "ROOM_ONLY", "AUTHORIZED_PERSON", "PRIVATE_SCREEN_ONLY", "NO_PROJECTION"]}, "accessibility_label": {"type": "string", "minLength": 1}, "bounds": {"$ref": "#/$defs/bounds"}, "display_target": {"enum": ["PHONE", "PROJECTION", "BOTH"]}}},
+    {"type": "object", "additionalProperties": false, "required": ["component_id"], "properties": {"component_id": {"type": "string", "format": "uuid"}}},
+    {"type": "object", "additionalProperties": false, "required": ["window_id", "component_id", "bounds", "display_target", "projection_target"], "properties": {"window_id": {"type": "string", "format": "uuid"}, "component_id": {"type": "string", "format": "uuid"}, "bounds": {"$ref": "#/$defs/bounds"}, "display_target": {"enum": ["PHONE", "PROJECTION", "BOTH"]}, "projection_target": {"type": ["string", "null"]}}},
+    {"type": "object", "additionalProperties": false, "required": ["window_id", "x", "y"], "properties": {"window_id": {"type": "string", "format": "uuid"}, "x": {"type": "number"}, "y": {"type": "number"}}},
+    {"type": "object", "additionalProperties": false, "required": ["window_id", "width", "height"], "properties": {"window_id": {"type": "string", "format": "uuid"}, "width": {"type": "number", "exclusiveMinimum": 0}, "height": {"type": "number", "exclusiveMinimum": 0}}},
+    {"type": "object", "additionalProperties": false, "required": ["window_id"], "properties": {"window_id": {"type": "string", "format": "uuid"}}},
+    {"type": "object", "additionalProperties": false, "required": ["component_id", "reason"], "properties": {"component_id": {"type": "string", "format": "uuid"}, "reason": {"type": "string", "minLength": 1}}}
+  ],
+  "$defs": {"bounds": {"type": "object", "additionalProperties": false, "required": ["x", "y", "width", "height"], "properties": {"x": {"type": "number"}, "y": {"type": "number"}, "width": {"type": "number", "exclusiveMinimum": 0}, "height": {"type": "number", "exclusiveMinimum": 0}}}}
+}

@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0",
+  "p4_release_status": "P4_RELEASE_BASELINE_FINAL",
+  "events": [
+    {
+      "type": "KEY_PRESS",
+      "key": "TAB",
+      "expected_target": "c38c0e21-96f1-4975-8cf3-fbfaa58c7cda"
+    },
+    {
+      "type": "KEY_PRESS",
+      "key": "TAB",
+      "expected_target": "6f24950b-299d-4c80-9f82-08e0eb8e3327"
+    }
+  ]
+}

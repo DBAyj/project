@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","additionalProperties":false,"required":["event","timestamp","trace_id","payload"],"properties":{"event":{"type":"string","pattern":"^[a-z]+(\\.[a-z_]+)+$"},"timestamp":{"type":"string","format":"date-time"},"trace_id":{"type":"string","minLength":1},"payload":{"type":"object"}}}

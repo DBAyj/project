@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://astraos.dev/schemas/intent-security.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["security"],
+  "properties": {
+    "security": {"type": "object", "additionalProperties": false, "required": ["detect_prompt_injection", "detect_sensitive_data", "redact_audit_logs", "reject_control_characters", "reject_excessive_repetition"], "properties": {"detect_prompt_injection": {"type": "boolean"}, "detect_sensitive_data": {"type": "boolean"}, "redact_audit_logs": {"type": "boolean"}, "reject_control_characters": {"type": "boolean"}, "reject_excessive_repetition": {"type": "boolean"}}}
+  }
+}

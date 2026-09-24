@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://astraos.dev/protocols/projection/projection-layer-v1.schema.json",
+  "title": "AstraOS P4 projection layer",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "layer_id", "layer_type", "privacy_level", "visible", "z_index", "policy_decision_id", "policy_subject_id"],
+  "properties": {
+    "version": {"const": "1.0"},
+    "layer_id": {"type": "string", "format": "uuid"},
+    "layer_type": {"enum": ["BACKGROUND", "SCENE_3D", "APPLICATION_SURFACE", "AI_ASSISTANT", "NOTIFICATION", "PRIVACY_MASK", "DEBUG_OVERLAY"]},
+    "privacy_level": {"enum": ["PUBLIC", "ROOM_ONLY", "AUTHORIZED_PERSON", "PRIVATE_SCREEN_ONLY", "NO_PROJECTION"]},
+    "visible": {"type": "boolean"},
+    "z_index": {"type": "integer", "minimum": 0, "maximum": 6},
+    "policy_decision_id": {"type": "string", "format": "uuid"},
+    "policy_subject_id": {"type": "string", "format": "uuid"}
+  }
+}

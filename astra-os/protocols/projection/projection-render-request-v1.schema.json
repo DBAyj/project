@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://astraos.dev/protocols/projection/projection-render-request-v1.schema.json",
+  "title": "AstraOS P4 projection render request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "request_id", "trace_id", "session_id", "output_id", "privacy_level", "fixture_id", "layer_ids", "p3_integration_status", "submitted_at"],
+  "properties": {
+    "version": {"const": "1.0"},
+    "request_id": {"type": "string", "format": "uuid"},
+    "trace_id": {"type": "string", "format": "uuid"},
+    "session_id": {"type": "string", "format": "uuid"},
+    "output_id": {"type": "string", "minLength": 1, "maxLength": 128},
+    "privacy_level": {"enum": ["PUBLIC", "ROOM_ONLY", "AUTHORIZED_PERSON", "PRIVATE_SCREEN_ONLY", "NO_PROJECTION"]},
+    "fixture_id": {"enum": ["front-rectangle", "left-keystone", "right-keystone", "top-keystone", "bottom-keystone", "invalid-self-intersection", "invalid-non-invertible"]},
+    "layer_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "format": "uuid"}},
+    "p3_integration_status": {"const": "P3_REAL_SPATIAL_INTEGRATION_NOT_VERIFIED"},
+    "submitted_at": {"type": "string", "format": "date-time"}
+  }
+}

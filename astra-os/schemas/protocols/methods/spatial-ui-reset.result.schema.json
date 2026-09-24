@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","additionalProperties":false,"required":["projection_safe","component_count","window_count","notification_count"],"properties":{"projection_safe":{"const":true},"component_count":{"const":0},"window_count":{"const":0},"notification_count":{"const":0}}}

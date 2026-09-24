@@ -1,0 +1,24 @@
+preprocessing:
+  target_width: 1280
+  target_height: 720
+  grayscale: true
+  gaussian_blur_kernel: 5
+  edge_detector: canny
+  canny_low_threshold: 50
+  canny_high_threshold: 150
+detection:
+  minimum_area_ratio: 0.10
+  maximum_area_ratio: 0.90
+  minimum_aspect_ratio: 0.50
+  maximum_aspect_ratio: 3.00
+  polygon_epsilon_ratio: 0.02
+  require_convex: true
+  border_margin_pixels: 12
+candidate_scoring:
+  geometry_weight: 0.30
+  area_weight: 0.20
+  stability_weight: 0.25
+  position_weight: 0.10
+  type_weight: 0.15
+  border_penalty: 0.15
+  occlusion_penalty: 0.20

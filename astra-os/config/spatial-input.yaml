@@ -1,0 +1,7 @@
+input:
+  mouse_enabled: true
+  keyboard_enabled: true
+  touch_enabled: true
+  simulated_gesture_enabled: true
+  double_click_interval_ms: 300
+  drag_threshold_pixels: 6

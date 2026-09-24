@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://astraos.dev/protocols/spatial-ui/spatial-ui-state-v1.schema.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "session_id", "status", "component_count", "window_count", "focus_component_id", "layout_mode", "projection_safe", "updated_at", "p4_release_status"],
+  "properties": {
+    "schema_version": {"const": "1.0"}, "session_id": {"type": "string", "format": "uuid"}, "status": {"enum": ["STARTING", "READY", "DEGRADED", "SAFE", "STOPPING", "ERROR"]},
+    "component_count": {"type": "integer", "minimum": 0, "maximum": 500}, "window_count": {"type": "integer", "minimum": 0, "maximum": 20}, "focus_component_id": {"type": ["string", "null"], "format": "uuid"},
+    "layout_mode": {"enum": ["STACK", "GRID", "RADIAL", "FREEFORM", "ANCHOR_RELATIVE"]}, "projection_safe": {"type": "boolean"}, "updated_at": {"type": "string", "format": "date-time", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,6})?Z$"}, "p4_release_status": {"const": "P4_RELEASE_BASELINE_FINAL"}
+  }
+}

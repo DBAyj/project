@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://astraos.dev/schemas/application-config.schema.json",
+  "title": "AstraOS P1 simulator configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["application", "display", "projection", "authorization", "logging", "runtime"],
+  "properties": {
+    "application": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version", "locale"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:-[A-Za-z0-9.-]+)?$"},
+        "locale": {"type": "string", "pattern": "^[a-z]{2}-[A-Z]{2}$"}
+      }
+    },
+    "display": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["phone", "projection"],
+      "properties": {
+        "phone": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["width", "height"],
+          "properties": {
+            "width": {"type": "integer", "minimum": 1},
+            "height": {"type": "integer", "minimum": 1}
+          }
+        },
+        "projection": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["width", "height", "start_fullscreen"],
+          "properties": {
+            "width": {"type": "integer", "minimum": 1},
+            "height": {"type": "integer", "minimum": 1},
+            "start_fullscreen": {"type": "boolean"}
+          }
+        }
+      }
+    },
+    "projection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["default_target", "auto_rotate", "rotation_speed", "default_zoom"],
+      "properties": {
+        "default_target": {"type": "string", "enum": ["desk", "wall"]},
+        "auto_rotate": {"type": "boolean"},
+        "rotation_speed": {"type": "number", "exclusiveMinimum": 0},
+        "default_zoom": {"type": "number", "exclusiveMinimum": 0}
+      }
+    },
+    "authorization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["simulated_authorized"],
+      "properties": {"simulated_authorized": {"type": "boolean"}}
+    },
+    "logging": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["level", "audit_path"],
+      "properties": {
+        "level": {"type": "string", "enum": ["TRACE", "DEBUG", "INFO", "WARN", "ERROR", "FATAL"]},
+        "audit_path": {"type": "string", "minLength": 1, "pattern": "^(?!/).+$"}
+      }
+    },
+    "runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["recent_task_limit"],
+      "properties": {"recent_task_limit": {"type": "integer", "minimum": 1}}
+    }
+  }
+}

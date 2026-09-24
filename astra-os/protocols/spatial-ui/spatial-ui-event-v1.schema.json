@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://astraos.dev/protocols/spatial-ui/spatial-ui-event-v1.schema.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "event_id", "event", "timestamp", "trace_id", "request_id", "session_id", "actor", "privacy_level", "result", "error_code", "payload", "p4_release_status"],
+  "properties": {
+    "schema_version": {"const": "1.0"}, "event_id": {"type": "string", "format": "uuid"}, "event": {"enum": ["spatial_ui_service_started", "spatial_ui_service_stopped", "component_created", "component_attached", "component_shown", "component_hidden", "component_removed", "component_destroyed", "window_opened", "window_closed", "window_moved", "window_resized", "layout_applied", "layout_reset", "focus_changed", "focus_preempted", "input_received", "input_routed", "input_blocked", "interaction_started", "interaction_completed", "interaction_cancelled", "task_surface_created", "task_surface_updated", "notification_created", "notification_expired", "privacy_visibility_changed", "ui_state_saved", "ui_state_loaded", "accessibility_action_invoked", "projection_layers_submitted", "spatial_ui_error"]},
+    "timestamp": {"type": "string", "format": "date-time", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,6})?Z$"}, "trace_id": {"type": "string", "format": "uuid"}, "request_id": {"type": "string", "format": "uuid"}, "session_id": {"type": "string", "format": "uuid"},
+    "actor": {"type": "string", "minLength": 1}, "privacy_level": {"enum": ["PUBLIC", "ROOM_ONLY", "AUTHORIZED_PERSON", "PRIVATE_SCREEN_ONLY", "NO_PROJECTION"]}, "result": {"enum": ["success", "denied", "error"]},
+    "error_code": {"type": ["integer", "null"], "minimum": 1000, "maximum": 9999}, "payload": {"type": "object"}, "p4_release_status": {"const": "P4_RELEASE_BASELINE_FINAL"}
+  }
+}

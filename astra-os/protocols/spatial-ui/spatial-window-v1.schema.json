@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://astraos.dev/protocols/spatial-ui/spatial-window-v1.schema.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "window_id", "component_id", "state", "display_target", "projection_target", "anchor_id", "privacy_level", "focus_scope", "bounds", "updated_at"],
+  "properties": {
+    "schema_version": {"const": "1.0"}, "window_id": {"type": "string", "format": "uuid"}, "component_id": {"type": "string", "format": "uuid"},
+    "state": {"enum": ["CREATED", "OPENING", "VISIBLE", "MINIMIZED", "HIDDEN", "CLOSING", "CLOSED", "ERROR"]},
+    "display_target": {"enum": ["PHONE", "PROJECTION", "BOTH"]}, "projection_target": {"type": ["string", "null"], "maxLength": 128},
+    "anchor_id": {"type": ["string", "null"], "format": "uuid"}, "privacy_level": {"enum": ["PUBLIC", "ROOM_ONLY", "AUTHORIZED_PERSON", "PRIVATE_SCREEN_ONLY", "NO_PROJECTION"]},
+    "focus_scope": {"type": "string", "minLength": 1, "maxLength": 128},
+    "bounds": {"type": "object", "additionalProperties": false, "required": ["x", "y", "width", "height"], "properties": {"x": {"type": "number"}, "y": {"type": "number"}, "width": {"type": "number", "exclusiveMinimum": 0}, "height": {"type": "number", "exclusiveMinimum": 0}}},
+    "updated_at": {"type": "string", "format": "date-time", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,6})?Z$"}
+  }
+}

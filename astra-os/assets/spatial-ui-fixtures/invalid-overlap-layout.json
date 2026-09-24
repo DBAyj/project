@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "p4_release_status": "P4_RELEASE_BASELINE_FINAL",
+  "expected_error_code": 5302,
+  "layout_mode": "FREEFORM",
+  "components": [
+    {
+      "component_id": "7abf7b1e-dc4f-4b7c-96cc-c3dd628e1ca9",
+      "component_type": "SPATIAL_WINDOW",
+      "bounds": {
+        "x": 40,
+        "y": 80,
+        "width": 320,
+        "height": 180
+      },
+      "privacy_level": "PUBLIC",
+      "visible": true,
+      "interactive": true,
+      "accessibility_label": "Fixture component 1"
+    },
+    {
+      "component_id": "c38c0e21-96f1-4975-8cf3-fbfaa58c7cda",
+      "component_type": "TASK_CARD",
+      "bounds": {
+        "x": 40,
+        "y": 80,
+        "width": 320,
+        "height": 180
+      },
+      "privacy_level": "PUBLIC",
+      "visible": true,
+      "interactive": true,
+      "accessibility_label": "Fixture component 2"
+    }
+  ]
+}

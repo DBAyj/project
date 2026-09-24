@@ -1,0 +1,13 @@
+flowchart TB
+    Input[User Interaction] --> UI[Spatial Interface]
+    UI --> AI[AI Runtime]
+    AI --> Services[System Services]
+    Services --> Security[Security Capability]
+    Security --> Runtime[Application Runtime]
+    Runtime --> HAL[Hardware Abstraction]
+    HAL --> Kernel[Linux Kernel and Drivers]
+    UI -. rendered state .-> Input
+    AI -. task data .-> Services
+    Security -. allow or deny .-> Services
+    HAL --> External[Display Camera Sensor AI Projector]
+    AI -. policy-approved egress .-> Cloud[Cloud Services]

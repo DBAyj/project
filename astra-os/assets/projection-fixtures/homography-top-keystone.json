@@ -1,0 +1,27 @@
+{
+  "corners": [
+    {
+      "x": 0,
+      "y": 20
+    },
+    {
+      "x": 255,
+      "y": 20
+    },
+    {
+      "x": 255,
+      "y": 143
+    },
+    {
+      "x": 0,
+      "y": 143
+    }
+  ],
+  "fixture_id": "top-keystone",
+  "p3_integration_status": "P3_REAL_SPATIAL_INTEGRATION_NOT_VERIFIED",
+  "resolution": {
+    "height": 144,
+    "width": 256
+  },
+  "version": "1.0"
+}

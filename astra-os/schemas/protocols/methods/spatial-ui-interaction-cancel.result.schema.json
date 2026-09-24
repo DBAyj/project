@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","additionalProperties":false,"required":["component_id","interaction_state","interaction_cancelled","rollback"],"properties":{"component_id":{"type":"string","format":"uuid"},"interaction_state":{"const":"CANCELLED"},"interaction_cancelled":{"const":true},"rollback":{"const":true}}}

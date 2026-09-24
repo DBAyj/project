@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://astraos.dev/protocols/projection/projection-audit-event-v1.schema.json",
+  "title": "AstraOS P4 projection audit event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "event_id", "timestamp", "event", "trace_id", "session_id", "result", "error_code", "p3_integration_status"],
+  "properties": {
+    "version": {"const": "1.0"},
+    "event_id": {"type": "string", "format": "uuid"},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "event": {"enum": ["projection_render_started", "projection_render_presented", "projection_safe_cleared", "projection_output_failed", "projection_target_lost"]},
+    "trace_id": {"type": "string", "format": "uuid"},
+    "session_id": {"type": "string", "format": "uuid"},
+    "result": {"enum": ["success", "failure", "denied"]},
+    "error_code": {"type": ["integer", "null"], "minimum": 4001, "maximum": 4999},
+    "p3_integration_status": {"const": "P3_REAL_SPATIAL_INTEGRATION_NOT_VERIFIED"}
+  }
+}

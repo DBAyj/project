@@ -1,0 +1,15 @@
+service:
+  name: astra-spatial-ui-service
+  version: 0.5.0-alpha.1
+runtime:
+  maximum_components: 500
+  maximum_windows: 20
+  state_persistence: true
+  autosave_interval_seconds: 10
+display:
+  default_target: PHONE
+  projection_target_enabled: true
+privacy:
+  default_level: PRIVATE_SCREEN_ONLY
+  require_policy_check: true
+  public_fixture_subject_id: 7abf7b1e-dc4f-4b7c-96cc-c3dd628e1ca9

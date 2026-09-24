@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0",
+  "p4_release_status": "P4_RELEASE_BASELINE_FINAL",
+  "expected_error_code": 5204,
+  "layout_mode": "FREEFORM",
+  "components": [
+    {
+      "component_id": "7abf7b1e-dc4f-4b7c-96cc-c3dd628e1ca9",
+      "component_type": "SPATIAL_WINDOW",
+      "bounds": {
+        "x": 5000,
+        "y": 5000,
+        "width": 320,
+        "height": 180
+      },
+      "privacy_level": "PUBLIC",
+      "visible": true,
+      "interactive": true,
+      "accessibility_label": "Fixture component 1"
+    }
+  ]
+}

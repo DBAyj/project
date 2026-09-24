@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://astraos.dev/protocols/intent/intent-candidate-v1.schema.json",
+  "title": "AstraOS Intent Candidate v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "intent", "confidence", "source"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "intent": {"$ref": "#/$defs/intent"},
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "source": {"type": "string", "enum": ["RULE_ENGINE", "LOCAL_MODEL", "FALLBACK"]},
+    "rule_id": {"type": ["string", "null"], "maxLength": 128},
+    "evidence": {"type": "array", "items": {"type": "string", "maxLength": 256}, "maxItems": 16}
+  },
+  "$defs": {
+    "intent": {
+      "type": "string",
+      "enum": ["project_3d_model", "start_projection", "stop_projection", "pause_projection", "resume_projection", "reset_projection_view", "enter_projection_fullscreen", "exit_projection_fullscreen", "rotate_model", "zoom_in_model", "zoom_out_model", "reset_model", "switch_model", "show_model_details", "show_phone_display", "show_projection_display", "hide_projection_content", "show_system_status", "show_projection_status", "set_privacy_public", "set_privacy_room_only", "set_privacy_authorized_person", "set_privacy_private_screen_only", "set_privacy_no_projection", "help", "cancel", "confirm", "reject", "repeat_last_action", "unknown"]
+    }
+  }
+}

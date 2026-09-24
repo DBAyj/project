@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["request_id", "trace_id", "session_id", "output_id", "fixture_id", "layers", "p3_integration_status"],
+  "allOf": [
+    {
+      "if": {"properties": {"p3_integration_status": {"const": "P3_SERVICE_PROJECTION_TARGET_VERIFIED"}}},
+      "then": {"required": ["spatial_target"]},
+      "else": {"not": {"required": ["spatial_target"]}}
+    }
+  ],
+  "properties": {
+    "request_id": {"type": "string", "format": "uuid"},
+    "trace_id": {"type": "string", "format": "uuid"},
+    "session_id": {"type": "string", "format": "uuid"},
+    "output_id": {"const": "p4-window-projection"},
+    "fixture_id": {"const": "front-rectangle"},
+    "layers": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 500,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["layer_id", "layer_type", "privacy_level", "policy_decision_id", "policy_subject_id", "visible", "z_index", "bounds", "public_label"],
+        "properties": {
+          "layer_id": {"type": "string", "format": "uuid"},
+          "layer_type": {"enum": ["BACKGROUND", "SCENE_3D", "APPLICATION_SURFACE", "AI_ASSISTANT", "NOTIFICATION", "PRIVACY_MASK", "DEBUG_OVERLAY"]},
+          "privacy_level": {"enum": ["PUBLIC", "ROOM_ONLY", "AUTHORIZED_PERSON", "PRIVATE_SCREEN_ONLY", "NO_PROJECTION"]},
+          "policy_decision_id": {"type": "string", "format": "uuid"},
+          "policy_subject_id": {"type": "string", "format": "uuid"},
+          "visible": {"type": "boolean"},
+          "z_index": {"type": "integer", "minimum": -1000, "maximum": 1000},
+          "bounds": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["x", "y", "width", "height"],
+            "properties": {
+              "x": {"type": "number"}, "y": {"type": "number"},
+              "width": {"type": "number", "exclusiveMinimum": 0},
+              "height": {"type": "number", "exclusiveMinimum": 0}
+            }
+          },
+          "public_label": {"type": "string", "maxLength": 80}
+        }
+      }
+    },
+    "p3_integration_status": {"enum": ["P3_REAL_SPATIAL_INTEGRATION_NOT_VERIFIED", "P3_SERVICE_PROJECTION_TARGET_VERIFIED"]},
+    "spatial_target": {"$ref": "#/$defs/spatialTarget"}
+  },
+  "$defs": {
+    "point": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x", "y", "coordinate_system"],
+      "properties": {
+        "x": {"type": "number"},
+        "y": {"type": "number"},
+        "coordinate_system": {"const": "IMAGE_PIXEL"}
+      }
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target_id", "surface_id", "state", "selected", "quality", "privacy_level", "coordinate_system", "corners"],
+      "properties": {
+        "target_id": {"type": "string", "format": "uuid"},
+        "surface_id": {"type": "string", "format": "uuid"},
+        "state": {"enum": ["CALIBRATED", "ACTIVE"]},
+        "selected": {"const": true},
+        "quality": {"enum": ["EXCELLENT", "GOOD", "FAIR", "POOR"]},
+        "privacy_level": {"enum": ["PUBLIC", "ROOM_ONLY", "AUTHORIZED_PERSON", "PRIVATE_SCREEN_ONLY", "NO_PROJECTION"]},
+        "coordinate_system": {"const": "IMAGE_PIXEL"},
+        "corners": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"$ref": "#/$defs/point"}}
+      }
+    },
+    "spatialTarget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["service", "input_source", "state", "target"],
+      "properties": {
+        "service": {"const": "astra-spatial-service"},
+        "input_source": {"enum": ["CAMERA", "IMAGE", "VIDEO", "SIMULATION"]},
+        "state": {"const": "TRACKING"},
+        "target": {"$ref": "#/$defs/target"}
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+cmake_minimum_required(VERSION 3.22)
+project(AstraOS VERSION 0.5.0 LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+include(CTest)
+find_package(Qt6 6.8 REQUIRED COMPONENTS Core)
+add_subdirectory(libraries/astra-common)
+add_subdirectory(libraries/astra-policy)
+add_subdirectory(libraries/astra-render)
+add_subdirectory(libraries/astra-ui)
+add_subdirectory(runtime/projection)
+add_subdirectory(services/astra-projection-service)
+add_subdirectory(services/astra-spatial-ui-service)
+add_subdirectory(apps/astra-shell)
+add_subdirectory(services/astra-spatial-service)

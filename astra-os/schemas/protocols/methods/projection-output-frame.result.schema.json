@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["output_id", "frame_id", "frame_png_base64", "source", "public_labels", "p3_integration_status"],
+  "allOf": [
+    {
+      "if": {"properties": {"p3_integration_status": {"const": "P3_SERVICE_PROJECTION_TARGET_VERIFIED"}}},
+      "then": {"required": ["spatial_target_id"]},
+      "else": {"not": {"required": ["spatial_target_id"]}}
+    }
+  ],
+  "properties": {
+    "output_id": {"type": "string", "minLength": 1},
+    "frame_id": {"type": "integer", "minimum": 1},
+    "frame_png_base64": {"type": "string", "minLength": 1, "contentEncoding": "base64"},
+    "source": {"enum": ["P4_FIXTURE", "P5_SPATIAL_UI"]},
+    "public_labels": {"type": "array", "uniqueItems": true, "maxItems": 500, "items": {"type": "string", "minLength": 1, "maxLength": 80}},
+    "p3_integration_status": {"enum": ["P3_REAL_SPATIAL_INTEGRATION_NOT_VERIFIED", "P3_SERVICE_PROJECTION_TARGET_VERIFIED"]},
+    "spatial_target_id": {"type": "string", "format": "uuid"}
+  }
+}

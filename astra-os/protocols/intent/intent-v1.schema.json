@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://astraos.dev/protocols/intent/intent-v1.schema.json",
+  "title": "AstraOS P1 deterministic intent",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "request_id", "raw_text", "intent", "confidence", "target_space", "privacy_level", "parameters", "timestamp"],
+  "properties": {
+    "version": {"type": "string", "const": "1.0"},
+    "request_id": {"type": "string", "format": "uuid"},
+    "raw_text": {"type": "string", "minLength": 1},
+    "intent": {"type": "string", "enum": ["project_3d_model", "stop_projection", "rotate_model", "pause_rotation", "resume_rotation", "reset_view", "enter_fullscreen", "exit_fullscreen", "show_system_status", "unknown"]},
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "target_space": {"type": "string", "enum": ["desk", "wall"]},
+    "privacy_level": {"type": "string", "enum": ["PUBLIC", "ROOM_ONLY", "AUTHORIZED_PERSON", "PRIVATE_SCREEN_ONLY", "NO_PROJECTION"]},
+    "parameters": {"type": "object", "additionalProperties": {"type": ["string", "number", "boolean"]}},
+    "timestamp": {"type": "string", "format": "date-time", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:\\.[0-9]+)?Z$"}
+  }
+}
