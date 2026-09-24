@@ -23,6 +23,7 @@ int main()
     assert(publicDecision.allowed && !QUuid {publicDecision.decisionId}.isNull());
     assert(evaluate(PrivacyLevel::RoomOnly).allowed);
     assert(!evaluate(PrivacyLevel::RoomOnly, false, false).allowed);
+    assert(!ProjectionPolicyService::evaluate(ProjectionPolicyRequest {PrivacyLevel::RoomOnly}).allowed);
     assert(!evaluate(PrivacyLevel::AuthorizedPerson).allowed);
     assert(evaluate(PrivacyLevel::AuthorizedPerson, true).allowed);
     assert(!evaluate(PrivacyLevel::PrivateScreenOnly).allowed);

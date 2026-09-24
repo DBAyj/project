@@ -113,4 +113,10 @@ int main()
             assert(evidence.write(source.readAll()) > 0);
         }
     }
+
+    // P1-003: ROOM_ONLY stays projectable in the simulator although the policy library now defaults room trust to deny.
+    astra::shell::ShellController roomController(config, directory.filePath("audit/room-only.jsonl"));
+    roomController.submit(QStringLiteral("把设备模型投到桌面上"), QStringLiteral("ROOM_ONLY"));
+    assert(roomController.projectionState() == QStringLiteral("ACTIVE"));
+    assert(roomController.lastErrorCode() == 0);
 }

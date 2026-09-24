@@ -57,6 +57,8 @@ if(BUILD_TESTING)
     target_link_libraries(astra-spatial-performance-tests PRIVATE astra-spatial-core)
     target_compile_definitions(astra-spatial-performance-tests PRIVATE ASTRA_SOURCE_ROOT="${CMAKE_SOURCE_DIR}")
     add_test(NAME astra-spatial-performance-tests COMMAND astra-spatial-performance-tests)
+    # Latency budgets are measured; parallel CTest load would skew them.
+    set_tests_properties(astra-spatial-performance-tests PROPERTIES RUN_SERIAL TRUE)
 
     add_executable(astra-spatial-stability-tests tests/performance/spatial_stability_test.cpp)
     target_link_libraries(astra-spatial-stability-tests PRIVATE astra-spatial-core Qt6::Network)

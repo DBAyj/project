@@ -138,12 +138,16 @@ make docs-verify
 
 - 验收：云端拉取后，`astra-os/` 与本地原项目内容一致。
 
-## 5. 待确认事项（未修改，需要决策）
+## 5. 设计疑点的决策与落实（2026-09-24）
 
-以下是审查中看到的设计层面疑点。它们要么需要产品或架构决策，要么超出本次“只修缺陷”的范围，所以没有修改。标注“推断”的，是没有找到文档依据的判断。
+审查中列出的 5 个设计疑点已由项目负责人逐项决定，落实如下。
 
-1. `ProjectionPolicyRequest::roomTrusted` 默认为 `true`，与“权限默认拒绝”的工程规则不一致（推断）。P1 的调用方都没有显式设置这个字段。需要确认是有意为之，还是应改为默认 `false`，并由上游显式授予。
-2. 恢复状态时，`TASK_CARD` 和 `NOTIFICATION` 类型的组件只会恢复成普通组件，任务内容和通知内容不会恢复。已确认代码是这样；是否符合预期需要确认。
-3. `spatial_ui.target.available` 不会重新显示在 `target.lost` 时被隐藏的组件，需要由调用方逐个恢复（推断为有意设计）。
-4. `window_count` 仍然把 `CLOSED` 窗口计算在内。本次只修复了名额占用和持久化问题，没有改变对外返回的计数语义。
-5. 建议给 `astra-spatial-performance-tests` 设置 CTest 的 `RUN_SERIAL`，避免并行运行时 CPU 争用导致误报。
+| # | 疑点 | 决定 | 落实 |
+| --- | --- | --- | --- |
+| 1 | `ProjectionPolicyRequest::roomTrusted` 默认为 `true`，与“权限默认拒绝”不一致 | 策略库默认改为拒绝，由 Shell 显式声明 | `astra-policy` 默认值改为 `false`；P1 Shell 的投影请求显式设置 `roomTrusted = true`，满足需求 P1-003（ROOM_ONLY 可投影）；P5 运行时本来就显式设置。已补策略库单元测试和 Shell 集成测试 |
+| 2 | 恢复状态后，任务卡和通知只剩没有内容的外框 | 不保存任务卡和通知 | `saveState` 跳过由任务面或通知支撑的组件，以及它们的窗口和焦点恢复目标。它们由意图服务或通知源重新生成。设计文档 `p5-ui-state-persistence.md` 已同步 |
+| 3 | 目标恢复后，被隐藏的组件不会自动重新显示 | 保持现状，写进文档 | 目标恢复不等于用户同意重新投影，由调用方逐个显示。已写入 `p5-spatial-window-manager.md` |
+| 4 | `window_count` 包含已关闭的窗口 | 只统计未关闭的窗口 | 新增 `SpatialWindowManager::openWindowCount()`，status、metrics、窗口查询统一使用；已关闭的窗口仍会出现在窗口列表里，状态为 `CLOSED`。设计文档已同步 |
+| 5 | 性能测试在并行 CTest 下误报 | 设为串行 | `astra-spatial-performance-tests` 和 `astra-shell-p5-spatial-target-chain-tests` 设置 `RUN_SERIAL`。后者会启动真实服务并有就绪超时，云端 `-j4` 下出现过一次超时，单独运行 3/3 通过 |
+
+另外发现：`apps/astra-shell/src/services/ProjectionPolicyService.cpp` 不属于任何 CMake 目标，属于死代码（Shell 实际通过类型别名使用 `astra-policy` 库）。本次未删除，是否清理需要单独决定。

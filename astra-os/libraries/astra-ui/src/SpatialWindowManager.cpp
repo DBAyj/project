@@ -31,10 +31,7 @@ OperationResult SpatialWindowManager::createWindow(const SpatialWindowSpec &spec
     const auto existing = windows_.value(spec.windowId);
     if (existing && existing->state() != SpatialWindowState::Closed) return {false, 5203, QStringLiteral("Window already exists")};
     // Closed windows stay queryable but no longer hold a window slot.
-    const auto openWindows = std::count_if(windows_.cbegin(), windows_.cend(), [](const auto &window) {
-        return window->state() != SpatialWindowState::Closed;
-    });
-    if (openWindows >= maximumWindows_) return {false, 5202, QStringLiteral("Window limit exceeded")};
+    if (openWindowCount() >= maximumWindows_) return {false, 5202, QStringLiteral("Window limit exceeded")};
     if (spec.windowId.isEmpty() || spec.componentId.isEmpty() || spec.focusScope.isEmpty() || !spec.bounds.isValid()) {
         return {false, 5205, QStringLiteral("Invalid window specification")};
     }
@@ -158,6 +155,13 @@ QList<SpatialWindow *> SpatialWindowManager::windows() const
 }
 
 qsizetype SpatialWindowManager::size() const { return windows_.size(); }
+
+qsizetype SpatialWindowManager::openWindowCount() const
+{
+    return std::count_if(windows_.cbegin(), windows_.cend(), [](const auto &window) {
+        return window->state() != SpatialWindowState::Closed;
+    });
+}
 
 SpatialBounds SpatialWindowManager::clamp(const SpatialBounds &bounds) const
 {

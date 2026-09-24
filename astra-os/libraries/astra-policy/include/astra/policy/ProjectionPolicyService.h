@@ -26,7 +26,7 @@ struct ProjectionPolicyRequest {
     bool authorizedPersonPresent {false};
     ProjectionAction action {ProjectionAction::Start};
     QString currentState;
-    bool roomTrusted {true};
+    bool roomTrusted {false};
     bool projectionTargetEnabled {true};
     bool targetAvailable {true};
     QString subjectId;

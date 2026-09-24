@@ -59,6 +59,7 @@ public:
     [[nodiscard]] SpatialWindow *findByComponentId(const QString &componentId) const;
     [[nodiscard]] QList<SpatialWindow *> windows() const;
     [[nodiscard]] qsizetype size() const;
+    [[nodiscard]] qsizetype openWindowCount() const;
 
 private:
     [[nodiscard]] SpatialBounds clamp(const SpatialBounds &bounds) const;

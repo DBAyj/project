@@ -10,7 +10,9 @@ int main()
     using astra::shell::ProjectionPolicyService;
 
     const auto allowed = [](PrivacyLevel privacyLevel, bool authorized) {
-        return ProjectionPolicyService::evaluate({privacyLevel, authorized, ProjectionAction::Start, QStringLiteral("IDLE")});
+        ProjectionPolicyRequest request {privacyLevel, authorized, ProjectionAction::Start, QStringLiteral("IDLE")};
+        request.roomTrusted = true;
+        return ProjectionPolicyService::evaluate(request);
     };
 
     assert(allowed(PrivacyLevel::Public, false).allowed);
