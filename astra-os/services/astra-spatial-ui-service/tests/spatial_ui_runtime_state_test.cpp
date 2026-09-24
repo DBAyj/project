@@ -126,36 +126,42 @@ int main()
     require(afterNotification.value(QStringLiteral("focus_component_id")).toString().isEmpty());
     require(notifications.dispatch(QStringLiteral("spatial_ui.notification.create"), notification).ok);
 
-    // Task surfaces and notifications are not persisted, nor are their windows or focus targets.
-    const QString taskId = QStringLiteral("5c4402e1-99e7-481a-a94f-61cd07b69d83");
+    // Mirrors the P5 release-gate persistence check (run_p5.sh + verify_p5_graphics.py): task surfaces,
+    // a window on one of them, and the focus owner survive save -> reset -> load.
+    SpatialUIRuntime gate {temporary.filePath(QStringLiteral("gate-state.json")), {}, options};
+    const auto task = [](const QString &id) {
+        return QJsonObject {{QStringLiteral("schema_version"), QStringLiteral("1.0")}, {QStringLiteral("task_id"), id},
+                            {QStringLiteral("title"), QStringLiteral("Fixture task")},
+                            {QStringLiteral("summary"), QStringLiteral("Task lifecycle fixture")},
+                            {QStringLiteral("intent_type"), QStringLiteral("open_task_surface")},
+                            {QStringLiteral("confidence"), 1.0},
+                            {QStringLiteral("execution_strategy"), QStringLiteral("fixture_adapter")},
+                            {QStringLiteral("privacy_level"), QStringLiteral("PRIVATE_SCREEN_ONLY")},
+                            {QStringLiteral("bounds"), QJsonObject {{QStringLiteral("x"), 20.0}, {QStringLiteral("y"), 20.0},
+                                                                     {QStringLiteral("width"), 240.0}, {QStringLiteral("height"), 120.0}}},
+                            {QStringLiteral("display_target"), QStringLiteral("PHONE")},
+                            {QStringLiteral("accessibility_label"), QStringLiteral("Fixture task")}};
+    };
+    const QString publicTaskId = QStringLiteral("5c4402e1-99e7-481a-a94f-61cd07b69d83");
+    const QString privateTaskId = QStringLiteral("0f3a2b1c-4d5e-4f60-8a7b-9c0d1e2f3a4b");
     const QString taskWindowId = QStringLiteral("9a1c7c0e-2f4b-4a55-8f0e-6d2b3c4e5f61");
-    require(notifications.dispatch(QStringLiteral("spatial_ui.task.create"),
-                                   {{QStringLiteral("schema_version"), QStringLiteral("1.0")}, {QStringLiteral("task_id"), taskId},
-                                    {QStringLiteral("title"), QStringLiteral("Fixture task")},
-                                    {QStringLiteral("summary"), QStringLiteral("Task lifecycle fixture")},
-                                    {QStringLiteral("intent_type"), QStringLiteral("open_task_surface")},
-                                    {QStringLiteral("confidence"), 1.0},
-                                    {QStringLiteral("execution_strategy"), QStringLiteral("fixture_adapter")},
-                                    {QStringLiteral("privacy_level"), QStringLiteral("PRIVATE_SCREEN_ONLY")},
-                                    {QStringLiteral("bounds"), QJsonObject {{QStringLiteral("x"), 20.0}, {QStringLiteral("y"), 20.0},
-                                                                             {QStringLiteral("width"), 240.0}, {QStringLiteral("height"), 120.0}}},
-                                    {QStringLiteral("display_target"), QStringLiteral("PHONE")},
-                                    {QStringLiteral("accessibility_label"), QStringLiteral("Fixture task")}}).ok);
-    require(notifications.dispatch(QStringLiteral("spatial_ui.window.open"),
-                                   {{QStringLiteral("window_id"), taskWindowId}, {QStringLiteral("component_id"), taskId},
-                                    {QStringLiteral("bounds"), QJsonObject {{QStringLiteral("x"), 20.0}, {QStringLiteral("y"), 20.0},
-                                                                             {QStringLiteral("width"), 240.0}, {QStringLiteral("height"), 120.0}}},
-                                    {QStringLiteral("display_target"), QStringLiteral("PHONE")},
-                                    {QStringLiteral("projection_target"), QJsonValue::Null}}).ok);
-    require(notifications.dispatch(QStringLiteral("spatial_ui.state.save"), {}).ok);
-    QFile notificationState {temporary.filePath(QStringLiteral("notification-state.json"))};
-    require(notificationState.open(QIODevice::ReadOnly));
-    const QJsonObject savedWithTask = QJsonDocument::fromJson(notificationState.readAll()).object();
-    notificationState.close();
-    require(savedWithTask.value(QStringLiteral("components")).toArray().isEmpty());
-    require(savedWithTask.value(QStringLiteral("windows")).toArray().isEmpty());
-    require(savedWithTask.value(QStringLiteral("focus_restore_component_id")).toString().isEmpty());
-    SpatialUIRuntime restoredWithoutTask {temporary.filePath(QStringLiteral("notification-state.json")), {}, options};
-    require(restoredWithoutTask.dispatch(QStringLiteral("spatial_ui.state.load"), {}).ok);
-    require(restoredWithoutTask.status().value(QStringLiteral("component_count")).toInt() == 0);
+    require(gate.dispatch(QStringLiteral("spatial_ui.task.create"), task(publicTaskId)).ok);
+    require(gate.dispatch(QStringLiteral("spatial_ui.task.create"), task(privateTaskId)).ok);
+    require(gate.dispatch(QStringLiteral("spatial_ui.focus"),
+                          {{QStringLiteral("component_id"), publicTaskId}, {QStringLiteral("reason"), QStringLiteral("gate fixture")}}).ok);
+    require(gate.dispatch(QStringLiteral("spatial_ui.window.open"),
+                          {{QStringLiteral("window_id"), taskWindowId}, {QStringLiteral("component_id"), publicTaskId},
+                           {QStringLiteral("bounds"), QJsonObject {{QStringLiteral("x"), 20.0}, {QStringLiteral("y"), 20.0},
+                                                                    {QStringLiteral("width"), 240.0}, {QStringLiteral("height"), 120.0}}},
+                           {QStringLiteral("display_target"), QStringLiteral("PHONE")},
+                           {QStringLiteral("projection_target"), QJsonValue::Null}}).ok);
+    require(gate.dispatch(QStringLiteral("spatial_ui.window.move"),
+                          {{QStringLiteral("window_id"), taskWindowId}, {QStringLiteral("x"), 140.0}, {QStringLiteral("y"), 96.0}}).ok);
+    require(gate.dispatch(QStringLiteral("spatial_ui.state.save"), {}).ok);
+    require(gate.dispatch(QStringLiteral("spatial_ui.reset"), {}).ok);
+    require(gate.dispatch(QStringLiteral("spatial_ui.state.load"), {}).ok);
+    const QJsonObject gateStatus = gate.status();
+    require(gateStatus.value(QStringLiteral("component_count")).toInt() >= 2);
+    require(gateStatus.value(QStringLiteral("window_count")).toInt() >= 1);
+    require(!gateStatus.value(QStringLiteral("focus_component_id")).toString().isEmpty());
 }

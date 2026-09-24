@@ -9,8 +9,3 @@ active policy-classified request. The store rejects unknown
 fields, incompatible versions, invalid bounds, and sensitive keys. Writes use a
 temporary file plus atomic replacement. Runtime credentials, tokens, task text,
 and unredacted AI input are never stored.
-
-Components backed by a task surface or a notification are not persisted, nor
-are their windows or a focus restoration target that points at them. Their
-content is not stored, so restoring them would only recreate empty shells;
-the owning intent or notification source recreates them instead.

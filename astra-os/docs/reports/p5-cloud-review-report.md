@@ -145,7 +145,7 @@ make docs-verify
 | # | 疑点 | 决定 | 落实 |
 | --- | --- | --- | --- |
 | 1 | `ProjectionPolicyRequest::roomTrusted` 默认为 `true`，与“权限默认拒绝”不一致 | 策略库默认改为拒绝，由 Shell 显式声明 | `astra-policy` 默认值改为 `false`；P1 Shell 的投影请求显式设置 `roomTrusted = true`，满足需求 P1-003（ROOM_ONLY 可投影）；P5 运行时本来就显式设置。已补策略库单元测试和 Shell 集成测试 |
-| 2 | 恢复状态后，任务卡和通知只剩没有内容的外框 | 不保存任务卡和通知 | `saveState` 跳过由任务面或通知支撑的组件，以及它们的窗口和焦点恢复目标。它们由意图服务或通知源重新生成。设计文档 `p5-ui-state-persistence.md` 已同步 |
+| 2 | 恢复状态后，任务卡和通知只剩没有内容的外框 | 先决定“不保存任务卡和通知”，后**撤回** | 本地 `make p5-release-gate` 的图形门禁失败：门禁的“保存 → 重置 → 读档”检查用的正是任务卡和挂在任务卡上的窗口，不保存它们会让读档后组件和窗口都为 0。这个决定也与 P5-WINDOW-001（窗口可保存和恢复）冲突。已恢复原行为：任务卡和它的窗口照常保存，恢复后只有外框，内容由来源重新填充的问题留待后续阶段处理。新增单元测试，复现门禁的这段检查，以后在云端就能发现同类冲突 |
 | 3 | 目标恢复后，被隐藏的组件不会自动重新显示 | 保持现状，写进文档 | 目标恢复不等于用户同意重新投影，由调用方逐个显示。已写入 `p5-spatial-window-manager.md` |
 | 4 | `window_count` 包含已关闭的窗口 | 只统计未关闭的窗口 | 新增 `SpatialWindowManager::openWindowCount()`，status、metrics、窗口查询统一使用；已关闭的窗口仍会出现在窗口列表里，状态为 `CLOSED`。设计文档已同步 |
 | 5 | 性能测试在并行 CTest 下误报 | 设为串行 | `astra-spatial-performance-tests` 和 `astra-shell-p5-spatial-target-chain-tests` 设置 `RUN_SERIAL`。后者会启动真实服务并有就绪超时，云端 `-j4` 下出现过一次超时，单独运行 3/3 通过 |
