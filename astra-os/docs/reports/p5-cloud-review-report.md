@@ -34,6 +34,8 @@
 | 10 | 中 | `astra_intent/transport/jsonrpc_server.py` | Unix Socket 服务单线程、逐个处理连接，而且连接没有超时。一个连上后不发数据的客户端会阻塞所有其他请求 | 连接空闲超时 5 秒，超时后关闭该连接并继续服务 | `test_transports.py`：空闲连接不阻塞其他请求（未修复时该用例超时失败） |
 | 11 | 低 | `tests/qml/tst_p5_spatial_ui.qml` | `SpatialSystemPanel { spatialModel: spatialModel }` 右侧解析成了面板自己的属性，形成绑定循环，面板从未拿到测试模型。`verify_p5_qml_warnings.py` 只扫描 `apps/astra-shell/qml/`，因此没有发现 | 测试模型的 id 改为 `spatialModelFixture` | QML 套件不再出现 `Binding loop` 告警 |
 
+| 12 | 高 | `scripts/run_p4.sh` 等 P4 脚本 | 在本地 Mac 执行 `make p4-release-gate` 时发现：投影服务的 `main.cpp` 拒绝短于 32 个字符的能力令牌，而 P4 脚本没有传令牌文件，服务会回退到 27 个字符的固定令牌 `astra-p4-fixture-capability`，启动即退出，报 “P4 service did not become ready”。这个问题在上传的快照里就已存在 | 沿用 P5 的做法：`run_p4.sh` 每次运行生成随机令牌文件 `runtime/state/p4-projection.token`（权限 600），传给服务、Shell（`ASTRA_P4_PROJECTION_TOKEN_FILE`）和所有 `p4_service_client.py` 调用；`stop_p4.sh` 用它停止服务并在最后删除。保留 32 字符的安全下限 | 云端模拟：健康检查、100 次启停、120 帧基准测试均通过；旧的固定令牌被拒绝（5002） |
+
 以上每个问题的回归测试都做过反向验证：只撤销源码修复、保留测试时，对应测试会失败；恢复修复后测试通过。
 
 ## 3. 云端验证结果

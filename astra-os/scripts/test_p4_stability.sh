@@ -2,11 +2,12 @@
 set -euo pipefail
 root="$(cd "$(dirname "$0")/.." && pwd)"
 socket="$root/runtime/state/p4-projection.sock"
+token_file="$root/runtime/state/p4-projection.token"
 "$root/scripts/stop_p4.sh" || true
 trap '"$root/scripts/stop_p4.sh"' EXIT
 "$root/scripts/run_p4.sh"
 sleep 1
-"$root/.venv/bin/python" "$root/scripts/p4_service_client.py" --socket "$socket" --cycles 100
+"$root/.venv/bin/python" "$root/scripts/p4_service_client.py" --socket "$socket" --token-file "$token_file" --cycles 100
 "$root/scripts/stop_p4.sh"
 test ! -e "$root/runtime/state/p4-projection-service.pid"
 test ! -e "$root/runtime/state/p4-shell.pid"
