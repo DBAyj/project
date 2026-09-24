@@ -50,4 +50,14 @@ int main()
     require(windows.find(spec.windowId)->state() == SpatialWindowState::Hidden);
     require(windows.closeWindow(spec.windowId).ok);
     require(windows.find(spec.windowId)->state() == SpatialWindowState::Closed);
+    require(windows.findByComponentId(spec.componentId) == nullptr);
+
+    require(windows.createWindow(second).ok);
+    require(windows.createWindow(spec).errorCode == 5202);
+    require(windows.removeWindow(second.windowId).ok);
+    require(windows.find(second.windowId) == nullptr);
+    require(windows.removeWindow(second.windowId).errorCode == 5201);
+    require(windows.createWindow(spec).ok);
+    require(windows.find(spec.windowId)->state() == SpatialWindowState::Created);
+    require(windows.findByComponentId(spec.componentId) == windows.find(spec.windowId));
 }

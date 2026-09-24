@@ -1,4 +1,5 @@
 #include "clients/ProjectionServiceClient.h"
+#include "clients/LocalSocketResponse.h"
 
 #include "astra/common/Identifiers.h"
 #include "astra/common/CapabilityToken.h"
@@ -130,10 +131,11 @@ ProjectionOperationResult ProjectionServiceClient::invoke(const QString &method,
                                {QStringLiteral("security_context"), QJsonObject {{QStringLiteral("capability_token"),
                                                                                     astra::common::scopedCapabilityToken(capabilityToken_, capability)}}}};
     socket.write(QJsonDocument(request).toJson(QJsonDocument::Compact) + '\n');
-    if (!socket.waitForBytesWritten(500) || !socket.waitForReadyRead(1000)) {
+    const auto line = socket.waitForBytesWritten(500) ? readResponseLine(socket, 1000) : std::nullopt;
+    if (!line) {
         return {false, 7001, QStringLiteral("Projection service did not respond"), {}, QStringLiteral("ERROR")};
     }
-    const QJsonObject response = QJsonDocument::fromJson(socket.readAll().trimmed()).object();
+    const QJsonObject response = QJsonDocument::fromJson(*line).object();
     const auto decoded = decodeResponse(response);
     if (decoded.ok) {
         if (method == QStringLiteral("projection.output.frame")) {

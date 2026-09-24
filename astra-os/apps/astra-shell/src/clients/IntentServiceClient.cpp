@@ -1,4 +1,5 @@
 #include "clients/IntentServiceClient.h"
+#include "clients/LocalSocketResponse.h"
 
 #include "astra/common/Identifiers.h"
 
@@ -128,13 +129,19 @@ QJsonObject IntentServiceClient::call(const QString &method,
                                {QStringLiteral("security_context"),
                                 QJsonObject {{QStringLiteral("capability_token"), capabilityToken_}}}};
     const QByteArray payload = QJsonDocument(request).toJson(QJsonDocument::Compact) + '\n';
-    if (socket.write(payload) != payload.size() || !socket.waitForBytesWritten(timeoutMs_) || !socket.waitForReadyRead(timeoutMs_)) {
+    if (socket.write(payload) != payload.size() || !socket.waitForBytesWritten(timeoutMs_)) {
+        transportError = 2003;
+        transportMessage = socket.errorString();
+        return {};
+    }
+    const auto line = readResponseLine(socket, timeoutMs_);
+    if (!line) {
         transportError = 2003;
         transportMessage = socket.errorString();
         return {};
     }
     QJsonParseError parseError;
-    const QJsonDocument document = QJsonDocument::fromJson(socket.readLine(), &parseError);
+    const QJsonDocument document = QJsonDocument::fromJson(*line, &parseError);
     if (parseError.error != QJsonParseError::NoError || !document.isObject()) {
         transportError = 2004;
         transportMessage = QStringLiteral("Intent service returned invalid JSON");

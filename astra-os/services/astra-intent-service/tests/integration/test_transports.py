@@ -67,6 +67,24 @@ class TransportIntegrationTests(unittest.TestCase):
                 server.stop()
             self.assertFalse(path.exists())
 
+    def test_unix_socket_idle_client_does_not_block_other_clients(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "astra-intent.sock"
+            server = UnixJsonRpcServer(path, self.dispatcher)
+            server.CONNECTION_IDLE_TIMEOUT_SECONDS = 0.2
+            server.start()
+            try:
+                with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as idle:
+                    idle.connect(str(path))
+                    with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as client:
+                        client.settimeout(5.0)
+                        client.connect(str(path))
+                        client.sendall((json.dumps(self._rpc("intent.parse", self._intent_request())) + "\n").encode())
+                        response = json.loads(client.makefile("rb").readline())
+                self.assertEqual(response["result"]["intent"], "project_3d_model")
+            finally:
+                server.stop()
+
     def test_unix_socket_rejects_malformed_json(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "astra-intent.sock"

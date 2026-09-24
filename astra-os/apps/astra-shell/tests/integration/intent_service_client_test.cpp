@@ -8,6 +8,7 @@
 #include <QLocalServer>
 #include <QLocalSocket>
 #include <QTemporaryDir>
+#include <QThread>
 
 #include <cassert>
 #include <future>
@@ -72,7 +73,12 @@ int main(int argc, char **argv)
     assert(params.value("current_context").toObject().value("current_privacy_level") == QStringLiteral("PUBLIC"));
 
     const QByteArray response = QJsonDocument(resultEnvelope(request.value("id").toString())).toJson(QJsonDocument::Compact) + '\n';
-    assert(connection->write(response) == response.size());
+    // Deliver the response in two chunks; the client must wait for the full line.
+    const qsizetype half = response.size() / 2;
+    assert(connection->write(response.left(half)) == half);
+    assert(connection->waitForBytesWritten(1000));
+    QThread::msleep(100);
+    assert(connection->write(response.mid(half)) == response.size() - half);
     assert(connection->waitForBytesWritten(1000));
     connection->disconnectFromServer();
     const astra::shell::IntentServiceResult result = pending.get();

@@ -316,9 +316,9 @@ bool ProjectionService::listen(const QString &socketName, QString *errorMessage)
         while (server_->hasPendingConnections()) {
             QLocalSocket *socket = server_->nextPendingConnection();
             QObject::connect(socket, &QLocalSocket::readyRead, socket, [this, socket] {
-                const QByteArray data = socket->readAll();
-                for (const QByteArray &line : data.split('\n')) {
-                    if (line.trimmed().isEmpty()) continue;
+                while (socket->canReadLine()) {
+                    const QByteArray line = socket->readLine().trimmed();
+                    if (line.isEmpty()) continue;
                     const QJsonDocument document = QJsonDocument::fromJson(line);
                     const QJsonObject response = document.isObject()
                         ? handleRequest(document.object())
@@ -327,6 +327,7 @@ bool ProjectionService::listen(const QString &socketName, QString *errorMessage)
                     socket->flush();
                 }
             });
+            QObject::connect(socket, &QLocalSocket::disconnected, socket, &QObject::deleteLater);
         }
     });
     return true;

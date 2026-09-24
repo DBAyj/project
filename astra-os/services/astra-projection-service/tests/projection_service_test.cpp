@@ -5,8 +5,12 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QCryptographicHash>
+#include <QElapsedTimer>
 #include <QGuiApplication>
 #include <QImage>
+#include <QJsonDocument>
+#include <QLocalSocket>
+#include <QTemporaryDir>
 
 namespace {
 
@@ -225,4 +229,30 @@ int main(int argc, char **argv)
     require(invalidFixture.contains(QStringLiteral("error")), "unknown fixture is rejected");
     require(invalidFixture.value(QStringLiteral("error")).toObject().value(QStringLiteral("code")).toInt() == 9001,
             "unknown fixture uses the registered validation code");
+
+    QTemporaryDir socketDirectory;
+    require(socketDirectory.isValid(), "socket directory");
+    const QString socketPath = socketDirectory.filePath(QStringLiteral("projection.sock"));
+    astra::projection::service::ProjectionService socketService;
+    require(socketService.listen(socketPath), "projection service listens");
+    QLocalSocket client;
+    client.connectToServer(socketPath);
+    require(client.waitForConnected(1000), "client connects");
+    const QByteArray payload = QJsonDocument {request(QStringLiteral("system.health"), {}, token)}.toJson(QJsonDocument::Compact) + '\n';
+    const auto waitFor = [&application](const auto &condition) {
+        QElapsedTimer timer;
+        timer.start();
+        while (!condition() && timer.elapsed() < 2000) application.processEvents(QEventLoop::AllEvents, 10);
+        return condition();
+    };
+    client.write(payload.left(payload.size() / 2));
+    client.flush();
+    waitFor([] { return false; });
+    require(client.bytesAvailable() == 0, "partial request is buffered instead of rejected");
+    client.write(payload.mid(payload.size() / 2));
+    client.flush();
+    require(waitFor([&client] { return client.canReadLine(); }), "split request is answered");
+    const QJsonObject splitResponse = QJsonDocument::fromJson(client.readLine()).object();
+    require(splitResponse.value(QStringLiteral("result")).toObject().value(QStringLiteral("status")).toString() == QStringLiteral("HEALTHY"),
+            "split request is reassembled into one JSON-RPC request");
 }

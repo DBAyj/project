@@ -1,4 +1,5 @@
 #include "clients/SpatialServiceClient.h"
+#include "clients/LocalSocketResponse.h"
 
 #include "astra/common/Identifiers.h"
 
@@ -27,11 +28,13 @@ SpatialServiceResult SpatialServiceClient::call(const QString &method, const QJs
                                {QStringLiteral("params"), params},
                                {QStringLiteral("security_context"), QJsonObject {{QStringLiteral("capability_token"), capabilityToken_}}}};
     const QByteArray payload = QJsonDocument(request).toJson(QJsonDocument::Compact) + '\n';
-    if (socket.write(payload) != payload.size() || !socket.waitForBytesWritten(timeoutMs_) || !socket.waitForReadyRead(timeoutMs_)) {
+    const auto line = socket.write(payload) == payload.size() && socket.waitForBytesWritten(timeoutMs_)
+        ? readResponseLine(socket, timeoutMs_) : std::nullopt;
+    if (!line) {
         return {false, {}, 3001, QStringLiteral("Spatial service did not respond")};
     }
     QJsonParseError parseError;
-    const QJsonObject response = QJsonDocument::fromJson(socket.readLine(), &parseError).object();
+    const QJsonObject response = QJsonDocument::fromJson(*line, &parseError).object();
     if (parseError.error != QJsonParseError::NoError || response.value(QStringLiteral("jsonrpc")) != QStringLiteral("2.0")) {
         return {false, {}, 3504, QStringLiteral("Spatial service returned an invalid response")};
     }

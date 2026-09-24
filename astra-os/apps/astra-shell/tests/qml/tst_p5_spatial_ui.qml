@@ -10,7 +10,7 @@ TestCase {
     when: windowShown
 
     QtObject {
-        id: spatialModel
+        id: spatialModelFixture
         property string status: "READY"
         property int componentCount: 5
         property int windowCount: 1
@@ -25,7 +25,7 @@ TestCase {
     }
     QtObject {
         id: testController
-        property var spatialUIModel: spatialModel
+        property var spatialUIModel: spatialModelFixture
         property bool spatialUIAvailable: true
         property string currentRawText: "检查设备模型"
         property string taskResult: "open_task_surface"
@@ -50,7 +50,7 @@ TestCase {
     Component { id: workspaceComponent; Spatial.SpatialWorkspace { width: 900; height: 520; controller: testController } }
     Component { id: windowComponent; Spatial.SpatialWindowView { windowId: "d13d0ba9-8de1-4c38-97ae-09f9d56e9935" } }
     Component { id: taskComponent; Spatial.SpatialTaskCard { taskTitle: "任务"; summary: "摘要" } }
-    Component { id: systemComponent; Spatial.SpatialSystemPanel { spatialModel: spatialModel } }
+    Component { id: systemComponent; Spatial.SpatialSystemPanel { spatialModel: spatialModelFixture } }
     Component { id: notificationComponent; Spatial.SpatialNotificationView { title: "通知"; message: "内容" } }
     Component { id: privacyComponent; Spatial.SpatialPrivacyBadge { privacyLevel: "PRIVATE_SCREEN_ONLY" } }
     Component { id: contextMenuComponent; Spatial.SpatialContextMenu {} }
@@ -91,21 +91,21 @@ TestCase {
     function test_accessibility_preferences_change_runtime_theme() {
         const workspace = workspaceComponent.createObject(root)
         verify(workspace !== null)
-        compare(workspace.spatialModel, spatialModel)
-        spatialModel.reduceMotion = true
-        spatialModel.highContrast = true
-        spatialModel.changed()
+        compare(workspace.spatialModel, spatialModelFixture)
+        spatialModelFixture.reduceMotion = true
+        spatialModelFixture.highContrast = true
+        spatialModelFixture.changed()
         tryCompare(workspace, "animationDuration", 0)
         compare(workspace.workspaceBackground.toString(), "#000000")
         compare(workspace.workspaceFocusOutline.toString(), "#ffdd00")
-        spatialModel.reduceMotion = false
-        spatialModel.highContrast = false
-        spatialModel.changed()
+        spatialModelFixture.reduceMotion = false
+        spatialModelFixture.highContrast = false
+        spatialModelFixture.changed()
         workspace.destroy()
     }
 
     function test_workspace_renders_runtime_component_tree() {
-        spatialModel.components = [
+        spatialModelFixture.components = [
             { component_id: "runtime-task", component_type: "TASK_CARD", display_target: "PHONE", privacy_level: "PUBLIC",
               accessibility_label: "运行时任务", content: { title: "真实任务", summary: "真实摘要", state: "WAITING_CONFIRMATION",
                 progress: 0.75, intent_type: "project_model", confidence: 0.91, execution_strategy: "REQUIRE_CONFIRMATION" },
@@ -174,16 +174,16 @@ TestCase {
         compare(testController.routedComponentId, "runtime-window")
         compare(testController.routedEventType, "SYSTEM_FOCUS")
 
-        spatialModel.components = [spatialModel.components[0]]
-        spatialModel.changed()
+        spatialModelFixture.components = [spatialModelFixture.components[0]]
+        spatialModelFixture.changed()
         tryCompare(workspace, "renderedComponentCount", 1)
         verify(findChild(workspace, "runtimeComponent-runtime-notification") === null)
         workspace.destroy()
-        spatialModel.components = []
+        spatialModelFixture.components = []
     }
 
     function test_workspace_preserves_runtime_parent_child_items() {
-        spatialModel.components = [
+        spatialModelFixture.components = [
             { component_id: "runtime-parent", component_type: "SPATIAL_WINDOW", display_target: "PHONE", privacy_level: "PUBLIC",
               accessibility_label: "父窗口", bounds: { x: 40, y: 60, width: 420, height: 260 }, visible: true,
               child_components: [
@@ -202,6 +202,6 @@ TestCase {
         compare(childView.x, 24)
         compare(childView.y, 48)
         workspace.destroy()
-        spatialModel.components = []
+        spatialModelFixture.components = []
     }
 }

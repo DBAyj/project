@@ -1,4 +1,5 @@
 #include "clients/SpatialUIServiceClient.h"
+#include "clients/LocalSocketResponse.h"
 
 #include "astra/common/Identifiers.h"
 #include "astra/common/CapabilityToken.h"
@@ -96,8 +97,9 @@ SpatialUIClientResult SpatialUIServiceClient::invoke(const QString &method, cons
                                {QStringLiteral("security_context"), QJsonObject {{QStringLiteral("capability_token"),
                                                                                     astra::common::scopedCapabilityToken(capabilityToken_, astra::common::spatialUICapabilityForMethod(method))}}}};
     socket.write(QJsonDocument {request}.toJson(QJsonDocument::Compact) + '\n');
-    if (!socket.waitForBytesWritten(500) || !socket.waitForReadyRead(1000)) return {false, 5101, QStringLiteral("Spatial UI service did not respond"), {}};
-    return decodeResponse(QJsonDocument::fromJson(socket.readAll().trimmed()).object());
+    const auto line = socket.waitForBytesWritten(500) ? readResponseLine(socket, 1000) : std::nullopt;
+    if (!line) return {false, 5101, QStringLiteral("Spatial UI service did not respond"), {}};
+    return decodeResponse(QJsonDocument::fromJson(*line).object());
 }
 
 } // namespace astra::shell

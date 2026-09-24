@@ -28,8 +28,13 @@ SpatialWindowManager::SpatialWindowManager(qsizetype maximumWindows, SpatialBoun
 
 OperationResult SpatialWindowManager::createWindow(const SpatialWindowSpec &spec)
 {
-    if (windows_.contains(spec.windowId)) return {false, 5203, QStringLiteral("Window already exists")};
-    if (windows_.size() >= maximumWindows_) return {false, 5202, QStringLiteral("Window limit exceeded")};
+    const auto existing = windows_.value(spec.windowId);
+    if (existing && existing->state() != SpatialWindowState::Closed) return {false, 5203, QStringLiteral("Window already exists")};
+    // Closed windows stay queryable but no longer hold a window slot.
+    const auto openWindows = std::count_if(windows_.cbegin(), windows_.cend(), [](const auto &window) {
+        return window->state() != SpatialWindowState::Closed;
+    });
+    if (openWindows >= maximumWindows_) return {false, 5202, QStringLiteral("Window limit exceeded")};
     if (spec.windowId.isEmpty() || spec.componentId.isEmpty() || spec.focusScope.isEmpty() || !spec.bounds.isValid()) {
         return {false, 5205, QStringLiteral("Invalid window specification")};
     }
@@ -121,6 +126,13 @@ OperationResult SpatialWindowManager::restoreDefaultPosition(const QString &wind
     return {true, 0, {}};
 }
 
+OperationResult SpatialWindowManager::removeWindow(const QString &windowId)
+{
+    if (!windows_.remove(windowId)) return {false, 5201, QStringLiteral("Window not found")};
+    defaults_.remove(windowId);
+    return {true, 0, {}};
+}
+
 void SpatialWindowManager::clear()
 {
     windows_.clear();
@@ -132,7 +144,7 @@ SpatialWindow *SpatialWindowManager::find(const QString &windowId) const { retur
 SpatialWindow *SpatialWindowManager::findByComponentId(const QString &componentId) const
 {
     for (const auto &window : windows_) {
-        if (window->componentId() == componentId) return window.get();
+        if (window->componentId() == componentId && window->state() != SpatialWindowState::Closed) return window.get();
     }
     return nullptr;
 }

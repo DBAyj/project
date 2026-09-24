@@ -158,6 +158,15 @@ int main(int argc, char **argv)
     QByteArray handshake = eventSocket.readAll();
     require(handshake.contains("HTTP/1.1 101 Switching Protocols"));
     require(handshake.contains("Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo="));
+    // A client frame (masked, empty ping) after the upgrade must not re-dispatch the handshake request.
+    eventSocket.write(QByteArray::fromHex("8980a1b2c3d4"));
+    require(eventSocket.waitForBytesWritten(2000));
+    eventTimer.restart();
+    while (eventTimer.elapsed() < 200) {
+        QCoreApplication::processEvents();
+        QThread::msleep(1);
+    }
+    require(!eventSocket.readAll().contains("HTTP/1.1"));
     QJsonObject eventComponent = createParams;
     eventComponent.insert(QStringLiteral("component_id"), QString::fromLatin1(kTaskTwo));
     require(service.handleRequest(request(QStringLiteral("spatial_ui.component.create"), eventComponent)).contains(QStringLiteral("result")));

@@ -53,6 +53,7 @@ public:
     OperationResult resizeWindow(const QString &windowId, double width, double height);
     OperationResult changeDisplayTarget(const QString &windowId, DisplayTarget target, const QString &projectionTarget = {});
     OperationResult restoreDefaultPosition(const QString &windowId);
+    OperationResult removeWindow(const QString &windowId);
     void clear();
     [[nodiscard]] SpatialWindow *find(const QString &windowId) const;
     [[nodiscard]] SpatialWindow *findByComponentId(const QString &componentId) const;

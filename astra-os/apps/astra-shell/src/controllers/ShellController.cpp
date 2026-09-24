@@ -23,6 +23,16 @@ QString registeredErrorMessage(astra::common::ErrorCode code)
     return astra::common::errorMessage(code);
 }
 
+// Text-derived privacy may tighten the user's selection but never loosen it;
+// PrivacyLevel is ordered from least to most restrictive.
+QString stricterPrivacyLevel(const QString &selected, const QString &extracted)
+{
+    const auto selectedLevel = astra::common::privacyLevelFromString(selected.toStdString());
+    const auto extractedLevel = astra::common::privacyLevelFromString(extracted.toStdString());
+    if (!selectedLevel || !extractedLevel) return selected;
+    return *extractedLevel > *selectedLevel ? extracted : selected;
+}
+
 } // namespace
 
 ShellController::ShellController(const SimulatorConfig &config, QString auditPath, QObject *parent)
@@ -484,7 +494,7 @@ SimulatedIntent ShellController::serviceIntent(const QString &text,
             mappedIntent,
             result.confidence,
             target.isEmpty() ? QStringLiteral("desk") : target,
-            resultPrivacy.isEmpty() ? selectedPrivacy : resultPrivacy,
+            stricterPrivacyLevel(selectedPrivacy, resultPrivacy),
             result.slotValues,
             QString::fromStdString(astra::common::utcTimestamp())};
 }

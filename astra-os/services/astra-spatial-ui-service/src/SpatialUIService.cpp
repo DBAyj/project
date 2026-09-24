@@ -24,6 +24,8 @@
 namespace astra::spatial_ui::service {
 namespace {
 
+constexpr qsizetype kMaximumHttpRequestBytes = 1024 * 1024;
+
 bool exactKeys(const QJsonObject &object, const QSet<QString> &keys)
 {
     if (object.size() != keys.size()) return false;
@@ -226,17 +228,34 @@ bool SpatialUIService::listenHttp(const QHostAddress &address, quint16 port, QSt
         while (httpServer_->hasPendingConnections()) {
             QTcpSocket *socket = httpServer_->nextPendingConnection();
             auto buffer = std::make_shared<QByteArray>();
-            QObject::connect(socket, &QTcpSocket::readyRead, socket, [this, socket, buffer] {
+            auto handled = std::make_shared<bool>(false);
+            QObject::connect(socket, &QTcpSocket::readyRead, socket, [this, socket, buffer, handled] {
+                // One request per connection: later bytes (pipelined data or WebSocket
+                // client frames) must never re-dispatch the buffered request.
+                if (*handled) {
+                    socket->readAll();
+                    return;
+                }
                 buffer->append(socket->readAll());
                 const qsizetype headerEnd = buffer->indexOf("\r\n\r\n");
-                if (headerEnd < 0) return;
+                if (headerEnd < 0) {
+                    if (buffer->size() > kMaximumHttpRequestBytes) {
+                        *handled = true;
+                        writeHttpResponse(socket, 400, {{QStringLiteral("error"), QStringLiteral("request_too_large")}});
+                    }
+                    return;
+                }
                 const qsizetype contentLength = httpContentLength(buffer->left(headerEnd));
-                if (contentLength < 0) {
-                    writeHttpResponse(socket, 400, {{QStringLiteral("error"), QStringLiteral("invalid_content_length")}});
+                if (contentLength < 0 || contentLength > kMaximumHttpRequestBytes) {
+                    *handled = true;
+                    writeHttpResponse(socket, 400, {{QStringLiteral("error"), contentLength < 0 ? QStringLiteral("invalid_content_length")
+                                                                                                 : QStringLiteral("request_too_large")}});
                     return;
                 }
                 if (buffer->size() < headerEnd + 4 + contentLength) return;
+                *handled = true;
                 handleHttpRequest(socket, *buffer);
+                buffer->clear();
             });
             QObject::connect(socket, &QTcpSocket::disconnected, socket, &QObject::deleteLater);
             QObject::connect(socket, &QTcpSocket::disconnected, httpServer_.get(), [this, socket] { eventSubscribers_.remove(socket); });

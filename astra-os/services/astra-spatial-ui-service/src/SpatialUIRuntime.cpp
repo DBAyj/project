@@ -449,7 +449,12 @@ RuntimeResponse SpatialUIRuntime::dispatch(const QString &method, const QJsonObj
         return updated;
     }
     if (method == QStringLiteral("spatial_ui.component.remove")) {
-        const auto removed = removeComponent(params);
+        // A notification component must go through the notification path so the
+        // notification record and its critical-focus restore entry are released too.
+        const QString removedId = params.value(QStringLiteral("component_id")).toString();
+        const auto removed = exactKeys(params, {QStringLiteral("component_id")}) && notifications_.find(removedId)
+            ? clearNotification({{QStringLiteral("notification_id"), removedId}})
+            : removeComponent(params);
         if (!removed.ok) return removed;
         const auto synchronized = synchronizeProjection({}, traceId, requestId);
         return synchronized.ok ? removed : synchronized;
@@ -742,6 +747,15 @@ RuntimeResponse SpatialUIRuntime::dispatch(const QString &method, const QJsonObj
         const auto result = stateStore_.load();
         if (!result.ok) return {false, result.errorCode, result.message, {}};
         if (components_.size() != 0 || windows_.size() != 0) return {false, 5803, QStringLiteral("State restore requires an empty runtime"), {}};
+        // Restore into the empty runtime atomically: a partial restore would leave
+        // orphaned state and make every later load fail the empty-runtime check.
+        const auto rollback = [this](RuntimeResponse failed) {
+            input_.setTargets({});
+            focus_.clear();
+            windows_.clear();
+            components_.clear();
+            return failed;
+        };
         for (const auto &saved : result.snapshot.components) {
             astra::ui::ComponentSpec spec;
             spec.id = saved.componentId;
@@ -756,19 +770,19 @@ RuntimeResponse SpatialUIRuntime::dispatch(const QString &method, const QJsonObj
             const auto created = components_.create(spec, astra::ui::Principal::Application);
             if (!created.ok || !created.component->transitionTo(astra::ui::ComponentLifecycleState::Attached).ok
                 || !created.component->transitionTo(astra::ui::ComponentLifecycleState::Visible).ok) {
-                return {false, 5803, QStringLiteral("Component state restore failed"), {}};
+                return rollback({false, 5803, QStringLiteral("Component state restore failed"), {}});
             }
             if (!saved.visible && !created.component->transitionTo(astra::ui::ComponentLifecycleState::Hidden).ok) {
-                return {false, 5803, QStringLiteral("Component visibility restore failed"), {}};
+                return rollback({false, 5803, QStringLiteral("Component visibility restore failed"), {}});
             }
             if (!focus_.registerTarget({saved.componentId, QStringLiteral("workspace"), saved.visible, saved.interactive,
                                         saved.focusable, saved.zOrder}).ok) {
-                return {false, 5803, QStringLiteral("Component focus restore failed"), {}};
+                return rollback({false, 5803, QStringLiteral("Component focus restore failed"), {}});
             }
         }
         for (const auto &saved : result.snapshot.windows) {
             const auto *component = components_.find(saved.componentId);
-            if (!component) return {false, 5805, QStringLiteral("Window component state is missing"), {}};
+            if (!component) return rollback({false, 5805, QStringLiteral("Window component state is missing"), {}});
             astra::ui::SpatialWindowSpec spec;
             spec.windowId = saved.windowId;
             spec.componentId = saved.componentId;
@@ -780,17 +794,17 @@ RuntimeResponse SpatialUIRuntime::dispatch(const QString &method, const QJsonObj
             spec.focusScope = saved.focusScope;
             if (!windows_.createWindow(spec).ok || !windows_.showWindow(saved.windowId).ok
                 || (!saved.visible && !windows_.hideWindow(saved.windowId).ok)) {
-                return {false, 5805, QStringLiteral("Window state restore failed"), {}};
+                return rollback({false, 5805, QStringLiteral("Window state restore failed"), {}});
             }
+        }
+        if (!result.snapshot.focusRestoreComponentId.isEmpty()
+            && !focus_.requestFocus(result.snapshot.focusRestoreComponentId, astra::ui::FocusType::Keyboard,
+                                    astra::ui::FocusPriority::ActiveWindow, QStringLiteral("state restore")).ok) {
+            return rollback({false, 5504, QStringLiteral("Focus state restore failed"), {}});
         }
         layoutMode_ = result.snapshot.layoutMode;
         selectedTab_ = result.snapshot.selectedTab;
         panelOrder_ = result.snapshot.panelOrder;
-        if (!result.snapshot.focusRestoreComponentId.isEmpty()
-            && !focus_.requestFocus(result.snapshot.focusRestoreComponentId, astra::ui::FocusType::Keyboard,
-                                    astra::ui::FocusPriority::ActiveWindow, QStringLiteral("state restore")).ok) {
-            return {false, 5504, QStringLiteral("Focus state restore failed"), {}};
-        }
         const auto synchronized = synchronizeProjection({}, traceId, requestId);
         if (!synchronized.ok) return synchronized;
         return {true, 0, {}, {{QStringLiteral("selected_tab"), result.snapshot.selectedTab},
@@ -1169,6 +1183,10 @@ RuntimeResponse SpatialUIRuntime::removeComponent(const QJsonObject &params)
     static_cast<void>(focus_.unregisterTarget(id));
     if (tasks_.find(id)) static_cast<void>(tasks_.remove(id));
     clearInteraction(id);
+    // Windows must not outlive their component, otherwise persisted state can no longer be restored.
+    for (const auto *window : windows_.windows()) {
+        if (window->componentId() == id) static_cast<void>(windows_.removeWindow(window->windowId()));
+    }
     const auto result = components_.remove(id);
     return {result.ok, result.errorCode, result.message, {{QStringLiteral("component_id"), id}}};
 }
@@ -1593,6 +1611,7 @@ RuntimeResponse SpatialUIRuntime::saveState()
         if (component->isVisible()) snapshot.visibleComponentIds.append(component->componentId());
     }
     for (const auto *window : windows_.windows()) {
+        if (window->state() == astra::ui::SpatialWindowState::Closed) continue;
         const bool visible = window->state() == astra::ui::SpatialWindowState::Visible;
         snapshot.windows.append({window->windowId(), window->componentId(), window->bounds(), visible, window->displayTarget(),
                                  window->projectionTarget(), window->anchorId(), window->focusScope()});

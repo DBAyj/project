@@ -16,3 +16,23 @@ add_subdirectory(services/astra-projection-service)
 add_subdirectory(services/astra-spatial-ui-service)
 add_subdirectory(apps/astra-shell)
 add_subdirectory(services/astra-spatial-service)
+
+# Test executables verify behavior with assert(); keep them active in
+# RelWithDebInfo/Release builds, where CMake otherwise defines NDEBUG.
+function(astra_keep_test_assertions directory)
+    get_property(targets DIRECTORY "${directory}" PROPERTY BUILDSYSTEM_TARGETS)
+    foreach(target IN LISTS targets)
+        get_target_property(type ${target} TYPE)
+        if(type STREQUAL "EXECUTABLE" AND target MATCHES "(-tests|-test|-benchmark)$")
+            target_compile_options(${target} PRIVATE -UNDEBUG)
+        endif()
+    endforeach()
+    get_property(subdirectories DIRECTORY "${directory}" PROPERTY SUBDIRECTORIES)
+    foreach(subdirectory IN LISTS subdirectories)
+        astra_keep_test_assertions("${subdirectory}")
+    endforeach()
+endfunction()
+
+if(BUILD_TESTING)
+    astra_keep_test_assertions("${CMAKE_CURRENT_SOURCE_DIR}")
+endif()

@@ -73,6 +73,8 @@ class JsonRpcDispatcher:
 
 
 class UnixJsonRpcServer:
+    CONNECTION_IDLE_TIMEOUT_SECONDS = 5.0
+
     def __init__(self, path: Path, dispatcher: JsonRpcDispatcher) -> None:
         self.path = path
         self._dispatcher = dispatcher
@@ -122,14 +124,19 @@ class UnixJsonRpcServer:
             except (TimeoutError, OSError):
                 continue
             with connection:
+                # Connections are served one at a time; an idle client must not block the service.
+                connection.settimeout(self.CONNECTION_IDLE_TIMEOUT_SECONDS)
                 reader = connection.makefile("rb")
-                for line in reader:
-                    try:
-                        value = json.loads(line)
-                        response = self._dispatcher.dispatch(value) if isinstance(value, dict) else JsonRpcDispatcher._error(None, -32600, "Invalid Request")
-                    except (json.JSONDecodeError, UnicodeDecodeError):
-                        response = JsonRpcDispatcher._error(None, -32700, "Parse error")
-                    connection.sendall((json.dumps(response, ensure_ascii=False, separators=(",", ":")) + "\n").encode("utf-8"))
+                try:
+                    for line in reader:
+                        try:
+                            value = json.loads(line)
+                            response = self._dispatcher.dispatch(value) if isinstance(value, dict) else JsonRpcDispatcher._error(None, -32600, "Invalid Request")
+                        except (json.JSONDecodeError, UnicodeDecodeError):
+                            response = JsonRpcDispatcher._error(None, -32700, "Parse error")
+                        connection.sendall((json.dumps(response, ensure_ascii=False, separators=(",", ":")) + "\n").encode("utf-8"))
+                except OSError:
+                    continue
 
     def _remove_stale_socket(self) -> None:
         if not self.path.exists():

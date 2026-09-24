@@ -112,6 +112,19 @@ int main(int argc, char **argv)
         assert(controller.projectionState() == QStringLiteral("IDLE"));
     }
 
+    {
+        // The scripted result extracts PUBLIC from the text; it must not loosen the selected level.
+        ScriptedServer server(socketPath, {intentResult(QStringLiteral("project_3d_model"), QStringLiteral("AUTO_EXECUTE"))});
+        astra::shell::ShellController controller(config,
+                                                 directory.filePath("audit/p2-privacy.jsonl"),
+                                                 astra::shell::IntentServiceClient(socketPath, QStringLiteral("test-capability"), 1000),
+                                                 true);
+        controller.submit(QStringLiteral("把设备模型投到桌面上，公开展示"), QStringLiteral("PRIVATE_SCREEN_ONLY"));
+        assert(controller.currentPrivacyLevel() == QStringLiteral("PRIVATE_SCREEN_ONLY"));
+        assert(controller.projectionState() == QStringLiteral("IDLE"));
+        assert(controller.lastErrorCode() == 4301);
+    }
+
     astra::shell::ShellController offline(config,
                                           directory.filePath("audit/offline.jsonl"),
                                           astra::shell::IntentServiceClient(QDir::temp().filePath("missing-p2.sock"),
