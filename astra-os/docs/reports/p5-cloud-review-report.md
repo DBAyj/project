@@ -150,4 +150,4 @@ make docs-verify
 | 4 | `window_count` 包含已关闭的窗口 | 只统计未关闭的窗口 | 新增 `SpatialWindowManager::openWindowCount()`，status、metrics、窗口查询统一使用；已关闭的窗口仍会出现在窗口列表里，状态为 `CLOSED`。设计文档已同步 |
 | 5 | 性能测试在并行 CTest 下误报 | 设为串行 | `astra-spatial-performance-tests` 和 `astra-shell-p5-spatial-target-chain-tests` 设置 `RUN_SERIAL`。后者会启动真实服务并有就绪超时，云端 `-j4` 下出现过一次超时，单独运行 3/3 通过 |
 
-另外发现：`apps/astra-shell/src/services/ProjectionPolicyService.cpp` 不属于任何 CMake 目标，属于死代码（Shell 实际通过类型别名使用 `astra-policy` 库）。本次未删除，是否清理需要单独决定。
+另外发现：`apps/astra-shell/src/services/ProjectionPolicyService.cpp` 不属于任何 CMake 目标，而且引用了已不存在的字段 `simulatedAuthorized`，属于 P1 早期实现遗留的死代码（Shell 实际通过同名头文件里的类型别名使用 `astra-policy` 库）。经项目负责人决定已删除，同名头文件保留。
