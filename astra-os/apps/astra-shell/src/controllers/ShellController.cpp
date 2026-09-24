@@ -563,8 +563,10 @@ void ShellController::executeIntent(const SimulatedIntent &intent)
                        {{QStringLiteral("action"), QStringLiteral("block_projection_until_spatial_recovery")}});
             addTask(intent, QStringLiteral("SAFE_PAUSED"));
         } else {
-        const ProjectionPolicyDecision policy = ProjectionPolicyService::evaluate(
-            {*level, simulatedAuthorized_, ProjectionAction::Start, activeProjectionState()});
+        ProjectionPolicyRequest policyRequest {*level, simulatedAuthorized_, ProjectionAction::Start, activeProjectionState()};
+        // P1-003: the simulator's single room is trusted, so ROOM_ONLY may be projected.
+        policyRequest.roomTrusted = true;
+        const ProjectionPolicyDecision policy = ProjectionPolicyService::evaluate(policyRequest);
         if (policy.allowed) {
             applyProjectionResult(intent,
                                   startProjectionRuntime(),

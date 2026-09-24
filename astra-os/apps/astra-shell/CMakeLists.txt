@@ -139,6 +139,8 @@ if(BUILD_TESTING)
     target_link_libraries(astra-shell-p5-spatial-target-chain-tests PRIVATE astra-shell-core Qt6::Network)
     add_dependencies(astra-shell-p5-spatial-target-chain-tests astra-spatial-service astra-projection-service astra-spatial-ui-service)
     add_test(NAME astra-shell-p5-spatial-target-chain-tests COMMAND astra-shell-p5-spatial-target-chain-tests)
+    # Starts real P3/P4/P5 services with readiness timeouts; parallel CTest load would skew them.
+    set_tests_properties(astra-shell-p5-spatial-target-chain-tests PROPERTIES RUN_SERIAL TRUE)
     add_executable(astra-shell-intent-client-tests tests/integration/intent_service_client_test.cpp src/clients/IntentServiceClient.cpp)
     target_include_directories(astra-shell-intent-client-tests PRIVATE src)
     target_link_libraries(astra-shell-intent-client-tests PRIVATE astra-common Qt6::Core Qt6::Network)

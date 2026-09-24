@@ -68,6 +68,11 @@ int main()
     // A closed window is not persisted, and removing a component removes its windows,
     // so saved state always stays restorable.
     require(restored.dispatch(QStringLiteral("spatial_ui.window.close"), {{QStringLiteral("window_id"), windowId}}).ok);
+    require(restored.status().value(QStringLiteral("window_count")).toInt() == 0);
+    const auto closedWindows = restored.dispatch(QStringLiteral("spatial_ui.windows"), {});
+    require(closedWindows.value.value(QStringLiteral("window_count")).toInt() == 0);
+    require(closedWindows.value.value(QStringLiteral("windows")).toArray().at(0).toObject()
+                .value(QStringLiteral("state")).toString() == QStringLiteral("CLOSED"));
     require(restored.dispatch(QStringLiteral("spatial_ui.state.save"), {}).ok);
     require(stateFile.open(QIODevice::ReadOnly));
     persisted = QJsonDocument::fromJson(stateFile.readAll()).object();
@@ -120,4 +125,37 @@ int main()
     require(afterNotification.value(QStringLiteral("component_count")).toInt() == 0);
     require(afterNotification.value(QStringLiteral("focus_component_id")).toString().isEmpty());
     require(notifications.dispatch(QStringLiteral("spatial_ui.notification.create"), notification).ok);
+
+    // Task surfaces and notifications are not persisted, nor are their windows or focus targets.
+    const QString taskId = QStringLiteral("5c4402e1-99e7-481a-a94f-61cd07b69d83");
+    const QString taskWindowId = QStringLiteral("9a1c7c0e-2f4b-4a55-8f0e-6d2b3c4e5f61");
+    require(notifications.dispatch(QStringLiteral("spatial_ui.task.create"),
+                                   {{QStringLiteral("schema_version"), QStringLiteral("1.0")}, {QStringLiteral("task_id"), taskId},
+                                    {QStringLiteral("title"), QStringLiteral("Fixture task")},
+                                    {QStringLiteral("summary"), QStringLiteral("Task lifecycle fixture")},
+                                    {QStringLiteral("intent_type"), QStringLiteral("open_task_surface")},
+                                    {QStringLiteral("confidence"), 1.0},
+                                    {QStringLiteral("execution_strategy"), QStringLiteral("fixture_adapter")},
+                                    {QStringLiteral("privacy_level"), QStringLiteral("PRIVATE_SCREEN_ONLY")},
+                                    {QStringLiteral("bounds"), QJsonObject {{QStringLiteral("x"), 20.0}, {QStringLiteral("y"), 20.0},
+                                                                             {QStringLiteral("width"), 240.0}, {QStringLiteral("height"), 120.0}}},
+                                    {QStringLiteral("display_target"), QStringLiteral("PHONE")},
+                                    {QStringLiteral("accessibility_label"), QStringLiteral("Fixture task")}}).ok);
+    require(notifications.dispatch(QStringLiteral("spatial_ui.window.open"),
+                                   {{QStringLiteral("window_id"), taskWindowId}, {QStringLiteral("component_id"), taskId},
+                                    {QStringLiteral("bounds"), QJsonObject {{QStringLiteral("x"), 20.0}, {QStringLiteral("y"), 20.0},
+                                                                             {QStringLiteral("width"), 240.0}, {QStringLiteral("height"), 120.0}}},
+                                    {QStringLiteral("display_target"), QStringLiteral("PHONE")},
+                                    {QStringLiteral("projection_target"), QJsonValue::Null}}).ok);
+    require(notifications.dispatch(QStringLiteral("spatial_ui.state.save"), {}).ok);
+    QFile notificationState {temporary.filePath(QStringLiteral("notification-state.json"))};
+    require(notificationState.open(QIODevice::ReadOnly));
+    const QJsonObject savedWithTask = QJsonDocument::fromJson(notificationState.readAll()).object();
+    notificationState.close();
+    require(savedWithTask.value(QStringLiteral("components")).toArray().isEmpty());
+    require(savedWithTask.value(QStringLiteral("windows")).toArray().isEmpty());
+    require(savedWithTask.value(QStringLiteral("focus_restore_component_id")).toString().isEmpty());
+    SpatialUIRuntime restoredWithoutTask {temporary.filePath(QStringLiteral("notification-state.json")), {}, options};
+    require(restoredWithoutTask.dispatch(QStringLiteral("spatial_ui.state.load"), {}).ok);
+    require(restoredWithoutTask.status().value(QStringLiteral("component_count")).toInt() == 0);
 }
