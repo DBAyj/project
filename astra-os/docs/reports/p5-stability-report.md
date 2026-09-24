@@ -21,7 +21,7 @@ The native stress runner and the real P4/P5 dual-service chain completed the req
 - Retained notifications: 0
 - Residual focus: false
 - Privacy leaks: 0
-- RSS after 500 component cycles: 13778944 bytes
-- RSS after 2,000 component cycles: 13795328 bytes
+- RSS after 500 component cycles: 13762560 bytes
+- RSS after 2,000 component cycles: 13778944 bytes
 - RSS growth (500 to 2,000): 16384 bytes
 - RSS second-half growth: 16384 bytes
